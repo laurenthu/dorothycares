@@ -56,17 +56,17 @@
               &nbsp;
             </div>
             <div class="instruction">
-              <div class="user-request"><span class="user">dorothy@becode</span><span class="symbol">:~$</span><span class="request">connexion</span></div>
+              <div class="user-request"><span class="user">dorothAI@becode</span><span class="symbol">:~$</span><span class="request">connexion</span></div>
               <div class="answer">Hello, I'm so glad to meet you!</div>
             </div>
             <!-- <div class="instruction">
               <div class="user-request">
-                <span class="user">dorothy@becode</span><span class="symbol">:~$</span><span class="terminal-control"><input type="text" class="request" name="input"></span>
+                <span class="user">dorothAI@becode</span><span class="symbol">:~$</span><span class="terminal-control"><input type="text" class="request" name="input"></span>
               </div>
             </div> -->
             <div class="instruction">
               <div class="user-request">
-                <span class="user">dorothy@becode</span><span class="symbol">:~$</span><span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>
+                <span class="user">dorothAI@becode</span><span class="symbol">:~$</span><span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>
               </div>
             </div>
           </div>

@@ -11,13 +11,7 @@ buttonFullScreen.addEventListener('click', function () {
     } else if(body.webkitRequestFullScreen) {
       body.webkitRequestFullScreen();
     }
-  }/* else {
-    if (body.mozCancelFullScreen) {
-      body.mozCancelFullScreen();
-    } else {
-      body.cancelFullScreen();
-    }
-  }*/
+  }
 }, false);
 
 buttonClose.addEventListener('click', function() {
@@ -55,7 +49,7 @@ $(function() { // = $(document).ready(function(){})
           $('<div class="answer">' + answer + '</span>').appendTo( $('.user-request').last() );
           $('<div class="instruction"></div>').appendTo( $('.terminal-content') );
           $('<div class="user-request"></div>').appendTo( $('.instruction').last() );
-          $('<span class="user">dorothy@becode</span><span class="symbol">:~$</span>').appendTo( $('.instruction .user-request').last() );
+          $('<span class="user">dorothAI@becode</span><span class="symbol">:~$</span>').appendTo( $('.instruction .user-request').last() );
           $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo( $('.instruction .user-request').last() );
         },
         error: function(result, status, error) {
@@ -64,7 +58,7 @@ $(function() { // = $(document).ready(function(){})
           $('<div class="answer">Sorry. There is a bug during the connection with me. Please try again!</span>').appendTo( $('.user-request').last() );
           $('<div class="instruction"></div>').appendTo( $('.terminal-content') );
           $('<div class="user-request"></div>').appendTo( $('.instruction').last() );
-          $('<span class="user">dorothy@becode</span><span class="symbol">:~$</span>').appendTo( $('.instruction .user-request').last() );
+          $('<span class="user">dorothAI@becode</span><span class="symbol">:~$</span>').appendTo( $('.instruction .user-request').last() );
           $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo( $('.instruction .user-request').last() );
         },
         complete : function(result, status){
