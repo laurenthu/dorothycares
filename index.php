@@ -70,7 +70,7 @@
               </div>
             </div>
           </div>
-          <footer class="terminal-footer">Created by "The Nine" - <a href="http://www.becode.org" target="_blank">BeCode Project</a> - <a href="cookies-policy.html" target="_blank">Cookies policy</a></footer>
+          <footer class="terminal-footer">Created by "The Nine" - <a href="http://www.becode.org" target="_blank">BeCode Project</a> - <a href="cookies-policy.html" target="_blank">Cookies policy</a> - <a href="privacy.html" target="_blank">Privacy</a></footer>
         </main>
 
         <!-- JS Insertion -->
