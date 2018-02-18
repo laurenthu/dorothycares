@@ -18,6 +18,10 @@ buttonClose.addEventListener('click', function() {
   location.reload();
 }, false);
 
+function nl2br(str) {
+  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
+}
+
 
 $(function() { // = $(document).ready(function(){})
   let userInstruction; // variable temporaire
