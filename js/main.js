@@ -1,5 +1,8 @@
 let buttonFullScreen = document.querySelector('.maximize');
 let buttonClose = document.querySelector('.close');
+const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0';
+const baseUrl = 'https://api.dialogflow.com/v1/';
+const version = '20170712';
 
 buttonFullScreen.addEventListener('click', function () {
   let body = document.querySelector('body');
@@ -42,16 +45,25 @@ $(function() { // = $(document).ready(function(){})
     $('.user-input').focus();
 
     if (e.key == 'Enter' && userInstruction != '') {
-
+      e.preventDefault();
+      $('.user-input').attr('contentEditable',false);
       userInstruction = $('.user-input').text(); // we save the current value
+      let randomNumber = Math.floor(Math.random() * 35000);
       console.log(userInstruction);
 
       $.ajax({
-        url: './srv/ajax.php',
         type: 'POST',
-        data: 'instruction=' + userInstruction,
-        dataType : 'html',
-        success: function(answer, status) { // answer include the answer return by the script
+        url: baseUrl + 'query?v=' + version,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        headers: {
+          'Authorization': 'Bearer ' + accessToken
+        },
+        data: JSON.stringify({ query: userInstruction, lang: "en", sessionId: randomNumber }),
+
+        success: function(data, status) { // answer include the answer return by the script
+          answer = data.result.fulfillment.messages[0].speech;
+          answer = anchorme(nl2br(answer),{attributes:[{name:"target",value:"_blank"}],files:false,ips:false});
           $('.terminal-control').remove();
           $('<span class="request">' + userInstruction + '</span>').appendTo( $('.user-request').last() );
           $('<div class="answer">' + answer + '</span>').appendTo( $('.user-request').last() );
