@@ -75,7 +75,7 @@ $(function() { // = $(document).ready(function(){})
         error: function(result, status, error) {
           $('.terminal-control').remove();
           $('<span class="request">' + userInstruction + '</span>').appendTo( $('.user-request').last() );
-          $('<div class="answer">Sorry. There is a bug during the connection with me. Please try again!</span>').appendTo( $('.user-request').last() );
+          $('<div class="answer">Sorry. There is a bug in my brai. Please try again!</span>').appendTo( $('.user-request').last() );
           $('<div class="instruction"></div>').appendTo( $('.terminal-content') );
           $('<div class="user-request"></div>').appendTo( $('.instruction').last() );
           $('<span class="user">dorothAI@becode</span><span class="symbol">:~$</span>').appendTo( $('.instruction .user-request').last() );
