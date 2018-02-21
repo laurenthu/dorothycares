@@ -151,7 +151,10 @@ a:hover {
   font-weight: 400;
 }
 .terminal-content {
-  padding:25px 15px 250px;
+  padding:25px 15px 25px;
+  min-height: 40vh;
+  max-height: 60vh;
+  overflow: auto;
 }
 .terminal-content .message {
   display: none;
@@ -260,6 +263,11 @@ a:hover {
   animation: bg-animation 10s ease-in-out;
   animation-iteration-count: infinite;
 }
+.round-bg:hover {
+  animation: bg-animation 10s ease-in-out, wobbles 2s ease-in-out;
+  animation-iteration-count:infinite, infinite;
+  transform-origin: center;
+}
 .round-top {
   position: absolute;
   top:0;
@@ -325,6 +333,45 @@ a:hover {
 	}
 }
 
+@keyframes wobbles {
+  0%, 100% {
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+  }
+  15% {
+    -webkit-transform: translate3d(-25%,0,0) rotate3d(0,0,1,-5deg);
+    transform: translate3d(-25%,0,0) rotate3d(0,0,1,-5deg);
+  }
+  30% {
+    -webkit-transform: translate3d(20%,0,0) rotate3d(0,0,1,3deg);
+    transform: translate3d(20%,0,0) rotate3d(0,0,1,3deg);
+  }
+  45% {
+    -webkit-transform: translate3d(-15%,0,0) rotate3d(0,0,1,-3deg);
+    transform: translate3d(-15%,0,0) rotate3d(0,0,1,-3deg);
+  }
+  60% {
+    -webkit-transform: translate3d(10%,0,0) rotate3d(0,0,1,2deg);
+    transform: translate3d(10%,0,0) rotate3d(0,0,1,2deg);
+  }
+  75% {
+    -webkit-transform: translate3d(-5%,0,0) rotate3d(0,0,1,-1deg);
+    transform: translate3d(-5%,0,0) rotate3d(0,0,1,-1deg);
+  }
+}
+
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color:rgba(0,0,0,1);
+  background-image: url('../img/space-bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-attachment: fixed;
+  z-index: -1;
+}
 
 
 
