@@ -1,6 +1,6 @@
 let buttonFullScreen = document.querySelector('.maximize');
 let buttonClose = document.querySelector('.close');
-const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0';
+const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae';
 const baseUrl = 'https://api.dialogflow.com/v1/';
 const version = '20170712';
 
