@@ -24,12 +24,34 @@ buttonClose.addEventListener('click', function() {
 function nl2br(str) {
   return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
 }
+function addFirstZero(i) {
+  if (i < 10) {
+    i = '0' + i;
+  }
+  return i;
+}
+
+function date_time(selector) {
+  let date = new Date;
+  let year = date.getFullYear();
+  let month = date.getMonth();
+  let d = date.getDate();
+  let h = date.getHours();
+  let m = date.getMinutes();
+  let s = date.getSeconds();
+  result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
+  result += addFirstZero(date.getDate()) + '/' +  addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
+  $(selector).html(result);
+  setTimeout('date_time("'+selector+'");','1000');
+  return true;
+}
 
 
 $(function() { // = $(document).ready(function(){})
   let userInstruction; // variable temporaire
 
   $(document).ready(function(){
+    date_time('.os-bar__date-time');
     $('.answer').first().hide();
     $('.instruction').last().hide();
     $('.answer').first().delay(1000).fadeIn();
