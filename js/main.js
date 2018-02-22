@@ -40,6 +40,9 @@ $(function() { // = $(document).ready(function(){})
     });
   });
 
+  $('.terminal-content').on('click',function(e){
+    $('.user-input').focus();
+  });
   $(document).on('keydown',function(e){ // we detect keyboard entry
 
     $('.user-input').focus();
