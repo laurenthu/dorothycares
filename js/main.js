@@ -102,14 +102,14 @@ $(function() { // = $(document).ready(function(){})
 particlesJS("particles-js", {
   "particles": {
     "number": {
-      "value": 120,
+      "value": 200,
       "density": {
         "enable": true,
         "value_area": 800
       }
     },
     "color": {
-      "value": "#ffffff"
+      "value": "#1e5799"
     },
     "shape": {
       "type": "circle",
