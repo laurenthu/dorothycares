@@ -375,6 +375,83 @@ a:hover {
   display: inline-block;
   width:25px;
 }
+.os-bar__sound-language div:hover {
+  background-color: rgba(220,220,220,0.3)
+}
+.os-bar__sound-language {
+  display: flex;
+}
+.os-bar__sound-language div {
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.os-bar__micro {
+  width: 47px;
+}
+.os-bar__volume {
+  width: 51px;
+}
+.slidercontainer {
+    width: 500px;
+    height: 75px;
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+    background-color: rgba(0,0,0,.85);
+    position: absolute;
+    bottom: 50px;
+    right: 0px;
+    visibility: hidden;
+}
+.slidercontainer div {
+  display: flex;
+  justify-content: center;
+    
+}
+.volume-icon {
+    width: 51px;
+}
+.audioslider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 260px;
+    height: 5px;
+    background: #d3d3d3;
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+.audioslider:hover {
+    opacity: 1;
+}
+.audioslider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 7px;
+    height: 25px;
+    border-radius: 3px;
+    background: white;
+    cursor: pointer;
+}
+.audioslider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+#volume-level {
+    font-size: 28px;
+    width: 51px;
+    font-weight: bolder;
+    'Source Code Pro', monospace;
+}
 .os-bar__date-time {
   display: flex;
   justify-content: center;

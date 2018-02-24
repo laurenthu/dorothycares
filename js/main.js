@@ -1,5 +1,12 @@
 let buttonFullScreen = document.querySelector('.maximize');
 let buttonClose = document.querySelector('.close');
+let buttonMicro = document.querySelector('.os-bar__micro');
+let buttonVolume = document.querySelector('.os-bar__volume');
+let sliderContainer = document.querySelector('.slidercontainer');
+let sliderVolumeIcon = document.querySelector('.slidercontainer .volume-icon');
+let audioslider = document.getElementById("audioRange");
+let audioLevelDisplay =  document.getElementById("volume-level");
+let audioLevelBeforeMute = 0;
 const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae';
 const baseUrl = 'https://api.dialogflow.com/v1/';
 const version = '20170712';
@@ -30,6 +37,61 @@ function addFirstZero(i) {
   }
   return i;
 }
+
+buttonMicro.addEventListener('click', function() {
+   if (buttonMicro.querySelector('.fa').classList.contains('fa-microphone-slash')) {
+       buttonMicro.querySelector('.fa').classList.remove('fa-microphone-slash');
+       buttonMicro.querySelector('.fa').classList.add('fa-microphone');
+   } else {
+       buttonMicro.querySelector('.fa').classList.remove('fa-microphone');
+       buttonMicro.querySelector('.fa').classList.add('fa-microphone-slash'); 
+   };
+});
+
+buttonVolume.addEventListener('click', function() {
+   if (sliderContainer.style.visibility == "hidden") {
+     sliderContainer.style.visibility = "visible"; 
+   } else {
+       sliderContainer.style.visibility = "hidden";
+   };
+});
+
+audioLevelDisplay.innerHTML = audioslider.value;
+
+function updateVolumeIcon () {
+    if (audioslider.value > 50) {
+      buttonVolume.querySelector('.fa').classList.remove('fa-volume-off', 'fa-volume-down');  
+      buttonVolume.querySelector('.fa').classList.add('fa-volume-up');
+      sliderVolumeIcon.querySelector('.fa').classList.remove('fa-volume-off', 'fa-volume-down');  
+      sliderVolumeIcon.querySelector('.fa').classList.add('fa-volume-up');
+    } else if (audioslider.value > 0) {
+        buttonVolume.querySelector('.fa').classList.remove('fa-volume-off', 'fa-volume-up');
+        buttonVolume.querySelector('.fa').classList.add('fa-volume-down');
+        sliderVolumeIcon.querySelector('.fa').classList.remove('fa-volume-off', 'fa-volume-up');
+        sliderVolumeIcon.querySelector('.fa').classList.add('fa-volume-down');
+    } else {
+        buttonVolume.querySelector('.fa').classList.remove('fa-volume-down', 'fa-volume-up');
+        buttonVolume.querySelector('.fa').classList.add('fa-volume-off');
+        sliderVolumeIcon.querySelector('.fa').classList.remove('fa-volume-down', 'fa-volume-up');
+        sliderVolumeIcon.querySelector('.fa').classList.add('fa-volume-off');
+    };
+};
+
+audioslider.oninput = function() {
+    audioLevelDisplay.innerHTML = this.value;
+    updateVolumeIcon();
+};
+
+sliderVolumeIcon.addEventListener('click', function() {
+    if (audioslider.value != 0) {
+      audioLevelBeforeMute = audioslider.value;
+      audioslider.value = 0;
+    } else {
+      audioslider.value = audioLevelBeforeMute;
+    };
+    audioLevelDisplay.innerHTML = audioslider.value;
+    updateVolumeIcon();
+});
 
 function date_time(selector) {
   let date = new Date;
