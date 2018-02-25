@@ -1,2 +1,3 @@
 srv/_config.php
 srv/*
+.htaccess
