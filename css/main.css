@@ -375,9 +375,6 @@ a:hover {
   display: inline-block;
   width:25px;
 }
-.os-bar__sound-language div:hover {
-  background-color: rgba(220,220,220,0.3)
-}
 .os-bar__sound-language {
   display: flex;
 }
@@ -389,6 +386,10 @@ a:hover {
   justify-content: center;
   align-items: center;
 }
+.os-bar__sound-language div:hover {
+  cursor: pointer;
+  background-color: rgba(220,220,220,0.3);
+}
 .os-bar__micro {
   width: 47px;
 }
@@ -399,6 +400,7 @@ a:hover {
   width: 59px;
   text-transform: uppercase;
 }
+
 .slider-container {
     width: 500px;
     height: 75px;
@@ -413,7 +415,7 @@ a:hover {
 }
 .slider-container div {
   display: flex;
-  justify-content: center;    
+  justify-content: center;
 }
 .volume-icon {
     width: 51px;
