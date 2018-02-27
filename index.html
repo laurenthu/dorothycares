@@ -84,8 +84,23 @@
               <div class="os-bar__windows-item active"><i class="fa fa-terminal"></i> Terminal</div>
               <div class="os-bar__windows-item"><i class="fa fa-puzzle-piece"></i> Challenges</div>
           </div>
+          <div class="os-bar__sound-language">
+              <div class="os-bar__micro"><i class="fa fa-microphone-slash fa-lg"></i></div>
+              <div class="os-bar__volume"><i class="fa fa-volume-off fa-lg"></i></div>
+              <div class="os-bar__language">eng</div>
+          </div>
           <div class="os-bar__date-time"></div>
         </nav>
+        <div style="visibility: hidden;" class="slider-container">
+          <div class="volume-icon"><i class="fa fa-volume-off fa-2x"></i></div>
+          <input type="range" min="0" max="100" value="0" class="audioslider" id="audioRange">
+          <div id="volume-level"></div>
+        </div>
+        <div style="visibility: hidden" class="languages-container">
+            <div><span>eng</span><i class="fa fa-check-circle fa-lg"></i></div>
+            <div><span>fr</span><i class="fa fa-circle fa-lg"></i></div>
+            <div><span>nl</span><i class="fa fa-circle fa-lg"></i></div>
+        </div>
 
   <!-- JS Insertion -->
   <script src="js/vendor/modernizr-3.5.0.min.js"></script>
