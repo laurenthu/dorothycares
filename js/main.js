@@ -171,13 +171,13 @@ $(function () { // = $(document).ready(function(){})
     $(document).on('keydown', function (e) { // we detect keyboard entry
 
         $('.user-input').focus();
+        userInstruction = $('.user-input').text(); // we save the current value
 
         if (e.key == 'Enter' && userInstruction != '') {
             e.preventDefault();
             $('.user-input').attr('contentEditable', false);
-            userInstruction = $('.user-input').text(); // we save the current value
             let randomNumber = Math.floor(Math.random() * 35000);
-            console.log(userInstruction);
+            //console.log(userInstruction);
 
             $.ajax({
                 type: 'POST',
@@ -221,7 +221,7 @@ $(function () { // = $(document).ready(function(){})
                     $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
                 },
                 complete: function (result, status) {
-                    console.log('Request complete [' + status + ']');
+                    //console.log('Request complete [' + status + ']');
                     window.scrollTo(0, document.body.scrollHeight);
                     $('.user-input').attr('contentEditable', true);
                     $('.terminal-symbol').on('click', function () {
@@ -230,6 +230,8 @@ $(function () { // = $(document).ready(function(){})
                 },
             });
 
+        } else if (e.key == 'Enter' && userInstruction == '') {
+          e.preventDefault();
         }
     })
 
