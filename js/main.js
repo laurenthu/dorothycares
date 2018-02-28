@@ -136,12 +136,6 @@ for (i = 0; i < languagesItems.length; i++) {
 
 function date_time(selector) {
     let date = new Date;
-    let year = date.getFullYear();
-    let month = date.getMonth();
-    let d = date.getDate();
-    let h = date.getHours();
-    let m = date.getMinutes();
-    let s = date.getSeconds();
     result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
     result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
     $(selector).html(result);
