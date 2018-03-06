@@ -15,9 +15,10 @@ const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae';
 const baseUrl = 'https://api.dialogflow.com/v1/';
 const version = '20170712';
 
-buttonFullScreen.addEventListener('click', function () {
-    let body = document.querySelector('body');
-    if (!document.mozFullScreen && !document.webkitFullScreen) {
+if (buttonFullScreen != null) {
+  buttonFullScreen.addEventListener('click', function () {
+      let body = document.querySelector('body');
+      if (!document.mozFullScreen && !document.webkitFullScreen) {
         if (body.requestFullScreen) {
             body.requestFullScreen();
         } else if (body.mozRequestFullScreen) {
@@ -25,12 +26,15 @@ buttonFullScreen.addEventListener('click', function () {
         } else if (body.webkitRequestFullScreen) {
             body.webkitRequestFullScreen();
         }
-    }
-}, false);
+      }
+  }, false);
+};
 
-buttonClose.addEventListener('click', function () {
+if (buttonClose != null) {
+  buttonClose.addEventListener('click', function () {
     location.reload();
-}, false);
+  }, false);
+};
 
 function nl2br(str) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
@@ -43,7 +47,8 @@ function addFirstZero(i) {
     return i;
 }
 
-buttonMicro.addEventListener('click', function () {
+if (buttonMicro != null) {
+  buttonMicro.addEventListener('click', function () {
     if (buttonMicro.querySelector('.fa').classList.contains('fa-microphone-slash')) {
         buttonMicro.querySelector('.fa').classList.remove('fa-microphone-slash');
         buttonMicro.querySelector('.fa').classList.add('fa-microphone');
@@ -51,15 +56,18 @@ buttonMicro.addEventListener('click', function () {
         buttonMicro.querySelector('.fa').classList.remove('fa-microphone');
         buttonMicro.querySelector('.fa').classList.add('fa-microphone-slash');
     };
-});
+  });
+};
 
-buttonVolume.addEventListener('click', function () {
+if (buttonVolume != null) {
+  buttonVolume.addEventListener('click', function () {
     if (sliderContainer.style.visibility == "hidden") {
         sliderContainer.style.visibility = "visible";
     } else {
         sliderContainer.style.visibility = "hidden";
     };
-});
+  });
+};
 
 $('body').click(function (evt) {
     if (!$(evt.target).is('.slider-container') && !$(evt.target).is('.slider-container *') && !$(evt.target).is('.os-bar__volume i') && !$(evt.target).is('.os-bar__volume')) {
@@ -69,7 +77,9 @@ $('body').click(function (evt) {
     };
 });
 
-audioLevelDisplay.innerHTML = audioslider.value;
+if (audioslider != null) {
+  audioLevelDisplay.innerHTML = audioslider.value;
+};
 
 function updateVolumeIcon() {
     if (audioslider.value > 50) {
@@ -90,12 +100,15 @@ function updateVolumeIcon() {
     };
 };
 
-audioslider.oninput = function () {
+if (audioslider != null) {
+  audioslider.oninput = function () {
     audioLevelDisplay.innerHTML = this.value;
     updateVolumeIcon();
+  };
 };
 
-sliderVolumeIcon.addEventListener('click', function () {
+if (sliderVolumeIcon != null) {
+  sliderVolumeIcon.addEventListener('click', function () {
     if (audioslider.value != 0) {
         audioLevelBeforeMute = audioslider.value;
         audioslider.value = 0;
@@ -104,15 +117,18 @@ sliderVolumeIcon.addEventListener('click', function () {
     };
     audioLevelDisplay.innerHTML = audioslider.value;
     updateVolumeIcon();
-});
+  });
+};
 
-buttonLanguages.addEventListener('click', function () {
+if (buttonLanguages != null) {
+  buttonLanguages.addEventListener('click', function () {
     if (languagesContainer.style.visibility == "hidden") {
         languagesContainer.style.visibility = "visible";
     } else {
         languagesContainer.style.visibility = "hidden";
     };
-});
+  });
+};
 
 $('body').click(function (evt) {
     if (!$(evt.target).is('.languages-container') && !$(evt.target).is('.languages-container *') && !$(evt.target).is('.os-bar__language')) {
