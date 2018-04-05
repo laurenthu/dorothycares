@@ -1,3 +1,4 @@
+// Text scramble
 class TextScramble {
   constructor(el) {
     this.el = el
@@ -14,7 +15,12 @@ class TextScramble {
       const to = newText[i] || ''
       const start = Math.floor(Math.random() * 40)
       const end = start + Math.floor(Math.random() * 40)
-      this.queue.push({ from, to, start, end })
+      this.queue.push({
+        from,
+        to,
+        start,
+        end
+      })
     }
     cancelAnimationFrame(this.frameRequest)
     this.frame = 0
@@ -25,7 +31,13 @@ class TextScramble {
     let output = ''
     let complete = 0
     for (let i = 0, n = this.queue.length; i < n; i++) {
-      let { from, to, start, end, char } = this.queue[i]
+      let {
+        from,
+        to,
+        start,
+        end,
+        char
+      } = this.queue[i]
       if (this.frame >= end) {
         complete++
         output += to
@@ -69,4 +81,14 @@ const next = () => {
   counter = (counter + 1) % phrases.length
 }
 
-next()
+next();
+
+// Google Sign In
+
+let googleButton = document.querySelector(".google-button");
+let relocation = googleButton.getAttribute("data-location");
+console.log(relocation);
+
+googleButton.addEventListener('click', function () {
+  window.location = relocation;
+});

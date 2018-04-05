@@ -69,13 +69,6 @@ if (buttonVolume != null) {
   });
 };
 
-$('body').click(function (evt) {
-    if (!$(evt.target).is('.slider-container') && !$(evt.target).is('.slider-container *') && !$(evt.target).is('.os-bar__volume i') && !$(evt.target).is('.os-bar__volume')) {
-        if (sliderContainer.style.visibility == "visible") {
-            sliderContainer.style.visibility = "hidden";
-        };
-    };
-});
 
 if (audioslider != null) {
   audioLevelDisplay.innerHTML = audioslider.value;
@@ -130,13 +123,23 @@ if (buttonLanguages != null) {
   });
 };
 
-$('body').click(function (evt) {
-    if (!$(evt.target).is('.languages-container') && !$(evt.target).is('.languages-container *') && !$(evt.target).is('.os-bar__language')) {
-        if (languagesContainer.style.visibility == "visible") {
-            languagesContainer.style.visibility = "hidden";
-        };
+if (document.querySelector(".os-bar") != null) {
+  $('body').click(function (evt) {
+    if (!$(evt.target).is('.slider-container') && !$(evt.target).is('.slider-container *') && !$(evt.target).is('.os-bar__volume i') && !$(evt.target).is('.os-bar__volume')) {
+      if (sliderContainer.style.visibility == "visible") {
+        sliderContainer.style.visibility = "hidden";
+      };
     };
-});
+  });
+
+  $('body').click(function (evt) {
+      if (!$(evt.target).is('.languages-container') && !$(evt.target).is('.languages-container *') && !$(evt.target).is('.os-bar__language')) {
+          if (languagesContainer.style.visibility == "visible") {
+              languagesContainer.style.visibility = "hidden";
+          };
+      };
+  });
+};
 
 for (i = 0; i < languagesItems.length; i++) {
     languagesItems[i].addEventListener('click', function () {

@@ -8,6 +8,7 @@
 }
 
 .container-login {
+  width: 600px;
   text-align: center;
   padding: 100px;
   background-color: rgba(0,0,0,.65);
@@ -59,4 +60,9 @@
 .call-to-action:hover {
   background-color: white;
   color: black;
+}
+
+.g-signin2 {
+  width: 120px;
+  margin: auto;
 }
