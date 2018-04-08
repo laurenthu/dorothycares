@@ -21,6 +21,7 @@
     <meta name="google-signin-client_id" content="269528235107-8m2673golc384phuudm0p8aj4mtb7hi0.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://apis.google.com/js/api.js"></script>
+
     <!-- OpenGraph -->
     <meta property="fb:app_id" content="306159282727976">
     <meta property="og:locale" content="en_US">
@@ -31,6 +32,7 @@
     <meta property="og:site_name" content="DorothAI">
     <meta property="og:image" content="https://dorothycares.io/img/printscreen.jpg">
     <meta property="og:image:secure_url" content="https://dorothycares.io/img/printscreen.jpg">
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:description" content="Dorothy cares about you. It'll help you along your way at BeCode.">
@@ -45,8 +47,13 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/login.css">
   </head>
+
   <body>
+
+    <!-- Particle js (background) -->
     <div id="particles-js"></div>
+
+    <!-- header of the page -->
     <header class="round">
       <div class="round-group">
         <div class="round-item round-bg">
@@ -56,6 +63,7 @@
       </div>
     </header>
 
+    <!-- login window with Google Sign in button -->
     <main class="login-interface" data-onsuccess="onSignIn">
       <div class="container-login">
         <div class="welcome"></div>
@@ -68,6 +76,7 @@
           </div>
         </div>
     </main>
+
     <!-- JS Insertion -->
     <script src="js/vendor/modernizr-3.5.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>

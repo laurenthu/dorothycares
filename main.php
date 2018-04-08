@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Dorothy <?php echo VERSION ?> (Dev)</title>
+        <title>DorothAI <?php echo VERSION ?> (Dev)</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -32,14 +32,16 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
     </head>
+
     <body>
         <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
 
-  <!-- Add your site or application content here -->
+  <!-- Particle js (background) -->
   <div id="particles-js"></div>
 
+  <!-- header of the page -->
   <header class="round">
     <div class="round-group">
       <div class="round-item round-bg">
@@ -48,7 +50,10 @@
       </div>
     </div>
   </header>
+
+  <!-- terminal window -->
   <main class="terminal">
+    <!-- header of terminal window -->
     <header class="terminal-header">
       <div class="terminal-header-item">Terminal session</div>
       <div class="terminal-header-item">
@@ -58,54 +63,52 @@
 
       </div>
     </header>
+    <!-- body of terminal window -->
     <div class="terminal-content">
-      <!--
-            <div class="message">
-              ********************************************<br>
-              * I'm still learning from you.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br>
-              * So I'm constantly upgrading my skills.&nbsp;&nbsp;&nbsp;*<br>
-              * All commands of last week are inactive.&nbsp;&nbsp;*<br>
-              ********************************************<br>
-              &nbsp;
-            </div>
-          -->
-            <div class="instruction">
-              <div class="user-request"><span class="user">dorothAI@becode</span><span class="symbol">:~$</span><span class="request">connexion -u dorothian</span></div>
-              <div class="answer" style="display:none;">connexion established</div>
-            </div>
-            <div class="instruction" style="display:none;">
-              <div class="user-request">
-                <span class="user">dorothAI@becode</span><span class="symbol">:~$</span><span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>
-              </div>
-            </div>
-          </div>
-          <footer class="terminal-footer">Created by "The Nine" - <a href="http://www.becode.org" target="_blank">BeCode Project</a> - <a href="cookies-policy.html" target="_blank">Cookies policy</a> - <a href="privacy.html" target="_blank">Privacy</a></footer>
-        </main>
-        <nav class="os-bar">
-          <div class="os-bar__menu-icon"><span><i class="fa fa-superpowers" aria-hidden="true"></i></span></div>
-          <div class="os-bar__windows-list">
-              <div class="os-bar__windows-item active"><i class="fa fa-terminal"></i> Terminal</div>
-              <div class="os-bar__windows-item"><i class="fa fa-puzzle-piece"></i> Challenges</div>
-          </div>
-          <div class="os-bar__sound-language">
-              <div class="os-bar__micro"><i class="fa fa-microphone-slash fa-lg"></i></div>
-              <div class="os-bar__volume"><i class="fa fa-volume-off fa-lg"></i></div>
-              <div class="os-bar__language">eng</div>
-          </div>
-          <div class="os-bar__date-time"></div>
-        </nav>
-        <div style="visibility: hidden;" class="slider-container">
-          <div class="volume-icon"><i class="fa fa-volume-off fa-2x"></i></div>
-          <input type="range" min="0" max="100" value="0" class="audioslider" id="audioRange">
-          <div id="volume-level"></div>
+      <div class="instruction">
+        <div class="user-request"><span class="user">dorothAI@becode</span><span class="symbol">:~$</span><span class="request">connexion -u dorothian</span></div>
+        <div class="answer" style="display:none;">connexion established</div>
+      </div>
+      <div class="instruction" style="display:none;">
+        <div class="user-request">
+          <span class="user">dorothAI@becode</span><span class="symbol">:~$</span><span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>
         </div>
-        <div style="visibility: hidden" class="languages-container">
-            <div><span>eng</span><i class="fa fa-check-circle fa-lg"></i></div>
-            <div><span>fr</span><i class="fa fa-circle fa-lg"></i></div>
-            <div><span>nl</span><i class="fa fa-circle fa-lg"></i></div>
-        </div>
+      </div>
+    </div>
+    <!-- footer of terminal window -->
+    <footer class="terminal-footer">Created by "The Nine" - <a href="http://www.becode.org" target="_blank">BeCode Project</a> - <a href="cookies-policy.html" target="_blank">Cookies policy</a> - <a href="privacy.html" target="_blank">Privacy</a></footer>
+  </main>
 
-  <!-- JS Insertion -->
+  <!-- os nav-bar - bottom -->
+  <nav class="os-bar">
+    <div class="os-bar__menu-icon"><span><i class="fa fa-superpowers" aria-hidden="true"></i></span></div>
+    <div class="os-bar__windows-list">
+        <div class="os-bar__windows-item active"><i class="fa fa-terminal"></i> Terminal</div>
+        <div class="os-bar__windows-item"><i class="fa fa-puzzle-piece"></i> Challenges</div>
+    </div>
+    <div class="os-bar__sound-language">
+        <div class="os-bar__micro"><i class="fa fa-microphone-slash fa-lg"></i></div>
+        <div class="os-bar__volume"><i class="fa fa-volume-off fa-lg"></i></div>
+        <div class="os-bar__language">eng</div>
+    </div>
+    <div class="os-bar__date-time"></div>
+  </nav>
+
+  <!-- volume div -->
+  <div style="visibility: hidden;" class="slider-container">
+    <div class="volume-icon"><i class="fa fa-volume-off fa-2x"></i></div>
+    <input type="range" min="0" max="100" value="0" class="audioslider" id="audioRange">
+    <div id="volume-level"></div>
+  </div>
+
+  <!-- language div -->
+  <div style="visibility: hidden" class="languages-container">
+      <div><span>eng</span><i class="fa fa-check-circle fa-lg"></i></div>
+      <div><span>fr</span><i class="fa fa-circle fa-lg"></i></div>
+      <div><span>nl</span><i class="fa fa-circle fa-lg"></i></div>
+  </div>
+
+  <!-- Javascript insertions -->
   <script src="js/vendor/modernizr-3.5.0.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script>
@@ -117,10 +120,12 @@
   <script src="js/main.js"></script>
 
   <!--
+  Session var_dump
     <?php
       var_dump($_SESSION);
     ?>
   -->
+
 </body>
 
 </html>
