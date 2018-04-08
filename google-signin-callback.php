@@ -14,15 +14,25 @@
   $oAuth = new Google_Service_Oauth2($gClient);
   $userData = $oAuth->userinfo_v2_me->get();
 
+
   $_SESSION['email'] = $userData['email'];
   $_SESSION['gender'] = $userData['gender'];
   $_SESSION['picture'] = $userData['picture'];
   $_SESSION['familyName'] = $userData['familyName'];
   $_SESSION['givenName'] = $userData['givenNme'];
 
-  // echo '<pre>';
-  // var_dump($userData);
+  $userTest = new User($db);
 
-  header('Location: ../index.php');
-  exit()
+  if ( $userTest->hasAuthorizedAccess($userData['email']) ) { // if user can access
+    header('Location: index.php');
+    exit();
+  } else {
+    header('Location: logout.php');
+    exit();
+  }
+
+  /*echo '<pre>';
+  var_dump($_SESSION);
+  echo '</pre>';*/
+
 ?>

@@ -1,3 +1,6 @@
+<?php
+  require_once "srv/_config.php";
+?>
 <!doctype html>
 <html class="no-js" lang="">
     <head>
@@ -112,6 +115,12 @@
   <script src="js/particles.min.js"></script>
   <script src="js/anchorme.min.js"></script>
   <script src="js/main.js"></script>
+
+  <!--
+    <?php
+      var_dump($_SESSION);
+    ?>
+  -->
 </body>
 
 </html>

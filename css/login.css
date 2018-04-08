@@ -55,6 +55,7 @@
   padding-left: 24px;
   padding-right: 24px;
   transition: all .3s ease-in-out;
+  cursor: pointer;
 }
 
 .call-to-action:hover {
