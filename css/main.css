@@ -455,7 +455,7 @@ a:hover {
     font-size: 28px;
     width: 51px;
     font-weight: bolder;
-    'Source Code Pro', monospace;
+    font-family: 'Source Code Pro', monospace;
 }
 
 .languages-container {
