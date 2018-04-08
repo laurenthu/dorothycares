@@ -11,7 +11,9 @@ let audioLevelBeforeMute = 0;
 let languagesContainer = document.querySelector('.languages-container');
 let languagesItems = document.querySelectorAll('.languages-container div');
 let languagesItemsIcon = document.querySelectorAll('.languages-container div i');
-const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae';
+let sessionId = Math.floor(Math.random() * Math.random() * 350000); // we generate a sessionId for dialogflow
+const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
+//const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae'; // agent v2 - DorothyCares
 const baseUrl = 'https://api.dialogflow.com/v1/';
 const version = '20170712';
 
@@ -189,7 +191,6 @@ $(function () { // = $(document).ready(function(){})
         if (e.key == 'Enter' && userInstruction != '') {
             e.preventDefault();
             $('.user-input').attr('contentEditable', false);
-            let randomNumber = Math.floor(Math.random() * 35000);
             //console.log(userInstruction);
 
             $.ajax({
@@ -203,7 +204,7 @@ $(function () { // = $(document).ready(function(){})
                 data: JSON.stringify({
                     query: userInstruction,
                     lang: "en",
-                    sessionId: randomNumber
+                    sessionId: sessionId
                 }),
 
                 success: function (data, status) { // answer include the answer return by the script
@@ -216,6 +217,10 @@ $(function () { // = $(document).ready(function(){})
                         files: false,
                         ips: false
                     });
+                    if (typeof data.sessionId !== 'undefined') {
+                      sessionId = data.sessionId;
+                    }
+                    console.log(data);
                     $('.terminal-control').remove();
                     $('<span class="request">' + userInstruction + '</span>').appendTo($('.user-request').last());
                     $('<div class="answer">' + answer + '</span>').appendTo($('.user-request').last());
