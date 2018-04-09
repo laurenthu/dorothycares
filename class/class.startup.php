@@ -138,6 +138,43 @@ class Startup {
 
   }
 
+  function getStartupMemberCount($id, $typeUser = 'learner') {
+    /*
+    (IN) $id(int): id of the startup for which we want to collect the data
+    (IN) $typeUser(string): type of user we want to select 'learner' or 'coach'
+    (OUT) array with information / false if no startup was found
+    */
+
+    try {
+
+      $data = array();
+      $statement = $this->db->prepare(
+        "SELECT
+        COUNT(`U`.`idUser`) as `number`
+
+        FROM `user` as `U`
+        LEFT JOIN `userClasseRelation` as `UCR` ON `U`.`idUser` = `UCR`.`idUser`
+
+        WHERE `UCR`.`idClasse` = :idStartup AND `U`.`typeUser` = :typeUser");
+
+      $statement->bindParam(':idStartup', $id, PDO::PARAM_INT);
+      $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return intval($data['number']);
+      } else {
+        return 0;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   function getStartupMemberList($id, $typeUser = 'learner') {
     /*
     (IN) $id(int): id of the startup for which we want to collect the data
