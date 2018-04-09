@@ -388,6 +388,29 @@ class User {
 
   }
 
+  function getUserCount() {
+    /*
+    (OUT) int with number of startup / 0 if no startup was found
+    */
+    try {
+
+      $statement = $this->db->prepare("SELECT COUNT(`U`.`idUser`) as `number` FROM `user` as `U`");
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return intval($data['number']);
+      } else {
+        return 0;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
 }
 
 ?>
