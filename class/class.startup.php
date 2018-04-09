@@ -11,7 +11,7 @@ class Startup {
   function getStartupInformation($id) {
     /*
     (IN) $id(int): id of the startup for which we want to collect the data
-    (OUT) array with information / false if no implantation was found
+    (OUT) array with information / false if no startup was found
     */
 
     $data = array();
@@ -50,6 +50,47 @@ class Startup {
 
         return $data;
 
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  function getStartupList($start = 0, $number = 25, $orderBy = 'nameClasse', $orderDir = 'ASC') {
+    /*
+    (IN) $id(int): id of the startup for which we want to collect the data
+    (OUT) array with information / false if no startup was found
+    */
+
+    try {
+
+      $data = array();
+      $statement = $this->db->prepare(
+        "SELECT
+        `C`.`idClasse` as `id`,
+        `C`.`nameClasse` as `name`,
+        `I`.`idImplantation`,
+        `I`.`nameimplantation`
+
+        FROM `classe` as `C`
+        LEFT JOIN `classeImplantationRelation` as `CIR` ON `C`.`idClasse` = `CIR`.`idClasse`
+        LEFT JOIN `implantation` as `I` on `CIR`.`idImplantation` = `I`.`idImplantation`
+
+        ORDER BY  `C`.`".$orderBy."` ".$orderDir."
+
+        LIMIT ".$start.",".$number);
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        while ( $en = $statement->fetch(PDO::FETCH_ASSOC) ) {
+          array_push($data, $en);
+        }
+        return $data;
       } else {
         return false;
       }
