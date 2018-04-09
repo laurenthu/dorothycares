@@ -10,9 +10,9 @@ const mongoose = require("mongoose");
 const ressourcesRoutes = require("./api/routes/ressources");
 
 mongoose.Promise = global.Promise;
-const collectionName = 'noderestfulshop'
-mongoose.connect(`mongodb://localhost:27017/${collectionName}`)
-        .then(() => console.log(`Connected to MongoDB on collection ${collectionName}`))
+const DBName = 'dory'
+mongoose.connect(`mongodb://localhost:27017/${DBName}`)
+        .then(() => console.log(`Connected to MongoDB on DB ${DBName}`))
         .catch((err) => console.log(`Database error: ${err}`));
 
 app.use(morgan("dev"));

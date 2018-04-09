@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 // const checkAuth = require("../middleware/check-auth");
 
-const ParcoursController = require ('../controllers/parcours');
+const RessourcesController = require ('../controllers/ressources');
 
-// Handle incoming GET requests to /orders
-router.get("/", ParcoursController.get_all_parcours);
-router.get("/:parcoursId", ParcoursController.get_parcours);
+// Handle incoming GET requests to /ressources
+router.get("/", RessourcesController.get_all_ressources);
+router.get("/:ressourcesId", RessourcesController.get_ressource);
 
 module.exports = router;
