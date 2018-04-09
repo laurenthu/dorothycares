@@ -10,8 +10,8 @@ const mongoose = require("mongoose");
 const ressourcesRoutes = require("./api/routes/ressources");
 
 mongoose.Promise = global.Promise;
-const DBName = 'dory'
-mongoose.connect(`mongodb://localhost:27017/${DBName}`)
+const DBName = 'dorothycares'
+mongoose.connect(`mongodb://${process.env.MONGO_LAB_DB}:${process.env.MONGO_LAB_PW}@ds239309.mlab.com:39309/${DBName}`)
         .then(() => console.log(`Connected to MongoDB on DB ${DBName}`))
         .catch((err) => console.log(`Database error: ${err}`));
 

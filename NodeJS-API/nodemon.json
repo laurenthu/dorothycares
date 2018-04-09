@@ -1,7 +1,8 @@
 {
   "env":{
-    "MONGO_ATLAS_PW":"CaliDev",
-    "JWT_KEY": "wtfisthat",
+    "MONGO_LAB_DB": "mongodb://DorothyCares:TheN!neSold!ers@ds239309.mlab.com:39309/",
+    "MONGO_LAB_PW":"TheN!neSold!ers",
+    "JWT_KEY": "wtfisthatkey",
     "SECRET": "guesswhat"
   }
 }
