@@ -27,4 +27,12 @@ $gClient->setApplicationName("");
 $gClient->setRedirectUri("");
 $gClient->addScope("");
 
+// General constants
+define('SCRIPT_DIR','');
+define('VERSION','');
+
+// insert class files
+require_once SCRIPT_DIR.'/class.user.php';
+
+
 ?>
