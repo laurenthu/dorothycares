@@ -2,13 +2,13 @@
 
 class User {
 
-  public $db;
+  // protected $db;
 
-  function __construct($db) {
+  public function __construct($db) {
     $this->db = $db;
   }
 
-  function hasAuthorizedAccess($emailUser) {
+  public function hasAuthorizedAccess($emailUser) {
     /*
     (IN) $emailUser: email of the user we want to test
     (OUT) boolean: True if the user can access / false if not
@@ -33,7 +33,7 @@ class User {
 
   }
 
-  function hasAdminRights($emailUser) {
+  public function hasAdminRights($emailUser) {
     /*
     (IN) $emailUser: email of the user we want to test
     (OUT) boolean: True if the user has admin rights / false if not
@@ -58,7 +58,7 @@ class User {
 
   }
 
-  function getUserFirstName($emailUser) {
+  public function getUserFirstName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
     (OUT) string if a data is found, NULL if a data is found but empty, false if no user was found
@@ -84,7 +84,7 @@ class User {
 
   }
 
-  function getUserLastName($emailUser) {
+  public function getUserLastName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
     (OUT) string if a data is found, NULL if a data is found but empty, false if no user was found
@@ -110,7 +110,7 @@ class User {
 
   }
 
-  function getUserMainLanguageCode($emailUser) {
+  public function getUserMainLanguageCode($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
     (OUT) string if a data is found, false if no user was found
@@ -136,7 +136,7 @@ class User {
 
   }
 
-  function getUserMainLanguageName($emailUser) {
+  public function getUserMainLanguageName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
     (OUT) string if a data is found, false if no user was found
@@ -166,7 +166,7 @@ class User {
 
   }
 
-  function getUserType($emailUser) {
+  public function getUserType($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
     (OUT) string if a data is found, false if no user was found
@@ -192,7 +192,7 @@ class User {
 
   }
 
-  function getUserStartupName($emailUser) {
+  public function getUserStartupName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
     (OUT) string if a data is found, false if no user was found
@@ -223,7 +223,7 @@ class User {
 
   }
 
-  function getUserStartupId($emailUser) {
+  public function getUserStartupId($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
     (OUT) integer if a data is found, false if no user was found
@@ -253,7 +253,7 @@ class User {
 
   }
 
-  function getUserImplantationName($emailUser) {
+  public function getUserImplantationName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
     (OUT) string if a data is found, false if no user was found
@@ -286,7 +286,7 @@ class User {
 
   }
 
-  function getUserImplantationId($emailUser) {
+  public function getUserImplantationId($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
     (OUT) integer if a data is found, false if no user was found
@@ -318,7 +318,7 @@ class User {
 
   }
 
-  function getUserInformation($emailUser) {
+  public function getUserInformation($emailUser) {
 
     try {
 
@@ -388,7 +388,7 @@ class User {
 
   }
 
-  function getUserCount() {
+  public function getUserCount() {
     /*
     (OUT) int with number of startup / 0 if no startup was found
     */

@@ -2,13 +2,13 @@
 
 class Startup {
 
-  public $db;
+  //protected $db;
 
-  function __construct($db) {
+  public function __construct($db) {
     $this->db = $db;
   }
 
-  function getStartupInformation($id) {
+  public function getStartupInformation($id) {
     /*
     (IN) $id(int): id of the startup for which we want to collect the data
     (OUT) array with information / false if no startup was found
@@ -74,7 +74,7 @@ class Startup {
 
   }
 
-  function getStartupCount() {
+  public function getStartupCount() {
     /*
     (OUT) int with number of startup / 0 if no startup was found
     */
@@ -97,7 +97,7 @@ class Startup {
 
   }
 
-  function getStartupList($start = 0, $number = 25, $orderBy = 'nameClasse', $orderDir = 'ASC') {
+  public function getStartupList($start = 0, $number = 25, $orderBy = 'nameClasse', $orderDir = 'ASC') {
     /*
     (IN) var for the SELECT
     (OUT) array with information / false if no startup was found
@@ -138,7 +138,7 @@ class Startup {
 
   }
 
-  function getStartupMemberCount($id, $typeUser = 'learner') {
+  public function getStartupMemberCount($id, $typeUser = 'learner') {
     /*
     (IN) $id(int): id of the startup for which we want to collect the data
     (IN) $typeUser(string): type of user we want to select 'learner' or 'coach'
@@ -175,7 +175,7 @@ class Startup {
 
   }
 
-  function getStartupMemberList($id, $typeUser = 'learner') {
+  public function getStartupMemberList($id, $typeUser = 'learner') {
     /*
     (IN) $id(int): id of the startup for which we want to collect the data
     (IN) $typeUser(string): type of user we want to select 'learner' or 'coach'

@@ -2,13 +2,13 @@
 
 class Implantation {
 
-  public $db;
+  // protected $db;
 
-  function __construct($db) {
+  public function __construct($db) {
     $this->db = $db;
   }
 
-  function getImplantationInformation($id) {
+  public function getImplantationInformation($id) {
     /*
     (IN) $id(int): id of the implantation for which we want to collect the data
     (OUT) array with information / false if no implantation was found
@@ -49,7 +49,7 @@ class Implantation {
 
   }
 
-  function getImplantationCount() {
+  public function getImplantationCount() {
     /*
     (OUT) int with number of implantation / 0 if no implantation was found
     */
@@ -71,7 +71,7 @@ class Implantation {
     }
   }
 
-  function getImplantationList($start = 0, $number = 25, $orderBy = 'nameimplantation', $orderDir = 'ASC') {
+  public function getImplantationList($start = 0, $number = 25, $orderBy = 'nameimplantation', $orderDir = 'ASC') {
 
     try {
 
