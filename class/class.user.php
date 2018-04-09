@@ -318,6 +318,76 @@ class User {
 
   }
 
+  function getUserInformation($emailUser) {
+
+    try {
+
+      $data = array();
+
+      $statement = $this->db->prepare(
+        "SELECT
+        `U`.`idUser` as `id`,
+        `U`.`firstNameUser` as `firstName`,
+        `U`.`lastNameUser` as `lastName` ,
+        `U`.`typeUser` as `type`,
+        `U`.`mainLanguageUser` as `mainLanguageCode`,
+        `L`.`nameLanguageEnglish` as `mainLanguage`
+
+        FROM `user` as `U`
+        LEFT JOIN  `language` AS  `L` ON  `U`.`mainLanguageUser` =  `L`.`codeLanguage`
+
+        WHERE `emailUser` = :emailUser LIMIT 0,1");
+
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        $data['startup']['id'] = $this->getUserStartupId($emailUser);
+        $data['startup']['name'] = $this->getUserStartupName($emailUser);
+        $data['implantation']['id'] = $this->getUserImplantationId($emailUser);
+        $data['implantation']['name'] = $this->getUserImplantationName($emailUser);
+
+        $statement = null;
+
+        $statement = $this->db->prepare(
+          "SELECT
+          `O`.`keyOption` as `type`,
+          `UM`.`keyUserMeta` as `key`,
+          `O`.`nameOption` as `name`,
+          `UM`.`valueUserMeta` as `value`
+
+           FROM `userMeta` as `UM`
+           LEFT JOIN `option` as `O` ON `O`.`valueOption` = `UM`.`keyUserMeta`
+
+           WHERE `UM`.`idUser` = :idUser");
+
+        $statement->bindParam(':idUser', $data['id'], PDO::PARAM_INT);
+        $statement->execute();
+
+        if ($statement->rowCount() > 0) {
+          $data['meta'] = array();
+          while ( $en = $statement->fetch(PDO::FETCH_ASSOC) ) {
+            array_push($data['meta'], $en);
+          }
+        }
+
+        return $data;
+
+      } else {
+
+        return false;
+
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
 }
 
 ?>
