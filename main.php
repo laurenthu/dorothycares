@@ -120,9 +120,12 @@
   <script src="js/main.js"></script>
 
   <!--
-  Session var_dump
+  Dev var_dump
     <?php
-      var_dump($_SESSION);
+      $userInformation = new User($db);
+      $s = new Startup($db);
+      //var_dump( $s->getStartupInformation(4) );
+      print_r( $s->getStartupList() );
     ?>
   -->
 
