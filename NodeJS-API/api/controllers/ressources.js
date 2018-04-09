@@ -115,3 +115,25 @@ exports.update_ressource = (req, res, next) => {
       });
     });
 }
+
+exports.delete_ressource = (req, res, next) => {
+  const id = req.params.ressourceId;
+  Ressources.remove({ _id: id })
+    .exec()
+    .then(result => {
+      res.status(200).json({
+          message: 'Ressources deleted',
+          request: {
+              type: 'POST',
+              url: 'http://localhost:3000/ressources/',
+              body: { name: 'String', price: 'Number' }
+          }
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+}
