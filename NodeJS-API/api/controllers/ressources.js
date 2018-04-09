@@ -16,7 +16,7 @@ exports.get_all_ressources = (req, res, next) => {
             intro: doc.intro,
             installation: doc.installation,
             documentation: doc.documentation,
-            tutorials: doc.volume,
+            tutorials: doc.tutorials,
             request: {
               type: "GET",
               url: "http://localhost:3000/ressources/" + doc._id
