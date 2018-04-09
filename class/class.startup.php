@@ -138,7 +138,7 @@ class Startup {
 
   }
 
-  function getStartupMember($id, $typeUser = 'learner') {
+  function getStartupMemberList($id, $typeUser = 'learner') {
     /*
     (IN) $id(int): id of the startup for which we want to collect the data
     (IN) $typeUser(string): type of user we want to select 'learner' or 'coach'
