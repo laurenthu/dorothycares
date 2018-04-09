@@ -74,6 +74,29 @@ class Startup {
 
   }
 
+  function getStartupCount() {
+    /*
+    (OUT) int with number of startup / 0 if no startup was found
+    */
+    try {
+
+      $statement = $this->db->prepare("SELECT COUNT(`C`.`idClasse`) as `number` FROM `classe` as `C`");
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return intval($data['number']);
+      } else {
+        return 0;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   function getStartupList($start = 0, $number = 25, $orderBy = 'nameClasse', $orderDir = 'ASC') {
     /*
     (IN) var for the SELECT
