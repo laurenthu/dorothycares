@@ -92,3 +92,26 @@ exports.create_ressource = (req, res, next) => {
     });
   });
 }
+
+exports.update_ressource = (req, res, next) => {
+  
+  const id = req.params.ressourceId;
+
+  Ressources.findOneAndUpdate({ _id: id }, req.body, { new:false })
+    .exec()
+    .then(result => {
+      res.status(200).json({
+          message: 'Ressources updated',
+          request: {
+              type: 'GET',
+              url: 'http://localhost:3000/ressources/' + id
+          }
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+}
