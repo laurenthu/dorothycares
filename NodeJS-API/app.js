@@ -11,7 +11,7 @@ const ressourcesRoutes = require("./api/routes/ressources");
 
 mongoose.Promise = global.Promise;
 const DBName = 'dorothycares'
-mongoose.connect(`mongodb://${process.env.MONGO_LAB_DB}:${process.env.MONGO_LAB_PW}@ds239309.mlab.com:39309/${DBName}`)
+mongoose.connect(`mongodb://DorothyCares:TheN!neSold!ers@ds239309.mlab.com:39309/${DBName}`)
         .then(() => console.log(`Connected to MongoDB on DB ${DBName}`))
         .catch((err) => console.log(`Database error: ${err}`));
 

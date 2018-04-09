@@ -29,6 +29,6 @@
     "passport-jwt": "^3.0.1"
   },
   "engines": {
-    "node": "^7.0.0"
+    "node": "^8.0.0"
   }
 }
