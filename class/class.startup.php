@@ -42,6 +42,7 @@ class Startup {
         $statement = null;
         $statement = $this->db->prepare(
           "SELECT
+          `O`.`keyOption` as `type`,
           `CM`.`keyClasseMeta` as `key`,
           `O`.`nameOption` as `name`,
           `CM`.`valueClasseMeta` as `value`
