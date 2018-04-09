@@ -76,7 +76,7 @@ class Startup {
 
   function getStartupList($start = 0, $number = 25, $orderBy = 'nameClasse', $orderDir = 'ASC') {
     /*
-    (IN) $id(int): id of the startup for which we want to collect the data
+    (IN) var for the SELECT
     (OUT) array with information / false if no startup was found
     */
 
@@ -114,6 +114,51 @@ class Startup {
     }
 
   }
+
+  function getStartupMember($id, $typeUser = 'learner') {
+    /*
+    (IN) $id(int): id of the startup for which we want to collect the data
+    (IN) $typeUser(string): type of user we want to select 'learner' or 'coach'
+    (OUT) array with information / false if no startup was found
+    */
+
+    try {
+
+      $data = array();
+      $statement = $this->db->prepare(
+        "SELECT
+        `U`.`idUser` as `id`,
+        `U`.`firstNameUser` as `firstName`,
+        `U`.`lastNameUser` as `lastName`,
+        `U`.`emailUser` as `email`,
+        `L`.`nameLanguageEnglish` as `mainLanguageName`,
+        `U`.`mainLanguageUser` as `mainLanguageCode`
+
+        FROM `user` as `U`
+        LEFT JOIN `userClasseRelation` as `UCR` ON `U`.`idUser` = `UCR`.`idUser`
+        LEFT JOIN `language` as `L` ON `U`.`mainLanguageUser` = `L`.`codeLanguage`
+
+        WHERE `UCR`.`idClasse` = :idStartup AND `U`.`typeUser` = :typeUser");
+      $statement->bindParam(':idStartup', $id, PDO::PARAM_INT);
+      $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        while ( $en = $statement->fetch(PDO::FETCH_ASSOC) ) {
+          array_push($data, $en);
+        }
+        return $data;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
 
 }
 
