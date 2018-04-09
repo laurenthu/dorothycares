@@ -18,14 +18,26 @@ class Startup {
 
     try {
 
-      $statement = $this->db->prepare("SELECT `nameClasse` as `nameStartup` FROM `classe` as `C` WHERE `C`.`idClasse` = :idStartup LIMIT 0,1");
+      $statement = $this->db->prepare(
+        "SELECT
+        `C`.`nameClasse` as `nameStartup`,
+        `I`.`idImplantation`,
+        `I`.`nameimplantation`
+
+        FROM `classe` as `C`
+        LEFT JOIN `classeImplantationRelation` as `CIR` ON `C`.`idClasse` = `CIR`.`idClasse`
+        LEFT JOIN `implantation` as `I` on `CIR`.`idImplantation` = `I`.`idImplantation`
+
+        WHERE `C`.`idClasse` = :idStartup
+
+        LIMIT 0,1");
       $statement->bindParam(':idStartup', $id, PDO::PARAM_INT);
       $statement->execute();
 
       if( $statement->rowCount() ) {
 
-        $tmp = $statement->fetch(PDO::FETCH_ASSOC);
-        $data['nameStartup'] = $tmp['nameStartup'];
+        //$tmp = $statement->fetch(PDO::FETCH_ASSOC);
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
 
         $statement = null;
         $statement = $this->db->prepare(
