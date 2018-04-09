@@ -49,6 +49,28 @@ class Implantation {
 
   }
 
+  function getImplantationCount() {
+    /*
+    (OUT) int with number of implantation / 0 if no implantation was found
+    */
+    try {
+
+      $statement = $this->db->prepare("SELECT COUNT(`I`.`idImplantation`) as `number` FROM `implantation` as `I`");
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return intval($data['number']);
+      } else {
+        return 0;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+  }
+
   function getImplantationList($start = 0, $number = 25, $orderBy = 'nameimplantation', $orderDir = 'ASC') {
 
     try {
