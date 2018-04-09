@@ -122,10 +122,8 @@
   <!--
   Dev var_dump
     <?php
-      $userInformation = new User($db);
       $s = new Startup($db);
-      //var_dump( $s->getStartupInformation(4) );
-      print_r( $s->getStartupList() );
+      print_r( $s->getStartupInformation(4) );
     ?>
   -->
 
