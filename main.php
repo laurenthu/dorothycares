@@ -123,7 +123,7 @@
   Dev var_dump
     <?php
       $s = new Startup($db);
-      print_r( $s->getStartupInformation(4) );
+      print_r( $s->getStartupCount() );
     ?>
   -->
 
