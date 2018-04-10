@@ -4,7 +4,7 @@ class formHTML {
 
   static public function getFormSelectFromArray ($array,$name,$id,$class,$selected=false,$required=false,$autofocus=false) {
     /*
-    (IN) $array = array of arrays with keys value & name
+    (IN) $array = array of arrays with 2 values 'value' and  'name'
     (IN) $name = name of input SELECT
     (IN) $id = id  of input SELECT
     (IN) $class = class  of input SELECT
