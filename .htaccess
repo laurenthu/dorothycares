@@ -1,6 +1,6 @@
 RewriteEngine On
 Options -MultiViews
-#RewriteBase /
+RewriteBase /
 
 #########
 # HTTPS #
@@ -29,4 +29,7 @@ RewriteRule ^(.*)$ index.php [F,L]
 # Routes #
 ##########
 
-#RewriteRule ^api/([0-9]+)/information/$ api/user.php?idUser=$1&type=informationAboutUser [L,QSA]
+#RewriteRule ^api/coach/$ api/user.php?type=coachUser [L,QSA]
+RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/coach/$ api/user.php?emailUser=$2&tokenUser=$1&type=coachUser [L,QSA]
+RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/implantation/$ api/user.php?emailUser=$2&tokenUser=$1&type=implantationUser [L,QSA]
+RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/startup/$ api/user.php?emailUser=$2&tokenUser=$1&type=startupUser [L,QSA]
