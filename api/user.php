@@ -5,18 +5,22 @@
   //var_dump($_GET);
 
   $json = [];
+  header('Access-Control-Allow-Origin: *');
+  header('Content-type: application/json');
 
   if(!isset($_GET['emailUser']) || !isset($_GET['tokenUser'])) {
+
     $json['request']['status'] = 'error';
     $json['request']['message'] = 'Sorry you can\'t access to this page without the right parameters';
-    header('Access-Control-Allow-Origin: *');
-    header('Content-type: application/json');
     echo json_encode($json);
     die(); // we kill the script
+
   } else {
+
     $email = filter_var($_GET['emailUser'], FILTER_SANITIZE_EMAIL); // Remove all characters except letters, digits and !#$%&'*+-=?^_`{|}~@.[].
     $token = filter_var($_GET['tokenUser'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH); // remove all characters that have a numerical value >127.
     $type = filter_var($_GET['type'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH); // remove all characters that have a numerical value >127.
+
   }
 
   $u = new User($db);
@@ -25,8 +29,6 @@
 
     $json['request']['status'] = 'error';
     $json['request']['message'] = 'Sorry you can\'t access to this page. Your token is invalid.';
-    header('Access-Control-Allow-Origin: *');
-    header('Content-type: application/json');
     echo json_encode($json);
     die(); // we kill the script
 
@@ -42,8 +44,6 @@
       $json['response'] = $coach;
 
       // we return all the information in json
-      header('Access-Control-Allow-Origin: *');
-      header('Content-type: application/json');
       echo json_encode($json);
 
     } elseif ($type == 'implantationUser') {
@@ -54,8 +54,6 @@
       $json['response']['nameImplantation'] = $u->getUserImplantationName($email);
 
       // we return all the information in json
-      header('Access-Control-Allow-Origin: *');
-      header('Content-type: application/json');
       echo json_encode($json);
 
     } elseif ($type == 'startupUser') {
@@ -65,8 +63,6 @@
       $json['response'] = (new Startup($db))->getStartupInformation($u->getUserStartupId($email));
 
       // we return all the information in json
-      header('Access-Control-Allow-Origin: *');
-      header('Content-type: application/json');
       echo json_encode($json);
 
     } elseif ($type == 'informationUser') {
@@ -76,8 +72,6 @@
       $json['response'] = $u->getUserInformation($email);
 
       // we return all the information in json
-      header('Access-Control-Allow-Origin: *');
-      header('Content-type: application/json');
       echo json_encode($json);
 
     }
