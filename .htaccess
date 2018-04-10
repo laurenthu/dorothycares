@@ -36,5 +36,11 @@ RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/startup/$ api/user.php?emailUser=$2
 RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/information/$ api/user.php?emailUser=$2&tokenUser=$1&type=informationUser [L,QSA]
 
 # Implantation
-RewriteRule ^api/implantation/([a-zA-Z0-9]+)/([^/]*)/list/$ api/implentation.php?emailUser=$2&tokenUser=$1&type=implentationList [L,QSA]
-RewriteRule ^api/implantation/([a-zA-Z0-9]+)/([^/]*)/information/([0-9]+)$ api/implentation.php?id=$3&emailUser=$2&tokenUser=$1&type=implentationInformation [L,QSA]
+RewriteRule ^api/implantation/([a-zA-Z0-9]+)/([^/]*)/list/$ api/implantation.php?emailUser=$2&tokenUser=$1&type=implentationList [L,QSA]
+RewriteRule ^api/implantation/([a-zA-Z0-9]+)/([^/]*)/count/$ api/implantation.php?emailUser=$2&tokenUser=$1&type=implentationCount [L,QSA]
+RewriteRule ^api/implantation/([a-zA-Z0-9]+)/([^/]*)/information/([0-9]+)/$ api/implantation.php?id=$3&emailUser=$2&tokenUser=$1&type=implentationInformation [L,QSA]
+
+# Startup
+RewriteRule ^api/startup/([a-zA-Z0-9]+)/([^/]*)/list/$ api/startup.php?emailUser=$2&tokenUser=$1&type=startupList [L,QSA]
+RewriteRule ^api/startup/([a-zA-Z0-9]+)/([^/]*)/count/$ api/startup.php?emailUser=$2&tokenUser=$1&type=startupCount [L,QSA]
+RewriteRule ^api/startup/([a-zA-Z0-9]+)/([^/]*)/information/([0-9]+)/$ api/startup.php?id=$3&emailUser=$2&tokenUser=$1&type=startupInformation [L,QSA]
