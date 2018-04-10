@@ -46,7 +46,7 @@ if( !(new User($db))->checkPassworduser($email,$token) ) {
 
     $json['request']['status'] = 'success';
     $json['request']['message'] = 'Congrats. You have all the requested information.';
-    $json['response'] = (new Startup($db))->getImplantationCount();
+    $json['response'] = (new Implantation($db))->getImplantationCount();
     // we return all the information in json
     echo json_encode($json);
 
