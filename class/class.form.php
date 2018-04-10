@@ -4,13 +4,13 @@ class formHTML {
 
   static public function getFormSelectFromArray ($array,$name,$id,$class,$selected=false,$required=false,$autofocus=false) {
     /*
-    (IN) $array = tableau de valeur
-    (IN) $name = name du champ SELECT
-    (IN) $id = id du champ SELECT
-    (IN) $class = class du champ SELECT
-    (IN) $selected = valeur préselectionné dans le SELECT ou false
-    (IN) $required = boolean si le champ SELECT est obligatoire ou non
-    (IN) $autofocus = boolean si le champ SELECT doit recevoir l'autofocus
+    (IN) $array = array of arrays with keys value & name
+    (IN) $name = name of input SELECT
+    (IN) $id = id  of input SELECT
+    (IN) $class = class  of input SELECT
+    (IN) $selected = preselected value in the SELECT or false
+    (IN) $required = boolean if the SELECT is required
+    (IN) $autofocus = boolean if the SELECT must be in autofocus
     (OUT) HTML code string
     */
 
