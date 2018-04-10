@@ -354,12 +354,12 @@ class User {
         $statement = $this->db->prepare(
           "SELECT
           `O`.`keyOption` as `type`,
-          `UM`.`keyUserMeta` as `key`,
+		      `O`.`valueOption` as `value`,
           `O`.`nameOption` as `name`,
           `UM`.`valueUserMeta` as `value`
 
            FROM `userMeta` as `UM`
-           LEFT JOIN `option` as `O` ON `O`.`valueOption` = `UM`.`keyUserMeta`
+           LEFT JOIN `option` as `O` ON `O`.`idOption` = `UM`.`idOption`
 
            WHERE `UM`.`idUser` = :idUser");
 
