@@ -36,5 +36,6 @@ require_once SCRIPT_DIR.'/class.user.php';
 require_once SCRIPT_DIR.'/class.implantation.php';
 require_once SCRIPT_DIR.'/class.startup.php';
 require_once SCRIPT_DIR.'/class.system.php';
+require_once SCRIPT_DIR.'/class.form.php';
 
 ?>
