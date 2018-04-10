@@ -43,12 +43,12 @@ class Startup {
         $statement = $this->db->prepare(
           "SELECT
           `O`.`keyOption` as `type`,
-          `CM`.`keyClasseMeta` as `key`,
+		      `O`.`valueOption` as `value`,
           `O`.`nameOption` as `name`,
           `CM`.`valueClasseMeta` as `value`
 
-           FROM `classeMeta` as `CM`
-           LEFT JOIN `option` as `O` ON `O`.`valueOption` = `CM`.`keyClasseMeta`
+          FROM `classeMeta` as `CM`
+          LEFT JOIN `option` as `O` ON `O`.`idOption` = `CM`.`idOption`
 
            WHERE `CM`.`idClasse` = :idStartup");
         $statement->bindParam(':idStartup', $id, PDO::PARAM_INT);
