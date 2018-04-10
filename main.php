@@ -122,8 +122,14 @@
   <!--
   Dev var_dump
     <?php
+      $i = new Implantation($db);
       $s = new Startup($db);
-      print_r( $s->getStartupCount() );
+      $u = new User($db);
+      $sy = new System($db);
+      print_r( $u->checkGoogleIdUser($_SESSION['email']) );
+      //print_r( $sy->getCountryList() );
+      //echo formHTML::getFormSelectFromArray( $sy->getCountryList(), 'country', 'country', 'country', 'fr' );
+      var_dump($_SESSION);
     ?>
   -->
 
