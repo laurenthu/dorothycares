@@ -46,6 +46,46 @@ if( !(new User($db))->checkPassworduser($email,$token) ) {
     // we return all the information in json
     echo json_encode($json);
 
+  } elseif ($type == 'startupMember') {
+
+    if ( !isset($_GET['id']) ) {
+
+      $json['request']['status'] = 'error';
+      $json['request']['message'] = 'Sorry you can\'t access to this page. A paramater is missing.';
+      echo json_encode($json);
+      die(); // we kill the script
+
+    } else {
+
+      $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+      $typeUser = filter_var($_GET['typeUser'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH); // remove all characters that have a numerical value >127.
+
+      if ($id == false || $typeUser == false) {
+
+        $json['request']['status'] = 'error';
+        $json['request']['message'] = 'Sorry you can\'t access to this page. A paramater was invalid.';
+        echo json_encode($json);
+        die(); // we kill the script
+
+      } else {
+
+        $json['request']['status'] = 'success';
+        $json['request']['message'] = 'Congrats. You have all the requested information.';
+
+        if ($typeUser == 'all') {
+          $json['response']['learner'] = (new Startup($db))->getStartupMemberList($id,'learner');
+          $json['response']['coach'] = (new Startup($db))->getStartupMemberList($id,'coach');
+          $json['response']['staff'] = (new Startup($db))->getStartupMemberList($id,'staff');
+        } else {
+          $json['response'] = (new Startup($db))->getStartupMemberList($id,$typeUser);
+        }
+        // we return all the information in json
+        echo json_encode($json);
+
+      }
+
+    }
+
   } elseif ($type == 'startupInformation') {
 
     if ( !isset($_GET['id']) ) {
