@@ -354,7 +354,7 @@ class User {
         $statement = $this->db->prepare(
           "SELECT
           `O`.`keyOption` as `type`,
-		      `O`.`valueOption` as `value`,
+		      `O`.`valueOption` as `key`,
           `O`.`nameOption` as `name`,
           `UM`.`valueUserMeta` as `value`
 
