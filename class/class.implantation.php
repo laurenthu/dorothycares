@@ -75,7 +75,6 @@ class Implantation {
 
     try {
 
-      $row = array();
       $statement = $this->db->prepare(
         "SELECT
         `I`.`nameimplantation` as `name`,
@@ -94,10 +93,7 @@ class Implantation {
       $statement->execute();
 
       if($statement->rowCount() > 0) {
-        while ( $en = $statement->fetch(PDO::FETCH_ASSOC) ) {
-          array_push($row, $en);
-        }
-        return $row;
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
       } else {
         return false;
       }
