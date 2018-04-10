@@ -105,7 +105,6 @@ class Startup {
 
     try {
 
-      $data = array();
       $statement = $this->db->prepare(
         "SELECT
         `C`.`idClasse` as `id`,
@@ -123,10 +122,7 @@ class Startup {
       $statement->execute();
 
       if($statement->rowCount() > 0) {
-        while ( $en = $statement->fetch(PDO::FETCH_ASSOC) ) {
-          array_push($data, $en);
-        }
-        return $data;
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
       } else {
         return false;
       }
