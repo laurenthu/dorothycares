@@ -411,6 +411,59 @@ class User {
 
   }
 
+  public function getUserList($start = 0, $number = 25, $typeUser = 'all', $orderBy = 'firstNameUser', $orderDir = 'ASC') {
+    /*
+    (IN) var for the SELECT
+    (OUT) array with information / false if no user was found
+    */
+
+    try {
+
+      $data = array();
+
+      if ($typeUser == 'all') {
+        $where = '';
+      } else {
+        $where = "WHERE `U`.`typeUser` =  '".$typeUser."'";
+      }
+
+      $statement = $this->db->prepare(
+        "SELECT
+        `U`.`idUser` as `id`,
+        `U`.`firstNameUser` as `firstName`,
+        `U`.`lastNameUser` as `lastName` ,
+        `U`.`emailUser` as `email`,
+        `U`.`typeUser` as `type`,
+        `U`.`mainLanguageUser` as `mainLanguageCode`,
+        `L`.`nameLanguageEnglish` as `mainLanguage`
+
+        FROM `user` as `U`
+        LEFT JOIN  `language` AS  `L` ON  `U`.`mainLanguageUser` =  `L`.`codeLanguage`
+
+        ".$where."
+
+        ORDER BY  `U`.`".$orderBy."` ".$orderDir."
+
+        LIMIT ".$start.",".$number);
+
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        while ( $en = $statement->fetch(PDO::FETCH_ASSOC) ) {
+          array_push($data, $en);
+        }
+        return $data;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
 }
 
 ?>
