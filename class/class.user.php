@@ -609,6 +609,31 @@ class User {
 
   }
 
+  public function deleteRandomSaltdUser($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) true is randomSalt was well deleted / false if was not deleted
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `randomSalt` = NULL WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   public function getRandomSaltdUser($emailUser) {
     /*
     (IN) email of the user to check
