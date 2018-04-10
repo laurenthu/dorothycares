@@ -44,6 +44,39 @@ class System {
 
   }
 
+  public function getLanguageList($orderBy = 'nameLanguageEnglish', $orderDir = 'ASC') {
+
+    try {
+
+      $data = array();
+
+      $statement = $this->db->prepare(
+        "SELECT
+        `L`.`codeLanguage` as `value`,
+        `L`.`nameLanguageEnglish` as `name`
+
+        FROM `language` as `L`
+
+        ORDER BY  `L`.`".$orderBy."` ".$orderDir);
+
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        while ( $en = $statement->fetch(PDO::FETCH_ASSOC) ) {
+          array_push($data, $en);
+        }
+        return $data;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
 }
 
 ?>
