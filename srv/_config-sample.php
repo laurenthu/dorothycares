@@ -15,8 +15,12 @@ $db = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER,
 // we start a session
 session_start();
 
+// General constants
+define('SCRIPT_DIR','');
+define('VERSION','');
+
 // we include the GoogeAPI files
-require_once "GoogleAPI/vendor/autoload.php";
+require_once SCRIPT_DIR.'/GoogleAPI/vendor/autoload.php';
 
 // we initialize the Google Client object
 
@@ -27,15 +31,12 @@ $gClient->setApplicationName("");
 $gClient->setRedirectUri("");
 $gClient->addScope("");
 
-// General constants
-define('SCRIPT_DIR','');
-define('VERSION','');
 
 // insert class files
-require_once SCRIPT_DIR.'/class.user.php';
-require_once SCRIPT_DIR.'/class.implantation.php';
-require_once SCRIPT_DIR.'/class.startup.php';
-require_once SCRIPT_DIR.'/class.system.php';
-require_once SCRIPT_DIR.'/class.form.php';
+require_once SCRIPT_DIR.'/class/class.user.php';
+require_once SCRIPT_DIR.'/class/class.implantation.php';
+require_once SCRIPT_DIR.'/class/class.startup.php';
+require_once SCRIPT_DIR.'/class/class.system.php';
+require_once SCRIPT_DIR.'/class/class.form.php';
 
 ?>
