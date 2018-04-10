@@ -2,6 +2,8 @@
 
   require_once "srv/_config.php";
 
+  (new User($db))->deleteRandomSaltdUser($_SESSION['email']);
+
   unset($_SESSION['access_token']);
 
   $gClient->revokeToken();
@@ -11,5 +13,5 @@
   header('Location: index.php');
 
   exit();
-  
+
 ?>
