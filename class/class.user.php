@@ -71,8 +71,8 @@ class User {
       $statement->execute();
 
       if($statement->rowCount()) {
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
-        return $row['information'];
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
       } else {
         return false;
       }
@@ -97,8 +97,8 @@ class User {
       $statement->execute();
 
       if($statement->rowCount()) {
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
-        return $row['information'];
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
       } else {
         return false;
       }
@@ -123,8 +123,8 @@ class User {
       $statement->execute();
 
       if($statement->rowCount()) {
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
-        return $row['information'];
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
       } else {
         return false;
       }
@@ -153,8 +153,8 @@ class User {
       $statement->execute();
 
       if($statement->rowCount()) {
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
-        return $row['information'];
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
       } else {
         return false;
       }
@@ -458,6 +458,275 @@ class User {
     }
 
   }
+
+  public function checkGoogleIdUser($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) true is Google ID is stored / false if Google Id is NULL or no user was found
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `idGoogleUser` as `information` FROM `user` WHERE `emailUser` = :emailUser LIMIT 0,1");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if($statement->rowCount()) {
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        if ( is_null($row['information']) ) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateGoogleIdUser($emailUser,$idGoogleUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) true is Google ID was well saved / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `idGoogleUser` = :idGoogleUser WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':idGoogleUser', $idGoogleUser, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  protected function getGoogleIdUser($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) true return idGoogleUser / false if was not found
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `idGoogleUser` as `information` FROM `user` WHERE `emailUser` = :emailUser LIMIT 0,1");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  protected function generationRandomPassword($length = 25) {
+    $signs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    $pass = array(); //remember to declare $pass as an array
+    $signsLength = strlen($signs) - 1; //put the length -1 in cache
+    for ($i = 0; $i < $length; $i++) {
+      $pass[] = $signs[ rand(0, $signsLength) ];
+    }
+    return implode($pass); //turn the array into a string
+  }
+
+  public function checkRandomSaltdUser($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) true is randomSalt is stored / false if randomSalt is NULL or no user was found
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `randomSalt` as `information` FROM `user` WHERE `emailUser` = :emailUser LIMIT 0,1");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if($statement->rowCount()) {
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        if ( is_null($row['information']) ) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateRandomSaltdUser($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) true is randomSalt was well saved / false if was not stored
+    */
+
+    try {
+
+      $randomSalt = $this->generationRandomPassword(35);
+
+      $statement = $this->db->prepare("UPDATE `user` SET `randomSalt` = :randomSalt WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':randomSalt', $randomSalt, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function getRandomSaltdUser($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) true return randomSalt / false if was not found
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `randomSalt` as `information` FROM `user` WHERE `emailUser` = :emailUser LIMIT 0,1");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  protected function generateUserPassword($emailUser , $randomSalt = NULL) {
+    /*
+    (IN) email of the user to check
+    (OUT) password if password was well generated / false if was not generated
+    */
+
+    $googleId = $this->getGoogleIdUser($emailUser);
+
+    if ( is_null($randomSalt) ) {
+      $randomSalt = $this->getRandomSaltdUser($emailUser);
+    }
+
+    $password = password_hash($emailUser.$googleId.$randomSalt, PASSWORD_DEFAULT);
+
+
+
+    if( $password != false ) {
+      return $password;
+    } else {
+      return false;
+    }
+
+  }
+
+  public function updatePasswordUser($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) password if password was well stored / false if was not stored
+    */
+
+    $passwordUser = $this->generateUserPassword($emailUser);
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `passwordUser` = :passwordUser WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':passwordUser', $passwordUser, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  protected function getPasswordUser($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) true return passwordUser / false if was not found
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `passwordUser` as `information` FROM `user` WHERE `emailUser` = :emailUser LIMIT 0,1");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function checkPassworduser($emailUser,$randomSalt) {
+    /*
+    (IN) email of the user to check
+    (IN) $ramdonSalt of the user to check
+    (OUT) true return is password math / false if not
+    */
+    $hashOriginal = $this->getPasswordUser($emailUser);
+    $googleId = $this->getGoogleIdUser($emailUser);
+    $passwordToTest = $emailUser.$googleId.$randomSalt;
+
+    return password_verify($passwordToTest, $hashOriginal);
+
+  }
+
 
 }
 
