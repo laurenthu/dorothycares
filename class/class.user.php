@@ -297,6 +297,32 @@ class User {
 
   }
 
+  public function updateUserType($emailUser,$typeUser) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `typeUser` = :typeUser WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $typeUser;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   public function getUserStartupName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
