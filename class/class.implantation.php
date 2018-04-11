@@ -110,7 +110,7 @@ class Implantation {
   public function addImplantation($name,$street = NULL, $postalCode = NULL, $city = NULL, $countryCode = NULL) {
     /*
     (IN) email of the user to check
-    (OUT) return true is insertion was well done / false if not
+    (OUT) return last id is insertion was well done / false if not
     */
 
     try {
@@ -124,7 +124,7 @@ class Implantation {
       $statement->execute();
 
       if( $statement->rowCount() ) {
-        return true;
+        return $this->db->lastInsertId();
       } else {
         return false;
       }
