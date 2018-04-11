@@ -58,6 +58,33 @@ class User {
 
   }
 
+  public function getUserId($emailUser) {
+    /*
+    (IN) $emailUser: email of the user for which we want to collect the data
+    (OUT) string if a data is found, NULL if a data is found but empty, false if no user was found
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `idUser` as `information` FROM `user` WHERE `emailUser` = :emailUser LIMIT 0,1");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if($statement->rowCount()) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+
   public function getUserFirstName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
@@ -820,13 +847,40 @@ class User {
     /*
     (IN) email of the user to check
     (IN) $ramdonSalt of the user to check
-    (OUT) true return is password math / false if not
+    (OUT)return true is password match / false if not
     */
     $hashOriginal = $this->getPasswordUser($emailUser);
     $googleId = $this->getGoogleIdUser($emailUser);
     $passwordToTest = $emailUser.$googleId.$randomSalt;
 
     return password_verify($passwordToTest, $hashOriginal);
+
+  }
+
+  public function addUserLog($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) return true is insertion was well done / false if not
+    */
+
+    try {
+
+      $id = $this->getUserId($emailUser);
+      $statement = $this->db->prepare("INSERT INTO `userLog` (`idLog`,`idUser`,`timeLog`) VALUES (NULL,:idUser, NOW())");
+      $statement->bindParam(':idUser', $id, PDO::PARAM_INT);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
 
   }
 
