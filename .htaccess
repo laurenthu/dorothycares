@@ -52,7 +52,7 @@ RewriteRule ^api/startup/([a-zA-Z0-9]+)/([^/]*)/information/([0-9]+)/$ api/start
 ###############
 <IfModule mod_deflate.c>
     ## Gzip compression by default
-    ## Compression ration is defined by the browsert to improve compatibility
+    ## Compression ratio is defined by the browsert to improve compatibility
     AddOutputFilterByType DEFLATE text/plain
     AddOutputFilterByType DEFLATE text/html
     AddOutputFilterByType DEFLATE text/xml
