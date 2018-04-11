@@ -211,6 +211,31 @@ class Startup {
 
   }
 
+  public function addStartup($name) {
+    /*
+    (IN) email of the user to check
+    (OUT) return true is insertion was well done / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("INSERT INTO `classe` (`idClasse`,`nameClasse`) VALUES (NULL,:name)");
+      $statement->bindParam(':name', $name, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
 
 }
 
