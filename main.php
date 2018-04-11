@@ -5,7 +5,7 @@
     header('Location: login.php');
     exit();
   }
-  
+
 ?>
 <!doctype html>
 <html class="no-js" lang="">
@@ -122,7 +122,7 @@
       //print_r( $u->checkGoogleIdUser($_SESSION['email']) );
       //print_r( $sy->getCountryList() );
       //echo formHTML::getFormSelectFromArray( $sy->getCountryList(), 'country', 'country', 'country', 'fr' );
-      //var_dump($s->addStartup('Test'));
+      //var_dump($u->addUser('toto@gmail.com'));
       var_dump($_SESSION);
     ?>
   -->
