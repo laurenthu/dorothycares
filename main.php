@@ -1,5 +1,11 @@
 <?php
   require_once "srv/_config.php";
+
+  if (!isset($_SESSION['access_token'])) {
+    header('Location: login.php');
+    exit();
+  }
+  
 ?>
 <!doctype html>
 <html class="no-js" lang="">
