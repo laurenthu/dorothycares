@@ -126,9 +126,10 @@
       $s = new Startup($db);
       $u = new User($db);
       $sy = new System($db);
-      print_r( $u->checkGoogleIdUser($_SESSION['email']) );
+      //print_r( $u->checkGoogleIdUser($_SESSION['email']) );
       //print_r( $sy->getCountryList() );
       //echo formHTML::getFormSelectFromArray( $sy->getCountryList(), 'country', 'country', 'country', 'fr' );
+      //var_dump($s->addStartup('Test'));
       var_dump($_SESSION);
     ?>
   -->
