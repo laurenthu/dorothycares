@@ -2,13 +2,13 @@
 
 class Implantation {
 
-  public $db;
+  // protected $db;
 
-  function __construct($db) {
+  public function __construct($db) {
     $this->db = $db;
   }
 
-  function getImplantationInformation($id) {
+  public function getImplantationInformation($id) {
     /*
     (IN) $id(int): id of the implantation for which we want to collect the data
     (OUT) array with information / false if no implantation was found
@@ -49,11 +49,32 @@ class Implantation {
 
   }
 
-  function getImplantationList($start = 0, $number = 25, $orderBy = 'nameimplantation', $orderDir = 'ASC') {
+  public function getImplantationCount() {
+    /*
+    (OUT) int with number of implantation / 0 if no implantation was found
+    */
+    try {
+
+      $statement = $this->db->prepare("SELECT COUNT(`I`.`idImplantation`) as `number` FROM `implantation` as `I`");
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return intval($data['number']);
+      } else {
+        return 0;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+  }
+
+  public function getImplantationList($start = 0, $number = 25, $orderBy = 'nameimplantation', $orderDir = 'ASC') {
 
     try {
 
-      $row = array();
       $statement = $this->db->prepare(
         "SELECT
         `I`.`nameimplantation` as `name`,
@@ -72,10 +93,7 @@ class Implantation {
       $statement->execute();
 
       if($statement->rowCount() > 0) {
-        while ( $en = $statement->fetch(PDO::FETCH_ASSOC) ) {
-          array_push($row, $en);
-        }
-        return $row;
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
       } else {
         return false;
       }
