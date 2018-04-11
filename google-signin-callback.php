@@ -31,6 +31,7 @@
     if( !$u->checkGoogleIdUser($userData['email']) ) {
       $u->updateGoogleIdUser($userData['email'],$userData['id']);
     }
+    $u->addUserLog($userData['email']);
     $u->updateRandomSaltdUser($userData['email']);
     $u->updatePasswordUser($userData['email']);
 
