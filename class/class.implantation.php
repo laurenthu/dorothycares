@@ -107,6 +107,35 @@ class Implantation {
 
   }
 
+  public function addImplantation($name,$street = NULL, $postalCode = NULL, $city = NULL, $countryCode = NULL) {
+    /*
+    (IN) email of the user to check
+    (OUT) return true is insertion was well done / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("INSERT INTO `implantation` (`idImplantation`,`nameimplantation`,`streetimplantation`,`postalCodeimplantation`,`cityimplantation`,`countryCodeimplantation`) VALUES (NULL,:name,:street,:postalCode,:city,:countryCode)");
+      $statement->bindParam(':name', $name, PDO::PARAM_STR);
+      $statement->bindParam(':street', $street, PDO::PARAM_STR);
+      $statement->bindParam(':postalCode', $postalCode, PDO::PARAM_STR);
+      $statement->bindParam(':city', $city, PDO::PARAM_STR);
+      $statement->bindParam(':countryCode', $countryCode, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
 }
 
 ?>
