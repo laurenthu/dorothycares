@@ -9,18 +9,18 @@
   //   exit();
   // }
 
-  $i = new Implantation($db);
-  $iCount = $i->getImplantationCount(); // number of implantations
-  $iNumberResults = 1; // you can change the number of results displayed here
+  $iCount = (new Implantation($db))->getImplantationCount(); // number of implantations
+  $iNumberResults = 10; // you can change the number of results displayed here
   $iPageCount = ceil($iCount / $iNumberResults); // number of pages for the pagination
-  $iStartList = $i->getImplantationList(0, $iNumberResults, 'nameimplantation', 'ASC'); // results showed on the first page
 
-  $getClasse = $db->prepare("SELECT * FROM classe");
-  $getClasse->execute();
+  $sCount = (new Startup($db))->getStartupCount(); // number of startups
+  $sNumberResults = 10; // you can change the number of results displayed here
+  $sPageCount = ceil($sCount / $sNumberResults); // number of pages for the pagination
 
-  $getUser = $db->prepare("SELECT * FROM user");
-  $getUser->execute();
-// ?>
+  $uCount = (new User($db))->getUserCount(); // number of users
+  $uNumberResults = 10; // you can change the number of results displayed here
+  $uPageCount = ceil($uCount / $uNumberResults); // number of pages for the pagination
+ ?>
 
 <!DOCTYPE html>
 <html>
@@ -36,9 +36,9 @@
     <div class="row">
       <div class="col s12">
         <ul class="tabs">
-          <li class="tab col s3"><a class="active" href="#implantation">Implantation</a></li>
-          <li class="tab col s3"><a href="#startup">Startup</a></li>
-          <li class="tab col s3"><a href="#utilisateur">Utilisateur</a></li>
+          <li id="implantationTab" class="tab col s3"><a class="active" href="#implantation" data-type="implantation">Implantation</a></li>
+          <li id="startupTab" class="tab col s3"><a href="#startup" data-type="startup">Startup</a></li>
+          <li id="userTab" class="tab col s3"><a href="#utilisateur" data-type="user">Utilisateur</a></li>
         </ul>
       </div>
       <div id="implantation" class="col s12">
@@ -51,46 +51,24 @@
               <th>Adresse</th>
               <th>Code postal</th>
               <th>Ville</th>
+              <th>Pays</th>
               <th>Code pays</th>
             </tr>
           </thead>
 
-          <tbody id="displayTable">
-            <?php
-            foreach ($iStartList as $value) {
-              echo '<tr>
-                      <td>'.
-                        $value['name']
-                      . '</td>
-                      <td>'.
-                        $value['street']
-                      . '</td>
-                      <td>'.
-                        $value['postalCode']
-                      . '</td>
-                      <td>'.
-                        $value['city']
-                      . '</td>
-                      <td>'.
-                        $value['country']
-                      . '</td>
-                      <td>'.
-                        $value['codeCountry']
-                      . '</td>
-                    </tr>';
-            }
-            ?>
+          <tbody id="implantationTable">
+            <!-- Table created with ajax request -->
           </tbody>
 
         </table>
 
-        <ul class="pagination implantationPage">
+        <ul class="pagination implantationPage" data-itemPerPage="<?php echo  $iNumberResults ?>" data-type="implantation">
           <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active"><a href="#!">1</a></li>
+          <li class="active" data-start="0"><a href="#!">1</a></li>
           <?php
             if ($iPageCount > 1) {
-              for ($i = 2; $i <= $iPageCount; $i++) {
-                echo '<li class="waves-effect"><a href="#!">' . $i . '</a></li>';
+              for ($i = 2, $start = $iNumberResults; $i <= $iPageCount; $i++, $start += $iNumberResults) {
+                echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
               };
             };
           ?>
@@ -109,24 +87,23 @@
             </tr>
           </thead>
 
-          <tbody>
-            <?php
-            while ($row = $getClasse->fetch(PDO::FETCH_ASSOC)) {
-              echo '<tr>
-                      <td>'.
-                        $row['nameClasse']
-                      . '</td>
-                    </tr>';
-            }
-            ?>
+          <tbody id="startupTable">
+            <!-- Table created with ajax request -->
           </tbody>
 
         </table>
-        <ul class="pagination classePage">
-          <li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active"><a href="#">1</a></li>
-          <li class="waves-effect"><a href="#">2</a></li>
-          <li class="waves-effect"><a href="#"><i class="material-icons">chevron_right</i></a></li>
+
+        <ul class="pagination startupPage" data-itemPerPage="<?php echo  $sNumberResults ?>" data-type="startup">
+          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active" data-start="0"><a href="#!">1</a></li>
+          <?php
+            if ($sPageCount > 1) {
+              for ($i = 2, $start = $sNumberResults; $i <= $sPageCount; $i++, $start += $sNumberResults) {
+                echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
+              };
+            };
+          ?>
+          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
 
       </div>
@@ -145,37 +122,23 @@
             </tr>
           </thead>
 
-          <tbody>
-            <?php
-            while ($row = $getUser->fetch(PDO::FETCH_ASSOC)) {
-              echo '<tr>
-                      <td>'.
-                        $row['firstNameUser']
-                      . '</td>
-                      <td>'.
-                        $row['lastNameUser']
-                      . '</td>
-                      <td>'.
-                        $row['emailUser']
-                      . '</td>
-                      <td>'.
-                        $row['typeUser']
-                      . '</td>
-                      <td>'.
-                        $row['mainLanguageUser']
-                      . '</td>
-                    </tr>';
-            }
-            ?>
+          <tbody id="userTable">
+            <!-- Table created with ajax request -->
           </tbody>
 
         </table>
 
-        <ul class="pagination userPage">
-          <li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active"><a href="#">1</a></li>
-          <li class="waves-effect"><a href="#">2</a></li>
-          <li class="waves-effect"><a href="#"><i class="material-icons">chevron_right</i></a></li>
+        <ul class="pagination userPage" data-itemPerPage="<?php echo  $uNumberResults ?>" data-type="user">
+          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active" data-start="0"><a href="#!">1</a></li>
+          <?php
+            if ($uPageCount > 1) {
+              for ($i = 2, $start = $uNumberResults; $i <= $uPageCount; $i++, $start += $uNumberResults) {
+                echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
+              };
+            };
+          ?>
+          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
 
       </div>
