@@ -224,7 +224,7 @@ class Startup {
       $statement->execute();
 
       if( $statement->rowCount() ) {
-        return $this->db->lastInsertId();;
+        return $this->db->lastInsertId();
       } else {
         return false;
       }
