@@ -871,8 +871,7 @@ class User {
       $statement->execute();
 
       if( $statement->rowCount() ) {
-        $data = $statement->fetch(PDO::FETCH_ASSOC);
-        return $data['information'];
+        return true;
       } else {
         return false;
       }
