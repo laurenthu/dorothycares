@@ -188,6 +188,32 @@ class User {
 
   }
 
+  public function updateUserMainLanguageCode($emailUser,$languageCode) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `mainLanguageUser` = :languageCode WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $languageCode;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   public function getUserMainLanguageName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
