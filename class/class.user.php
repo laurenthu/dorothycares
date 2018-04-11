@@ -84,6 +84,32 @@ class User {
 
   }
 
+  public function updateUserFirstName($emailUser,$firstName) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `firstNameUser` = :firstName WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $firstName;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   public function getUserLastName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
@@ -99,6 +125,32 @@ class User {
       if($statement->rowCount()) {
         $data = $statement->fetch(PDO::FETCH_ASSOC);
         return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateUserLastName($emailUser,$lastName) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `lastNameUser` = :lastName WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $lastName;
       } else {
         return false;
       }
