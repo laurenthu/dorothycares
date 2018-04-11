@@ -18,6 +18,7 @@ class Implantation {
 
       $statement = $this->db->prepare(
         "SELECT
+        `I`.`idImplantation` as `id`,
         `I`.`nameimplantation` as `name`,
         `I`.`streetimplantation` as `street`,
         `I`.`postalCodeimplantation` as `postalCode`,
@@ -77,6 +78,7 @@ class Implantation {
 
       $statement = $this->db->prepare(
         "SELECT
+        `I`.`idImplantation` as `id`,
         `I`.`nameimplantation` as `name`,
         `I`.`streetimplantation` as `street`,
         `I`.`postalCodeimplantation` as `postalCode`,
