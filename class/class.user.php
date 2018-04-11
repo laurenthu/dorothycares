@@ -883,6 +883,33 @@ class User {
 
   }
 
+  public function addUser($email,$languageCode = 'en', $typeUser = 'learner') {
+    /*
+    (IN) email of the user to check
+    (OUT) return ID of the user is insertion was well done / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("INSERT INTO `user` (`idUser`,`idGoogleUser`,`randomSalt`,`passwordUser`,`emailUser`,`firstNameUser`,`lastNameUser`,`mainLanguageUser`,`typeUser`) VALUES (NULL,NULL,NULL,NULL,:email,NULL,NULL,:languageCode,:typeUser)");
+      $statement->bindParam(':email', $email, PDO::PARAM_STR);
+      $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
+      $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $this->db->lastInsertId();
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
 
 }
 
