@@ -909,13 +909,18 @@ class User {
 
   }
 
-  public function addUser($email,$languageCode = 'en', $typeUser = 'learner') {
+  public function addUser($email,$startupId = false, $typeUser = 'learner',$languageCode = 'en') {
     /*
-    (IN) email of the user to check
+    (IN) [string] $email: of the user to check
+    (IN) [integer/boolean]: $startupId. An integer with the id of the startup
+    (IN) [string] $typeUser: type of user
+    (IN) [string(2)] $languageCode: the language of the user
     (OUT) return ID of the user is insertion was well done / false if not
     */
 
     try {
+
+      $this->db->beginTransaction();
 
       $statement = $this->db->prepare("INSERT INTO `user` (`idUser`,`idGoogleUser`,`randomSalt`,`passwordUser`,`emailUser`,`firstNameUser`,`lastNameUser`,`mainLanguageUser`,`typeUser`) VALUES (NULL,NULL,NULL,NULL,:email,NULL,NULL,:languageCode,:typeUser)");
       $statement->bindParam(':email', $email, PDO::PARAM_STR);
@@ -923,13 +928,24 @@ class User {
       $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
       $statement->execute();
 
-      if( $statement->rowCount() ) {
-        return $this->db->lastInsertId();
+      $idUser = $this->db->lastInsertId();
+
+      if ($startupId != false) {
+        $statement = $this->db->prepare("INSERT INTO `userClasseRelation` (`idUserClasseRelation`,`idUser`,`idClasse`) VALUES (NULL,:idUser,:idStartup)");
+        $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $statement->bindParam(':idStartup', $startupId, PDO::PARAM_INT);
+        $statement->execute();
+      }
+
+      if( $this->db->commit() ) { // if all is ok, we validate the transaction and check the validation is good
+        return $idUser; // we return the ID od the new user
       } else {
         return false;
       }
 
     } catch (PDOException $e) {
+      $this->db->rollback();
+      $statement = null;
       print "Error !: " . $e->getMessage() . "<br/>";
       die();
     }
