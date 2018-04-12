@@ -952,6 +952,29 @@ class User {
 
   }
 
+  public function addMultipleUser($arrayEmail,$startupId = false, $typeUser = 'learner', $languageCode = 'en') {
+    /*
+    (IN) [string] $arrayEmail: array of email addresses to add
+    (IN) [integer/boolean]: $startupId. An integer with the id of the startup or false is no startup
+    (IN) [string] $typeUser: type of user
+    (IN) [string(2)] $languageCode: the language of the user
+    (OUT) return email of the users were the insertion failed or true if everything is ok
+    */
+    $errors = [];
+
+    foreach($arrayEmail as $key => $value) {
+      if ( $this->addUser($value, $startupId, $typeUser,$languageCode) == false ) {
+        array_push($errors,$value);
+      }
+    }
+
+    if ( count($errors) == 0 ) {
+      return true;
+    } else {
+      return $errors;
+    }
+
+  }
 
 }
 
