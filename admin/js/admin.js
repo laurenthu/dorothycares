@@ -1,25 +1,65 @@
 // Elements selection and variables creation
+
 let tableBodyImplantation = document.querySelector('#implantationTable'); // Implantations table
 let tableBodyStartup = document.querySelector('#startupTable'); // Startups table
 let tableBodyUser = document.querySelector('#userTable'); // Users table
+
 let start; // the result from which we begin displaying
-let itemPerPage; // the numbe of results displayed
+let itemPerPage; // Init of the variable for the number of results displayed
+
+// Determine the number of items displayed per page for each type of content
 let itemPerPageImplantation = document.querySelector('.implantationPage').getAttribute('data-itemPerPage');
 let itemPerPageStartup = document.querySelector('.startupPage').getAttribute('data-itemPerPage');
 let itemPerPageUser = document.querySelector('.userPage').getAttribute('data-itemPerPage');
+
+// select the content tabs
 let implantationTab = document.querySelector('#implantationTab');
 let startupTab = document.querySelector('#startupTab');
 let userTab = document.querySelector('#userTab');
 let tabLinks = document.querySelectorAll('.tabs li a');
 
-// AJAXrequest
-let feed = 'ajax.php';
-let dataRequest = new XMLHttpRequest();
+// select buttons that open content creation modals
+let implantationAddModalOpener = document.querySelector('#implantationModalButton');
+let startupAddModalOpener = document.querySelector('#startupModalButton');
+let userAddModalOpener = document.querySelector('#userModalButton');
 
-function whenDataLoaded() { // what happens when the AJAX request is done
-  let dataText = dataRequest.responseText; // we store the text of the response
+// select buttons which add content
+let addImplantationButton = document.querySelector('#addImplantation');
+let addStartupButton = document.querySelector('#addStartup');
+let addUserButton = document.querySelector('#addUser');
+
+// AJAX requests
+let feed = 'ajax.php';
+let dataRequestDisplayContent = new XMLHttpRequest();
+let dataRequestCreateContent = new XMLHttpRequest();
+
+function ajaxRequestDisplayContent(range) { // ajax request
+  type = range[0].parentElement.getAttribute('data-type');
+  start = startResults(range);
+  if (type == 'implantation') {
+    itemPerPage = itemPerPageImplantation;
+  } else if (type == 'startup') {
+    itemPerPage = itemPerPageStartup;
+  } else if (type == 'user') {
+    itemPerPage = itemPerPageUser;
+  }
+  dataRequestDisplayContent.onload = whenDataLoadedDisplayContent; // we assign the function to excecute when the data are loading
+  dataRequestDisplayContent.open("GET", feed + '?start=' + start + '&itemPerPage=' + itemPerPage + '&type=' + type, true); // the type, the url, asynchronous true/false
+  dataRequestDisplayContent.send(null); // we send the request
+}
+
+// function ajaxRequestCreateContent(button) {
+//   action = button.getAttribute('data-action');
+//   type = button.getAttribute('data-type');
+//
+//   dataRequestCreateContent.onload = whenDataLoadedCreateContent; // we assign the function to excecute when the data are loading
+//   dataRequestCreateContent.open("GET", feed + '?type=' + type + '&action=' + action, true); // the type, the url, asynchronous true/false
+//   dataRequestCreateContent.send(null);
+// };
+
+function whenDataLoadedDisplayContent() { // what happens when the AJAX request is done
+  let dataText = dataRequestDisplayContent.responseText; // we store the text of the response
   dataObject = JSON.parse(dataText); // we convert the text into an object
-  console.log(dataObject);
 
   let type = tabType();
   let tableContent = '';
@@ -36,14 +76,14 @@ function whenDataLoaded() { // what happens when the AJAX request is done
       tableContent += '</tr>';
     });
     tableBodyImplantation.innerHTML = tableContent;
-  } else if (type == 'startup') {
+  } else if (type == 'startup') { // generate startup table
     dataObject['response'].forEach(function(el) {
       tableContent += '<tr>';
       tableContent += '<td data-id="' + el['id'] + '">'+ el['name'] + '</td>';
       tableContent += '</tr>';
     });
     tableBodyStartup.innerHTML = tableContent;
-  } else if (type == 'user') {
+  } else if (type == 'user') { // generate user table
     dataObject['response'].forEach(function(el) {
       tableContent += '<tr>';
       tableContent += '<td data-id="' + el['id'] + '">'+ el['firstName'] + '</td>';
@@ -57,9 +97,20 @@ function whenDataLoaded() { // what happens when the AJAX request is done
   }
 };
 
+// function whenDataLoadedCreateContent() { // what happens when the AJAX request is done
+//   let dataText = dataRequestCreateContent.responseText; // we store the text of the response
+//   dataObject = JSON.parse(dataText); // we convert the text into an object
+// };
+
 // Materialize
 let tabs = document.querySelectorAll('.tabs'); // select tabs
-var instance = M.Tabs.init(tabs); // Materialize tabs
+var instanceTabs = M.Tabs.init(tabs); // Materialize tabs
+
+let modals = document.querySelectorAll('.modal'); // select modals
+var instanceModals = M.Modal.init(modals); // Materialize modals
+
+let selects = document.querySelectorAll('select'); // select selects
+var instanceSelects = M.FormSelect.init(selects); // Materialize selects
 
 // Pagination
 let paginationImplantation = document.querySelectorAll('.implantationPage li'); // select implantation pagination elements
@@ -102,7 +153,7 @@ function paginationNumbers(range) { // page numbers JS
       this.classList.remove('waves-effect');
       previousButtonDisableOrEnable(range);
       nextButtonDisableOrEnable(range);
-      ajaxRequest(range);
+      ajaxRequestDisplayContent(range);
     });
   };
 };
@@ -118,7 +169,7 @@ function previousPage(range) { // previous page button JS
       previousButtonDisableOrEnable(range);
       nextButtonDisableOrEnable(range);
     };
-    ajaxRequest(range);
+    ajaxRequestDisplayContent(range);
   });
 };
 
@@ -133,20 +184,9 @@ function nextPage(range) { // next page button JS
       nextButtonDisableOrEnable(range);
       previousButtonDisableOrEnable(range);
     };
-    ajaxRequest(range);
+    ajaxRequestDisplayContent(range);
   });
 };
-
-
-function paginationDisplay(range) { // Global JS for the pagination
-  paginationNumbers(range);
-  previousPage(range);
-  nextPage(range);
-};
-
-paginationDisplay(paginationImplantation); // Call the function with list elements (defined earlier) as parameter
-paginationDisplay(paginationStartup); // Call the function with list elements (defined earlier) as parameter
-paginationDisplay(paginationUser); // Call the function with list elements (defined earlier) as parameter
 
 function startResults(range) { // Define from which position the results are dislayed
   for (i = 1; i < (range.length - 1); i++) {
@@ -156,7 +196,7 @@ function startResults(range) { // Define from which position the results are dis
   };
 };
 
-function tabType () {
+function tabType () { // determine the type of content
   for (i = 0; i < tabLinks.length; i++) {
     if (tabLinks[i].classList.contains('active')) {
       return tabLinks[i].getAttribute('data-type');
@@ -164,38 +204,66 @@ function tabType () {
   };
 };
 
-function ajaxRequest(range) {
-  type = range[0].parentElement.getAttribute('data-type');
-  start = startResults(range);
-  if (type == 'implantation') {
-    itemPerPage = itemPerPageImplantation;
-  } else if (type == 'startup') {
-    itemPerPage = itemPerPageStartup;
-  } else if (type == 'user') {
-    itemPerPage = itemPerPageUser;
-  }
-  dataRequest.onload = whenDataLoaded; // we assign the function to excecute when the data are loading
-  dataRequest.open("GET", feed + '?start=' + start + '&itemPerPage=' + itemPerPage + '&type=' + type, true); // the type, the url, asynchronous true/false
-  dataRequest.send(null); // we send the request
+function paginationDisplay(range) { // Global JS for the pagination
+  paginationNumbers(range);
+  previousPage(range);
+  nextPage(range);
+};
+
+function allPaginationDisplay () {
+  paginationDisplay(paginationImplantation); // Call the function with list elements (defined earlier) as parameter
+  paginationDisplay(paginationStartup); // Call the function with list elements (defined earlier) as parameter
+  paginationDisplay(paginationUser); // Call the function with list elements (defined earlier) as parameter
 }
 
+allPaginationDisplay();
+
+
+
 // Event Listeners
-window.addEventListener('load', function() {
+window.addEventListener('load', function() { // implantations displayed on load
   nextButtonDisableOrEnable(paginationImplantation);
-  ajaxRequest(paginationImplantation);
+  ajaxRequestDisplayContent(paginationImplantation);
 });
 
-implantationTab.addEventListener('click', function() {
+implantationTab.addEventListener('click', function() { // display implantations on tab click
   nextButtonDisableOrEnable(paginationImplantation);
-  ajaxRequest(paginationImplantation);
+  ajaxRequestDisplayContent(paginationImplantation);
 });
 
-startupTab.addEventListener('click', function() {
+startupTab.addEventListener('click', function() { // display startups on tab click
   nextButtonDisableOrEnable(paginationStartup);
-  ajaxRequest(paginationStartup);
+  ajaxRequestDisplayContent(paginationStartup);
 });
 
-userTab.addEventListener('click', function() {
+userTab.addEventListener('click', function() { // display users on tab click
   nextButtonDisableOrEnable(paginationUser);
-  ajaxRequest(paginationUser);
+  ajaxRequestDisplayContent(paginationUser);
 });
+
+// addImplantationButton.addEventListener('click', function () { // Add an implantation
+//
+//
+//   // Refresh displays
+//   allPaginationDisplay();
+//   nextButtonDisableOrEnable(paginationImplantation);
+//   ajaxRequestDisplayContent(paginationImplantation);
+// });
+//
+// addStartupButton.addEventListener('click', function () { // Add a startup
+//
+//
+//   // Refresh displays
+//   allPaginationDisplay();
+//   nextButtonDisableOrEnable(paginationStartup);
+//   ajaxRequestDisplayContent(paginationStartup);
+// });
+//
+// addUserButton.addEventListener('click', function () { // Add an User
+//
+//
+//   // Refresh displays
+//   allPaginationDisplay();
+//   nextButtonDisableOrEnable(paginationUser);
+//   ajaxRequestDisplayContent(paginationUser);
+// });

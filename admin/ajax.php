@@ -5,17 +5,17 @@
   header('Access-Control-Allow-Origin: *');
   header('Content-type: application/json');
 
-if (isset($_GET['type']) && is_string($_GET['type'])) {
+if (isset($_GET['type']) && is_string($_GET['type'])) { // Security checks
 
-  if ($_GET['type'] == 'implantation') {
+  if ($_GET['type'] == 'implantation') { // Determine type of content
 
-    if (isset($_GET['start']) && is_int(intval($_GET['start'])) && isset($_GET['itemPerPage']) && is_int(intval($_GET['itemPerPage']))) {
+    if (isset($_GET['start']) && is_int(intval($_GET['start'])) && isset($_GET['itemPerPage']) && is_int(intval($_GET['itemPerPage']))) { // Security checks
       $imp = new Implantation($db);
       $impCount = $imp->getImplantationCount(); // number of implantations
       $impPageCount = ceil($impCount / $_GET['itemPerPage']); // number of pages for the pagination
       $json['request']['status'] = 'success';
       $json['request']['message'] = 'Congrats. You have all the requested information.';
-      $json['response'] = $imp->getImplantationList($_GET['start'], $_GET['itemPerPage'], 'nameimplantation', 'ASC'); // results showed on the first page
+      $json['response'] = $imp->getImplantationList($_GET['start'], $_GET['itemPerPage'], 'nameimplantation', 'ASC'); // results showed on the page
       echo json_encode($json);
       die(); // we kill the script
     } else {
@@ -25,15 +25,15 @@ if (isset($_GET['type']) && is_string($_GET['type'])) {
       die(); // we kill the script
     }
 
-  } elseif ($_GET['type'] == 'startup') {
+  } elseif ($_GET['type'] == 'startup') { // Determine type of content
 
-    if (isset($_GET['start']) && is_int(intval($_GET['start'])) && isset($_GET['itemPerPage']) && is_int(intval($_GET['itemPerPage']))) {
+    if (isset($_GET['start']) && is_int(intval($_GET['start'])) && isset($_GET['itemPerPage']) && is_int(intval($_GET['itemPerPage']))) { // Security checks
       $sta = new Startup($db);
       $staCount = $sta->getStartupCount(); // number of implantations
       $staPageCount = ceil($staCount / $_GET['itemPerPage']); // number of pages for the pagination
       $json['request']['status'] = 'success';
       $json['request']['message'] = 'Congrats. You have all the requested information.';
-      $json['response'] = $sta->getStartupList($_GET['start'], $_GET['itemPerPage'], 'nameClasse', 'ASC'); // results showed on the first page
+      $json['response'] = $sta->getStartupList($_GET['start'], $_GET['itemPerPage'], 'nameClasse', 'ASC'); // results showed on the page
       echo json_encode($json);
       die(); // we kill the script
     } else {
@@ -43,15 +43,15 @@ if (isset($_GET['type']) && is_string($_GET['type'])) {
       die(); // we kill the script
     }
 
-  } elseif ($_GET['type'] == 'user') {
+  } elseif ($_GET['type'] == 'user') { // Determine type of content
 
-    if (isset($_GET['start']) && is_int(intval($_GET['start'])) && isset($_GET['itemPerPage']) && is_int(intval($_GET['itemPerPage']))) {
+    if (isset($_GET['start']) && is_int(intval($_GET['start'])) && isset($_GET['itemPerPage']) && is_int(intval($_GET['itemPerPage']))) { // Security checks
       $use = new User($db);
       $useCount = $use->getUserCount(); // number of implantations
       $usePageCount = ceil($useCount / $_GET['itemPerPage']); // number of pages for the pagination
       $json['request']['status'] = 'success';
       $json['request']['message'] = 'Congrats. You have all the requested information.';
-      $json['response'] = $use->getUserList($_GET['start'], $_GET['itemPerPage'], 'all', 'firstNameUser', 'ASC'); // results showed on the first page
+      $json['response'] = $use->getUserList($_GET['start'], $_GET['itemPerPage'], 'all', 'firstNameUser', 'ASC'); // results showed on the page
       echo json_encode($json);
       die(); // we kill the script
     } else {

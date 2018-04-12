@@ -38,7 +38,7 @@
         <ul class="tabs">
           <li id="implantationTab" class="tab col s3"><a class="active" href="#implantation" data-type="implantation">Implantation</a></li>
           <li id="startupTab" class="tab col s3"><a href="#startup" data-type="startup">Startup</a></li>
-          <li id="userTab" class="tab col s3"><a href="#utilisateur" data-type="user">Utilisateur</a></li>
+          <li id="userTab" class="tab col s3"><a href="#utilisateur" data-type="user">User</a></li>
         </ul>
       </div>
       <div id="implantation" class="col s12">
@@ -47,12 +47,12 @@
 
           <thead>
             <tr>
-              <th>Nom</th>
-              <th>Adresse</th>
-              <th>Code postal</th>
-              <th>Ville</th>
-              <th>Pays</th>
-              <th>Code pays</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Postal Code</th>
+              <th>City</th>
+              <th>Country</th>
+              <th>Country Code</th>
             </tr>
           </thead>
 
@@ -74,6 +74,9 @@
           ?>
           <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
+        <div class="addButtonContainer" data-action="add" data-type="implantation">
+          <a href="#implantationAddModal" id="implantationModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
+        </div>
 
       </div>
 
@@ -83,7 +86,7 @@
 
           <thead>
             <tr>
-              <th>Nom</th>
+              <th>Name</th>
             </tr>
           </thead>
 
@@ -105,6 +108,9 @@
           ?>
           <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
+        <div class="addButtonContainer" data-action="add" data-type="startup">
+          <a href="#startupAddModal" id="startupModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
+        </div>
 
       </div>
 
@@ -114,11 +120,11 @@
 
           <thead>
             <tr>
-              <th>Prénom</th>
-              <th>Nom</th>
+              <th>First Name</th>
+              <th>Last Name</th>
               <th>Mail</th>
               <th>Type</th>
-              <th>Langue</th>
+              <th>Language</th>
             </tr>
           </thead>
 
@@ -140,10 +146,78 @@
           ?>
           <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
+        <div class="addButtonContainer" data-action="add" data-type="user">
+          <a href="#userAddModal" id="userModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
+        </div>
 
       </div>
 
    </div>
+
+   <div id="implantationAddModal" class="modal">
+    <div class="modal-content">
+      <h4>Add an implantation</h4>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s4">
+              <input class="validate" type="text" name="nameImplantation">
+              <label for="nameImplantation">Name</label>
+            </div>
+            <div class="input-field col s8">
+              <input class="validate" type="text" name="streetImplantation">
+              <label for="streetImplantation">Address</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s4">
+              <input class="validate" type="number" name="postalCodeImplantation">
+              <label for="postalCodeImplantation">Postal Code</label>
+            </div>
+            <div class="input-field col s4">
+              <input class="validate" type="text" name="cityImplantation">
+              <label for="cityImplantation">City</label>
+            </div>
+            <div class="input-field col s4">
+              <select>
+                <option value="" disabled selected>Choose your option</option>
+                <?php
+                  $countryList = (new System($db))->getCountryList();
+                  foreach ($countryList as $value) {
+                    echo '<option value="' . $value['value'] . '">' . $value['name'] . '</option>';
+                  }
+                ?>
+              <select>
+              <label>Country Code</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Send</a>
+    </div>
+  </div>
+
+  <div id="startupAddModal" class="modal">
+   <div class="modal-content">
+     <h4>Modal Header</h4>
+     <p>A bunch of text</p>
+   </div>
+   <div class="modal-footer">
+     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+   </div>
+ </div>
+
+ <div id="userAddModal" class="modal">
+  <div class="modal-content">
+    <h4>Modal Header</h4>
+    <p>A bunch of text</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+  </div>
+</div>
 
    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
