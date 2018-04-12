@@ -912,7 +912,7 @@ class User {
   public function addUser($email,$startupId = false, $typeUser = 'learner',$languageCode = 'en') {
     /*
     (IN) [string] $email: of the user to check
-    (IN) [integer/boolean]: $startupId. An integer with the id of the startup
+    (IN) [integer/boolean]: $startupId. An integer with the id of the startup or false is no startup
     (IN) [string] $typeUser: type of user
     (IN) [string(2)] $languageCode: the language of the user
     (OUT) return ID of the user is insertion was well done / false if not
