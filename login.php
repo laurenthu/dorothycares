@@ -66,7 +66,7 @@
     </main>
 
     <!-- JS Insertion -->
-    <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="js/modernizr-3.5.0.min.js"></script>
     <script src="js/login.js"></script>
   </body>
 </html>
