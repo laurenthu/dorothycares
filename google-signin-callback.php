@@ -1,5 +1,6 @@
 <?php
   require_once "srv/_config.php";
+  require_once "srv/_google-signin-client.php";
 
   if (isset($_SESSION['access_token'])) {
 

@@ -1,6 +1,7 @@
 <?php
 
   require_once "srv/_config.php";
+  require_once "srv/_google-signin-client.php";
 
   (new User($db))->deleteRandomSaltdUser($_SESSION['email']);
 
