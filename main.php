@@ -2,7 +2,7 @@
   require_once "srv/_config.php";
 
   if (!isset($_SESSION['access_token'])) {
-    header('Location: login.php');
+    header('Location: '.HOME_URL.'login/');
     exit();
   }
 
@@ -10,91 +10,94 @@
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
-    <!--<meta http-equiv="refresh" content="4">-->
+
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="utf-8">
+
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,300" rel="stylesheet">
-  <link rel="stylesheet" href="css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/main.css">
+
   <title>DorothAI <?php echo VERSION ?> (Beta)</title>
 
 	<!-- OpenGraph -->
-      	<meta property="fb:app_id" content="306159282727976">
-        <meta property="og:locale" content="en_US">
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="DorothAI">
-        <meta property="og:description" content="Dorothy cares about you. Iy'll help you along your way at BeCode.">
-        <meta property="og:url" content="https://dorothycares.io/">
-        <meta property="og:site_name" content="DorothAI">
-        <meta property="og:image" content="https://dorothycares.io/img/printscreen.jpg">
-        <meta property="og:image:secure_url" content="https://dorothycares.io/img/printscreen.jpg">
+  	<meta property="fb:app_id" content="306159282727976">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="DorothAI">
+    <meta property="og:description" content="Dorothy cares about you. Iy'll help you along your way at BeCode.">
+    <meta property="og:url" content="https://dorothycares.io/">
+    <meta property="og:site_name" content="DorothAI">
+    <meta property="og:image" content="https://dorothycares.io/img/printscreen.jpg">
+    <meta property="og:image:secure_url" content="https://dorothycares.io/img/printscreen.jpg">
   <!-- Twitter -->
- 	    	<meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:description" content="Dorothy cares about you. It'll help you along your way at BeCode.">
-        <meta name="twitter:title" content="DorothAI">
-        <meta name="twitter:site" content="@becodeorg">
-        <meta name="twitter:image" content="https://dorothycares.io/img/printscreen.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="Dorothy cares about you. It'll help you along your way at BeCode.">
+    <meta name="twitter:title" content="DorothAI">
+    <meta name="twitter:site" content="@becodeorg">
+    <meta name="twitter:image" content="https://dorothycares.io/img/printscreen.jpg">
 
 </head>
-  <body id="body" data-email="<?= $_SESSION['email']; ?>" data-token="<?= $_SESSION['token'] ?>">
 
-    <!--Canvas container for the particles-->
-  	<canvas id="canvas"></canvas>
+<body id="body" data-email="<?= $_SESSION['email']; ?>" data-token="<?= $_SESSION['token'] ?>">
 
-    <!-- Date and time -->
-    <nav class="os-bar">
-      <div class="os-bar__date-time"></div>
-    </nav>
+  <!--Canvas container for the particles-->
+	<canvas id="canvas"></canvas>
 
-    <!-- Main ball -->
-    <div class="dorothy-ball-container">
-      <div class="dorothy-ball"></div>
-    </div>
+  <!-- Date and time -->
+  <nav class="os-bar">
+    <div class="os-bar__date-time"></div>
+  </nav>
 
-    <!-- Welcome message at beginning -->
-    <div id="welcomeMessageContainer" class="welcome-message-style">
-      <h1>Hey fellow becoder, <span></span></h1>
-    </div>
+  <!-- Main ball -->
+  <div class="dorothy-ball-container">
+    <div class="dorothy-ball"></div>
+  </div>
 
-    <!-- Menu -->
-    <div class="ball-menu">
-      <div class="ball-menu-item menu-terminal"><i class="fa fa-terminal"></i></div>
-      <div class="ball-menu-item-label terminal-label">Terminal</div>
-      <div class="ball-menu-item menu-profile"><i class="fa fa-user"></i></div>
-      <div class="ball-menu-item-label profile-label">Profile</div>
-      <div class="ball-menu-item menu-info"><i class="fa fa-info"></i></div>
-      <div class="ball-menu-item-label info-label">About</div>
-      <div class="ball-menu-item menu-calendar"><i class="fa fa-calendar"></i></div>
-      <div class="ball-menu-item-label calendar-label">Calendar</div>
-    </div>
+  <!-- Welcome message at beginning -->
+  <div id="welcomeMessageContainer" class="welcome-message-style">
+    <h1>Hey fellow becoder, <span></span></h1>
+  </div>
 
-    <!-- Terminal -->
-    <main class="terminal" id="terminal"> <!--Box container for header with button and input/output-->
-      <header class="terminal-header" id="terminal-header" value="terminal">
-				<!-- <div><span class="window-name" id="window-name">Terminal</span></div>  -->
-				<div class="terminal-header-item" id="terminal-header-item">
-					<button class="terminal-header-btn maximize" id="maximize"></button>
-					<button class="terminal-header-btn close" id="close" value="close">
-          </button>
-				</div>
-			</header>
-			<div class="terminal-content customScroll">  <!--Content inside the terminal i/o, interaction with dorothy by text-->
-        <div class="instruction">
-          <div class="answer">Hey, what's up?</div>
-        </div>
-        <div class="instruction">
-          <div class="user-request">
-            <span class="terminal-control">
-              <div class="user-input"></div>
-              <span class="terminal-symbol">_</span>
-            </span>
-          </div>
+  <!-- Menu -->
+  <div class="ball-menu">
+    <div class="ball-menu-item menu-terminal"><i class="fa fa-terminal"></i></div>
+    <div class="ball-menu-item-label terminal-label">Terminal</div>
+    <div class="ball-menu-item menu-profile"><i class="fa fa-user"></i></div>
+    <div class="ball-menu-item-label profile-label">Profile</div>
+    <div class="ball-menu-item menu-info"><i class="fa fa-info"></i></div>
+    <div class="ball-menu-item-label info-label">About</div>
+    <div class="ball-menu-item menu-calendar"><i class="fa fa-calendar"></i></div>
+    <div class="ball-menu-item-label calendar-label">Calendar</div>
+  </div>
+
+  <!-- Terminal -->
+  <main class="terminal" id="terminal"> <!--Box container for header with button and input/output-->
+    <header class="terminal-header" id="terminal-header" value="terminal">
+			<!-- <div><span class="window-name" id="window-name">Terminal</span></div>  -->
+			<div class="terminal-header-item" id="terminal-header-item">
+				<button class="terminal-header-btn maximize" id="maximize"></button>
+				<button class="terminal-header-btn close" id="close" value="close">
+        </button>
+			</div>
+		</header>
+		<div class="terminal-content customScroll">  <!--Content inside the terminal i/o, interaction with dorothy by text-->
+      <div class="instruction">
+        <div class="answer">Hey, what's up?</div>
+      </div>
+      <div class="instruction">
+        <div class="user-request">
+          <span class="terminal-control">
+            <div class="user-input"></div>
+            <span class="terminal-symbol">_</span>
+          </span>
         </div>
       </div>
-		</main>
+    </div>
+	</main>
 
     <!-- Profile page -->
     <!-- <section id="profilePage">
@@ -177,12 +180,12 @@
     </section>
 
   <!-- JS Insertion -->
-  <script src="js/anime.min.js"></script>
-  <script src="js/jquery-3.2.1.min.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/modernizr-3.5.0.min.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/anchorme.min.js"></script>
+  <script src="/js/anime.min.js"></script>
+  <script src="/js/jquery-3.2.1.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/modernizr-3.5.0.min.js"></script>
+  <script src="/js/plugins.js"></script>
+  <script src="/js/anchorme.min.js"></script>
 
   <!--
   Dev var_dump
