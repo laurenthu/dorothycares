@@ -142,18 +142,12 @@
     </section>
 
   <!-- JS Insertion -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script>
-    window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')
-  </script>
+  <script src="js/anime.min.js"></script>
+  <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/vendor/modernizr-3.5.0.min.js"></script>
-  <!-- <script src="js/terminal-animation.js"></script> -->
-  <!-- <script src="js/button-interaction.js"></script> -->
+  <script src="js/modernizr-3.5.0.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/anchorme.min.js"></script>
-  <!-- <script src="js/background-animation.js"></script> -->
 
   <!--
   Dev var_dump
