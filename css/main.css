@@ -76,7 +76,8 @@ body {
   left: 50%;
   -webkit-transform: translateX(-50%) translateY(-50%);
           transform: translateX(-50%) translateY(-50%);
-  font-size: 25px;
+  font-size: 20px;
+  color: white;
 }
 .ball-menu-item.menu-terminal {
   top: 60px;
@@ -187,9 +188,76 @@ EYE (MOUSE TRACKING & AUTO ANIMATION)
 
 
 
+/*
+----------------------------------------------------------------------
+LONG ANSWER TEMPLATE
+----------------------------------------------------------------------
+*/
 
+#answerTemplate {
+  width: 90%;
+  height: 80%;
+  position: fixed;
+  /*padding-right: 40px;*/
+  padding: 25px 40px 10px 0;
+  top: 50%; /*hide the box before the animation*/
+  right: -20px;
+  /*right: -100%;*/
+  transform: translateY(-50%);
+  background-color: rgba(38, 38, 38, 0.78);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  box-shadow: -1px 1px 80px -40px #0D1321;
+  transition: right ease 0.5s;
+  z-index: 11;
+}
+.modal-container {
 
-
+  display: flex;
+  color: white;
+}
+.modal-header {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  height: 100%;
+  width: 30px;
+  /*background-color: lightgrey;*/
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.modal-header .modal-close-btn {
+  height: 50px;
+  width: 6px;
+  background-color: white;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.modal-body {
+  position: fixed;
+  right: 60px;
+  height: 90%;
+  margin-left: 50px;
+  overflow: auto;
+  /*background-color: #57759f9e;*/
+}
+.modal-body-title {
+  font-size: 2rem;
+  font-weight: 300;
+}
+.modal-body-block {
+  width: 90%;
+}
+.modal-body-block-title {
+  font-weight: 300;
+}
+.modal-body-block-content {
+  font-weight: 100;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
 
 
 
@@ -220,7 +288,7 @@ MIKEY
   /* background-color: rgba(30, 60, 90, 0.6); to test aspect terminal #0C0221 */
   /*background-color: #57759f9e;*/
   width: 75%;  /*default ratio to keep*/
-  height: 80%;  /*Change the height to resize the box or proceed to animation*/
+  height: 85%;  /*Change the height to resize the box or proceed to animation*/
   border-top-left-radius: 10px;  /*Header of the terminal radius border set to 10px*/
   border-top-right-radius: 10px;
   /*margin-left: 22.5vw;
@@ -319,7 +387,7 @@ Terminal Content
 .terminal-content { /*Container for content (input / output display*/
     padding: 0px 15px 0px 15px;
     min-height: 45vh;
-    max-height: 45vh;
+    max-height: 70%;
     overflow: auto;     Hide the scroll bar after multiple request*/
 }
 .terminal-content .message {
@@ -339,23 +407,25 @@ Custom scroll
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
     height: 0px;
 }
 
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px white;
-    border: 1px solid rgba(255,255,255,0.3);
+    /*box-shadow: inset 0 0 5px white;*/
+    /*border: 1px solid rgba(255,255,255,0.3);*/
+    border: 1px solid rgba(231, 231, 231, 0.68);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.2);
+    /*background: rgba(255,255,255,0.2);*/
+    background: rgba(231, 231, 231, 0.68);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,1);
 }
 
 /*--------------------------------------
@@ -372,23 +442,23 @@ Terminal interaction /Text/
 .user-request:first-type{
   display: none;
 }
-.user-request .user {
+/*.user-request .user {
     display: inline-block;
-    color: rgba(255,66,64,1); /* #ff4240 */
-}
-.user-request .symbol {
+    color: rgba(255,66,64,1);
+}*/
+/*.user-request .symbol {
     display: inline-block;
     margin:0px 6px 0px 2px;
-}
+}*/
 .answer {
-    color:rgba(215,215,215,1);
+    color: #7cf4ff;
     margin-top: 15px;
 }
 .answer a {
-    color:rgba(215,215,215,1);
+    color: white;
 }
 .answer a:hover {
-    color:rgba(215,215,0,1);
+    text-decoration: underline;
 }
 .answer::before {
     content:'>';
