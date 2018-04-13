@@ -2,13 +2,19 @@
   require_once "srv/_config.php";
 
   if (isset($_SESSION['access_token'])) {
+
     $gClient->setAccessToken($_SESSION['access_token']);
+
   } else if (isset($_GET['code'])) {
+
     $token = $gClient->fetchAccessTokenWithAuthCode($_GET['code']);
     $_SESSION['access_token'] = $token;
+
   } else {
-    header('Location: ../login.php');
+
+    header('Location: '.HOME_URL.'login/');
     exit();
+
   }
 
   $oAuth = new Google_Service_Oauth2($gClient);
@@ -37,12 +43,12 @@
 
     $_SESSION['token'] = $u->getRandomSaltdUser($userData['email']);
 
-    header('Location: index.php');
+    header('Location: '.HOME_URL);
     exit();
 
   } else {
 
-    header('Location: logout.php');
+    header('Location: '.HOME_URL.'logout/');
     exit();
 
   }

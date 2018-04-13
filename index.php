@@ -1,12 +1,12 @@
 <?php
 
-  session_start();
+  require_once "srv/_config.php";
 
   if (!isset($_SESSION['access_token'])) {
-    header('Location: login.php');
+    header('Location: '.HOME_URL.'login/');
     exit();
   } else {
-    header('Location: main.php');
+    header('Location: '.HOME_URL.'app/');
     exit();
   }
 

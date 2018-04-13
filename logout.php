@@ -10,7 +10,7 @@
 
   session_destroy();
 
-  header('Location: index.php');
+  header('Location: '.HOME_URL);
 
   exit();
 

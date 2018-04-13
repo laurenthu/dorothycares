@@ -2,7 +2,8 @@
   require_once "srv/_config.php";
 
   if (isset($_SESSION['access_token'])) {
-    header('Location: login.php');
+    header('Location: '.HOME_URL.'login/');
+
     exit();
   }
 
@@ -43,8 +44,8 @@
     <meta name="twitter:image" content="https://dorothycares.io/img/printscreen.jpg">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/main.css">
   </head>
 
   <body>
@@ -56,7 +57,7 @@
         <div class="google-button" data-location="<?php echo $loginURL ?>">
           <div class="google-button-block">
             <div class="logo">
-              <img src="img/google-logo.png" alt="Google Logo">
+              <img src="/img/google-logo.png" alt="Google Logo">
             </div>
             <div class="call-to-action">
               <span>Sign in with Google</span>
@@ -66,7 +67,7 @@
     </main>
 
     <!-- JS Insertion -->
-    <script src="js/modernizr-3.5.0.min.js"></script>
-    <script src="js/login.js"></script>
+    <script src="/js/modernizr-3.5.0.min.js"></script>
+    <script src="/js/login.js"></script>
   </body>
 </html>
