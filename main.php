@@ -180,12 +180,13 @@
     </section>
 
   <!-- JS Insertion -->
-  <script src="/js/anime.min.js"></script>
-  <script src="/js/jquery-3.2.1.min.js"></script>
-  <script src="/js/main.js"></script>
-  <script src="/js/modernizr-3.5.0.min.js"></script>
+  <script src="/js/anime.min.js"></script> <!-- http://animejs.com/ -->
+  <script src="/js/jquery-3.2.1.min.js"></script> <!-- http://jquery.com/ -->
+  <script src="/js/modernizr-3.5.0.min.js"></script> <!-- https://modernizr.com/ -->
   <script src="/js/plugins.js"></script>
-  <script src="/js/anchorme.min.js"></script>
+  <script src="/js/anchorme.min.js"></script> <!-- https://github.com/alexcorvi/anchorme.js/ -->
+  <script src="/js/axios.min.js"></script> <!-- https://github.com/axios/axios -->
+  <script src="/js/main.js"></script>
 
   <!--
   Dev var_dump
