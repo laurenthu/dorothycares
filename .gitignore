@@ -1,3 +1,4 @@
 srv/_config.php
 srv/_config_admin.php
+srv/_google-signin-client.php
 .ovhconfig
