@@ -23,6 +23,9 @@ let menuInfo = document.querySelector('.menu-info');
 let menuCalendar = document.querySelector('.menu-calendar');
 let answerModal = document.getElementById('answerTemplate');
 let longAnswerBtn = document.getElementById('answer-modal-btn');
+let profileModal = document.getElementById('profilePage');
+let hidingBgDiv = document.getElementById('hiding-bg-div');
+let menuProfileIsClicked = false;
 
 // function to show/hide menu (small balls)
 function showMenu (value) {
@@ -48,45 +51,323 @@ let breathingBall = anime({
   autoplay: false
 });
 
+// on page load first make ball appear [Anime JS]
+anime({
+  targets: '.dorothy-ball',
+  translateX: '-50%',
+  translateY: '50%',
+  opacity: 1,
+  scale: [0, 1],
+  duration: 1000,
+  easing: 'easeInOutBack',
+  complete: breathingBall.play()
+});
 
-// $( window ).on( "load", function() {
-
-  // on page load first make ball appear [Anime JS]
+// When ball is clicked
+dorothyBall.addEventListener('click', function() {
+  // pause the breathing animation to avoid problems with its loop property [Anime JS]
+  breathingBall.pause();
+  // then move ball to the bottom [Anime JS]
   anime({
     targets: '.dorothy-ball',
+    bottom: '-130px',
     translateX: '-50%',
-    translateY: '50%',
-    opacity: 1,
-    scale: [0, 1],
-    duration: 1000,
-    easing: 'easeInOutBack',
-    complete: breathingBall.play()
+    translateY: '0%',
+    duration: 1200,
+    easing: 'easeOutElastic'
   });
+  // create a timeline [Anime JS] to chain more animations
+  let myTimeline = anime.timeline();
 
-  // When ball is clicked
-  dorothyBall.addEventListener('click', function() {
-    // pause the breathing animation to avoid problems with its loop property [Anime JS]
-    breathingBall.pause();
-    // then move ball to the bottom [Anime JS]
-    anime({
-      targets: '.dorothy-ball',
-      bottom: '-130px',
-      translateX: '-50%',
-      translateY: '0%',
-      duration: 1200,
-      easing: 'easeOutElastic'
-    });
-    // create a timeline [Anime JS] to chain more animations
-    let myTimeline = anime.timeline();
+  // if menu isn't open do following:
+  if (menuOpen === false) {
+    welcomeMessageContainer.style.opacity = 0;
+    menuOpen = true;
+    // show the menu (small balls)
+    showMenu("block");
+    // lay out the timeline [Anime JS]
+    myTimeline
+      .add({
+        targets: '.menu-terminal',
+        scale: [0, 1],
+        offset: '+=500'
+      })
+      .add({
+        targets: '.menu-profile',
+        scale: [0, 1],
+        offset: '-=950'
+      })
+      .add({
+        targets: '.menu-info',
+        scale: [0, 1],
+        offset: '-=950'
+      })
+      .add({
+        targets: '.menu-calendar',
+        scale: [0, 1],
+        offset: '-=950',
+        complete: function(){
+          if (messageClicked == false) {
+            displayMessage();
+            welcomeMessageContainer.style.opacity = 1;
+          }
+        }
+      });
 
-    // if menu isn't open do following:
-    if (menuOpen === false) {
-      welcomeMessageContainer.style.opacity = 0;
-      menuOpen = true;
-      // show the menu (small balls)
-      showMenu("block");
-      // lay out the timeline [Anime JS]
+  // if menu is open do following:
+  } else {
+    menuOpen = false;
+    // lay out the timeline [Anime JS]
+    myTimeline
+      .add({
+        targets: '.menu-terminal',
+        scale: 0.4
+      })
+      .add({
+        targets: '.menu-profile',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-info',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-calendar',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-terminal',
+        scale: 0.4,
+        translateX: '150%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-profile',
+        scale: 0.4,
+        translateX: '100%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-info',
+        scale: 0.4,
+        translateX: '-100%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-calendar',
+        scale: 0.4,
+        translateX: '-150%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack',
+        complete: function(){ // once all of these animations are completed run the following:
+          showMenu("none"); // hide the menu
+          menuTerminal.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
+          menuProfile.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
+          menuInfo.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
+          menuCalendar.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
+        }
+      })
+  }
+});
+
+// When user clicks on welcome message launch showTerminal() function
+welcomeMessageContainer.addEventListener('click', showTerminal);
+
+// When user clicks on terminal button in menu launch showTerminal() function
+menuTerminal.addEventListener('click', showTerminal);
+
+// When user clicks on profile button in menu ...
+menuProfile.addEventListener('click', function(){
+  // if profile button is not clicked
+  if (menuProfileIsClicked == false) {
+    menuProfileIsClicked = true; // set profile button as clicked
+    showProfile(); // launch showProfile() function
+  } else { // if profile button is clicked
+    menuProfileIsClicked = false; // set profile button as unclicked
+    hideProfile(); // launch hideProfile() function
+  }
+});
+
+function showTerminal() {
+  // set switch back to false so that we can open it with one click
+  menuOpen = false;
+  // message will no longer appear, terminal is now shown as bg
+  messageClicked = true;
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  // fade out effect on welcome message
+  welcomeMessageContainer.style.opacity = 0;
+  // below triggers animations (first one is the terminal popping up)
+  anime({
+    targets: '.terminal',
+    bottom: 0,
+    duration: 1000,
+    begin: function(){
       myTimeline
+      .add({
+        targets: '.menu-terminal',
+        scale: 0.4
+      })
+      .add({
+        targets: '.menu-profile',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-info',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-calendar',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-terminal',
+        scale: 0.4,
+        translateX: '150%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-profile',
+        scale: 0.4,
+        translateX: '100%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-info',
+        scale: 0.4,
+        translateX: '-100%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-calendar',
+        scale: 0.4,
+        translateX: '-150%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack',
+        complete: function(){ // once all of these animations are completed run the following (same as earlier):
+          welcomeMessageContainer.style.display = "none"; // hides welcome message for good
+          showMenu("none");
+          menuTerminal.style.transform = "translateX(0%) translateY(0%)";
+          menuProfile.style.transform = "translateX(0%) translateY(0%)";
+          menuInfo.style.transform = "translateX(0%) translateY(0%)";
+          menuCalendar.style.transform = "translateX(0%) translateY(0%)";
+        }
+      })
+    }
+  });
+}
+
+function showProfile () {
+  // set switch back to false so that we can open it with one click
+  menuOpen = false;
+  // show hiding background div so user can't click on background
+  hidingBgDiv.style.display = "block";
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  // below triggers animations (first one is the terminal popping up)
+  profileModal.style.top = "-20px";
+  myTimeline
+    .add({
+      targets: '.menu-terminal',
+      scale: 0.4
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-terminal',
+      scale: 0.4,
+      translateX: '150%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: 0.4,
+      translateX: '100%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: 0.4,
+      translateX: '-100%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: 0.4,
+      translateX: '-150%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack',
+      complete: function(){ // once all of these animations are completed run the following (same as earlier):
+        showMenu("none");
+        menuTerminal.style.transform = "translateX(0%) translateY(0%)";
+        menuProfile.style.transform = "translateX(0%) translateY(0%)";
+        menuInfo.style.transform = "translateX(0%) translateY(0%)";
+        menuCalendar.style.transform = "translateX(0%) translateY(0%)";
+      }
+    })
+}
+
+// when click on any menu buttons other than profile or on close button of profile modal, launch hideProfile()
+function hideProfile () {
+  // hide profile modal
+  profileModal.style.top = '-120%';
+  // hide hiding background div so user can't click on background
+  hidingBgDiv.style.display = 'none';
+  if (menuOpen == true) {
+    // show menu
+    myTimeline
         .add({
           targets: '.menu-terminal',
           scale: [0, 1],
@@ -105,189 +386,44 @@ let breathingBall = anime({
         .add({
           targets: '.menu-calendar',
           scale: [0, 1],
-          offset: '-=950',
-          complete: function(){
-            if (messageClicked == false) {
-              displayMessage();
-              welcomeMessageContainer.style.opacity = 1;
-            }
-          }
+          offset: '-=950'
+          // complete: function(){
+          //   if (messageClicked == false) {
+          //     displayMessage();
+          //     welcomeMessageContainer.style.opacity = 1;
+          //   }
+          // }
         });
-
-    // if menu is open do following:
-    } else {
-      menuOpen = false;
-      // lay out the timeline [Anime JS]
-      myTimeline
-        .add({
-          targets: '.menu-terminal',
-          scale: 0.4
-        })
-        .add({
-          targets: '.menu-profile',
-          scale: 0.4,
-          offset: '-=850'
-        })
-        .add({
-          targets: '.menu-info',
-          scale: 0.4,
-          offset: '-=850'
-        })
-        .add({
-          targets: '.menu-calendar',
-          scale: 0.4,
-          offset: '-=850'
-        })
-        .add({
-          targets: '.menu-terminal',
-          scale: 0.4,
-          translateX: '150%',
-          translateY: '400%',
-          duration: 300,
-          offset: '-=800',
-          easing: 'easeInBack'
-        })
-        .add({
-          targets: '.menu-profile',
-          scale: 0.4,
-          translateX: '100%',
-          translateY: '400%',
-          duration: 300,
-          offset: '-=800',
-          easing: 'easeInBack'
-        })
-        .add({
-          targets: '.menu-info',
-          scale: 0.4,
-          translateX: '-100%',
-          translateY: '400%',
-          duration: 300,
-          offset: '-=800',
-          easing: 'easeInBack'
-        })
-        .add({
-          targets: '.menu-calendar',
-          scale: 0.4,
-          translateX: '-150%',
-          translateY: '400%',
-          duration: 300,
-          offset: '-=800',
-          easing: 'easeInBack',
-          complete: function(){ // once all of these animations are completed run the following:
-            showMenu("none"); // hide the menu
-            menuTerminal.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
-            menuProfile.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
-            menuInfo.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
-            menuCalendar.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
-          }
-        })
-    }
-  });
-
-  welcomeMessageContainer.addEventListener('click', showTerminal);
-  menuTerminal.addEventListener('click', showTerminal);
-
-  function showTerminal() {
-    // set switch back to false so that we can open it with one click
-    menuOpen = false;
-    // message will no longer appear, terminal is now shown as bg
-    messageClicked = true;
-    // create another timeline for the menu buttons [anime JS]
-    let myTimeline2 = anime.timeline();
-    // fade out effect on welcome message
-    welcomeMessageContainer.style.opacity = 0;
-    // below triggers animations (first one is the terminal popping up)
-    anime({
-      targets: '.terminal',
-      bottom: 0,
-      duration: 1000,
-      begin: function(){
-        myTimeline2
-        .add({
-          targets: '.menu-terminal',
-          scale: 0.4
-        })
-        .add({
-          targets: '.menu-profile',
-          scale: 0.4,
-          offset: '-=850'
-        })
-        .add({
-          targets: '.menu-info',
-          scale: 0.4,
-          offset: '-=850'
-        })
-        .add({
-          targets: '.menu-calendar',
-          scale: 0.4,
-          offset: '-=850'
-        })
-        .add({
-          targets: '.menu-terminal',
-          scale: 0.4,
-          translateX: '150%',
-          translateY: '400%',
-          duration: 300,
-          offset: '-=800',
-          easing: 'easeInBack'
-        })
-        .add({
-          targets: '.menu-profile',
-          scale: 0.4,
-          translateX: '100%',
-          translateY: '400%',
-          duration: 300,
-          offset: '-=800',
-          easing: 'easeInBack'
-        })
-        .add({
-          targets: '.menu-info',
-          scale: 0.4,
-          translateX: '-100%',
-          translateY: '400%',
-          duration: 300,
-          offset: '-=800',
-          easing: 'easeInBack'
-        })
-        .add({
-          targets: '.menu-calendar',
-          scale: 0.4,
-          translateX: '-150%',
-          translateY: '400%',
-          duration: 300,
-          offset: '-=800',
-          easing: 'easeInBack',
-          complete: function(){ // once all of these animations are completed run the following (same as earlier):
-            welcomeMessageContainer.style.display = "none"; // hides welcome message for good
-            showMenu("none");
-            menuTerminal.style.transform = "translateX(0%) translateY(0%)";
-            menuProfile.style.transform = "translateX(0%) translateY(0%)";
-            menuInfo.style.transform = "translateX(0%) translateY(0%)";
-            menuCalendar.style.transform = "translateX(0%) translateY(0%)";
-          }
-        })
-      }
-    });
   }
 
-  // function showLongAnswerModal () {
-  //   // when user clicks on
-  //   longAnswerBtn.addEventListener('click', function(){
-  //     answerModal.style.right = "-100%";
-  //   });
-  // }
+}
 
 
-  longAnswerBtn.addEventListener('click', function(){
-    answerModal.style.right = "-120%";
-    if (menuOpen = false) {
 
-    }
 
-  });
-
+// !!! ADD LINE BELOW TO OPEN LONG ANSWER MODAL WHEN USER CLICKS ON TEXT WITH LINK PROVIDED BY DOROTHY
+// [LINKTOCLICK].addEventListener('click', function(){
+//   answerModal.style.right = "-20px";
 // });
 
+// !!! ADD LINE BELOW TO CLOSE LONG ANSWER MODAL WHEN USER CLICKS ON TEXT WITH LINK PROVIDED BY DOROTHY
+longAnswerBtn.addEventListener('click', function(){
+  answerModal.style.right = "-120%";
+});
+
+
+
+/*
+TERMINAL SCROLL BAR: scroll down automatically when scroll bar appears
+_______________________________
+*/
+
+let scrollContainer = document.getElementById("terminal-content");
+
+function scrollDown() {
+  // when user presses 'enter' scrollbar scrolls down automatically
+  scrollContainer.scrollTop = scrollContainer.scrollHeight;
+}
 
 /*
 MOUSE TRACKING ANIMATION [OPTIONAL]
@@ -507,15 +643,11 @@ resizeReset();
 setup();
 
 
-
-
-
-
-
-
-/***********
-* OLD MAIN *
-***********/
+/*
+----------------------------------------------------------------------
+Laurent
+----------------------------------------------------------------------
+*/
 
 let sessionId = Math.floor(Math.random() * Math.random() * 350000); // we generate a sessionId for dialogflow
 const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
@@ -535,10 +667,10 @@ function addFirstZero(i) {
 }
 
 function date_time(selector) {
-    let date = new Date;
+    let date = new Date();
     result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
     result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
-    $(selector).html(result);
+    document.querySelector(selector).innerHTML = result;
     setTimeout('date_time("' + selector + '");', '1000');
     return true;
 }
@@ -546,30 +678,28 @@ function date_time(selector) {
 
 $(function () { // = $(document).ready(function(){})
     let userInstruction; // variable temporaire
+    let emailUser = document.querySelector('body').getAttribute('data-email');
+    let tokenUser = document.querySelector('body').getAttribute('data-token');
 
-    $(document).ready(function () {
-        date_time('.os-bar__date-time');
-        $('.answer').first().hide();
-        $('.instruction').last().hide();
-        $('.answer').first().delay(1000).fadeIn();
-        $('.instruction').last().delay(1050).fadeIn(100);
-        $('.user-input').attr('contentEditable', true);
-        $('.terminal-symbol').on('click', function () {
-            $('.user-input').focus();
-        });
+    date_time('.os-bar__date-time');
+    document.querySelector('.user-input').setAttribute('contentEditable', true);
+    document.querySelector('.user-input').focus();
+    document.querySelector('.terminal-symbol').addEventListener('click', function () {
+      document.querySelector('.user-input').focus();
     });
 
-    $('.terminal-content').on('click', function (e) {
-        $('.user-input').focus();
-    });
-    $(document).on('keydown', function (e) { // we detect keyboard entry
+    //$(document).on('keydown', function (e) { // we detect keyboard entry
+    document.addEventListener('keydown', function (e) { // we detect keyboard entry
 
-        $('.user-input').focus();
-        userInstruction = $('.user-input').text(); // we save the current value
+        document.querySelector('.user-input').focus();
+        //userInstruction = $('.user-input').text(); // we save the current value
+        userInstruction = document.querySelector('.user-input').textContent; // we save the current value
 
         if (e.key == 'Enter' && userInstruction != '') {
             e.preventDefault();
-            $('.user-input').attr('contentEditable', false);
+            document.querySelector('.user-input').setAttribute('contentEditable', false);
+            document.querySelector('.terminal-control').parentNode.removeChild(document.querySelector('.terminal-control'));
+            $('<span class="request">' + userInstruction + '</span>').appendTo($('.user-request').last());
             //console.log(userInstruction);
 
             $.ajax({
@@ -583,6 +713,8 @@ $(function () { // = $(document).ready(function(){})
                 data: JSON.stringify({
                     query: userInstruction,
                     lang: "en",
+                    emailUser: emailUser,
+                    tokenUser: tokenUser,
                     sessionId: sessionId
                 }),
 
@@ -599,9 +731,7 @@ $(function () { // = $(document).ready(function(){})
                     if (typeof data.sessionId !== 'undefined') {
                       sessionId = data.sessionId;
                     }
-                    //console.log(data);
-                    $('.terminal-control').remove();
-                    $('<span class="request">' + userInstruction + '</span>').appendTo($('.user-request').last());
+
                     $('<div class="answer">' + answer + '</span>').appendTo($('.user-request').last());
                     $('<div class="instruction"></div>').appendTo($('.terminal-content'));
                     $('<div class="user-request"></div>').appendTo($('.instruction').last());
@@ -609,8 +739,6 @@ $(function () { // = $(document).ready(function(){})
                     $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
                 },
                 error: function (result, status, error) {
-                    $('.terminal-control').remove();
-                    $('<span class="request">' + userInstruction + '</span>').appendTo($('.user-request').last());
                     $('<div class="answer">Sorry. There is a bug in my brai. Please try again!</span>').appendTo($('.user-request').last());
                     $('<div class="instruction"></div>').appendTo($('.terminal-content'));
                     $('<div class="user-request"></div>').appendTo($('.instruction').last());
@@ -618,11 +746,10 @@ $(function () { // = $(document).ready(function(){})
                     $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
                 },
                 complete: function (result, status) {
-                    //console.log('Request complete [' + status + ']');
                     window.scrollTo(0, document.body.scrollHeight);
-                    $('.user-input').attr('contentEditable', true);
-                    $('.terminal-symbol').on('click', function () {
-                        $('.user-input').focus();
+                    document.querySelector('.user-input').setAttribute('contentEditable', false);
+                    document.querySelector('.terminal-symbol').addEventListener('click', function () {
+                        document.querySelector('.user-input').focus();
                     });
                 },
             });

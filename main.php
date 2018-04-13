@@ -8,7 +8,7 @@
 
 ?>
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="en">
 <head>
     <!--<meta http-equiv="refresh" content="4">-->
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -39,7 +39,7 @@
         <meta name="twitter:image" content="https://dorothycares.io/img/printscreen.jpg">
 
 </head>
-  <body id="body">
+  <body id="body" data-email="<?= $_SESSION['email']; ?>" data-token="<?= $_SESSION['token'] ?>">
 
     <!--Canvas container for the particles-->
   	<canvas id="canvas"></canvas>
@@ -83,17 +83,10 @@
 			</header>
 			<div class="terminal-content customScroll">  <!--Content inside the terminal i/o, interaction with dorothy by text-->
         <div class="instruction">
-          <div class="user-request">
-            <span class="user"></span> <!-- can be removed -->
-            <span class="symbol"></span> <!-- can be removed -->
-            <span class="request"></span>
-          </div>
-          <div class="answer" style="display:none;">Hey, what's up?</div>
+          <div class="answer">Hey, what's up?</div>
         </div>
-        <div class="instruction" style="display:none;">
+        <div class="instruction">
           <div class="user-request">
-            <span class="user"></span> <!-- can be removed -->
-            <span class="symbol"></span> <!-- can be removed -->
             <span class="terminal-control">
               <div class="user-input"></div>
               <span class="terminal-symbol">_</span>
@@ -104,14 +97,56 @@
 		</main>
 
     <!-- Profile page -->
-    <section id="profilePage">
+    <!-- <section id="profilePage">
+      <div class="modal-container-2">
+        <div class="modal-body-2">
 
-    </section>
+          <div class="modal-body-title-container">
+            <div class="modal-body-title-title"><h1 class="modal-body-title">PROFILE</h1></div>
+            <div class="modal-body-title-icons">
+              <i id="profile-update" class="profile-update fa fa-cog tooltip" aria-hidden="true"><span class="tooltiptext">edit profile</span></i></button>
+              <i id="profile-logout" class="profile-logout fa fa-power-off tooltip" aria-hidden="true"><span class="tooltiptext">logout</span></i></button>
+            </div>
+          </div>
+
+          <form id="profile-details" class="profile-details" action="" method=""> <?php // LAURENT ?>
+            <span class="input-wrapper">
+              <label for="profile-lastname">LAST NAME</label>
+              <input id="profile-lastname" class="profile-lastname" type="text" placeholder="DOROTHY"> <?php //  LAURENT: INITIALISE VALUE AS VALUE FETCHED FROM GOOGLE API ?>
+            </span>
+            <span class="input-wrapper">
+              <label for="profile-firstname">FIRST NAME</label>
+              <input id="profile-firstname" class="profile-firstname" type="text" placeholder="NINE"> <?php // LAURENT: INITIALISE VALUE AS VALUE FETCHED FROM GOOGLE API ?>
+            </span>
+            <span class="input-wrapper">
+              <label for="profile-language">LANGUAGE</label>
+              <input id="profile-language" class="profile-language" type="radio" checked="checked" name="ENG"><label class="english" onclick="profileedit()">En</label>
+            </span>
+            <span class="input-wrapper">
+              <label for="profile-github">GITHUB</label>
+              <input id="profile-github" class="profile-github" type="text" name="Github account" placeholder="GITHUB">
+            </span>
+            <span class="input-wrapper">
+              <label for="profile-linkedin">LINKEDIN</label>
+              <input id="profile-linkedin" class="profile-linkedin" type="text" placeholder="LINKEDIN">
+            </span>
+            <input id="profile-save-details" class="profile-save-details" type="submit" value="SAVE"> <?php // HIDE UNTIL USER CLICKS ON UPDATE ?>
+          </form>
+
+        </div>
+
+        <div class="modal-header-2">
+          <div id="profile-modal-btn" class="modal-close-btn-2"></div>
+        </div>
+
+      </div>
+    </section> -->
 
     <!-- Info page -->
+    <!--
     <section id="infoPage">
-
     </section>
+  -->
 
     <!-- Long answer template (for long answers e.g. about a specific coding language) -->
     <section id="answerTemplate">
