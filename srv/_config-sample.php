@@ -16,6 +16,7 @@ $db = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER,
 session_start();
 
 // General constants
+define('HOME_URL','');
 define('SCRIPT_DIR','');
 define('VERSION','');
 
@@ -25,11 +26,11 @@ require_once SCRIPT_DIR.'/GoogleAPI/vendor/autoload.php';
 // we initialize the Google Client object
 
 $gClient = new Google_Client();
-$gClient->setClientId("");
-$gClient->setClientSecret("");
-$gClient->setApplicationName("");
-$gClient->setRedirectUri("");
-$gClient->addScope("");
+$gClient->setClientId(""); // Given by Google
+$gClient->setClientSecret(""); // Given by Google
+$gClient->setApplicationName("Dorothy Login System");
+$gClient->setRedirectUri(HOME_URL."google-signin-callback.php");
+$gClient->addScope(""); // Selected by User
 
 
 // insert class files
