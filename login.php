@@ -16,6 +16,8 @@
     <title>Login - DorothAI Cares <?php echo VERSION ?> (Dev)</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,300" rel="stylesheet">
+
     <!-- Google Sign-In -->
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="269528235107-8m2673golc384phuudm0p8aj4mtb7hi0.apps.googleusercontent.com">
@@ -39,56 +41,32 @@
     <meta name="twitter:title" content="DorothAI">
     <meta name="twitter:site" content="@becodeorg">
     <meta name="twitter:image" content="https://dorothycares.io/img/printscreen.jpg">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:200,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/login.css">
   </head>
 
   <body>
 
-    <!-- Particle js (background) -->
-    <div id="particles-js"></div>
-
-    <!-- header of the page -->
-    <header class="round">
-      <div class="round-group">
-        <div class="round-item round-bg">
-          <div class="round-item round-top"></div>
-          <div class="round-item round-top"></div>
-        </div>
-      </div>
-    </header>
-
     <!-- login window with Google Sign in button -->
-    <main class="login-interface" data-onsuccess="onSignIn">
+    <main class="login-interface" data-onsuccess="onSignIn" id="login-interface">
       <div class="container-login">
         <div class="welcome"></div>
         <div class="google-button" data-location="<?php echo $loginURL ?>">
-          <div class="logo">
-            <img src="img/g-logo.png" alt="">
-          </div>
-          <div class="call-to-action">
-            Sign in with Google
+          <div class="google-button-block">
+            <div class="logo">
+              <img src="img/google-logo.png" alt="Google Logo">
+            </div>
+            <div class="call-to-action">
+              <span>Sign in with Google</span>
+            </div>
           </div>
         </div>
     </main>
 
     <!-- JS Insertion -->
     <script src="js/vendor/modernizr-3.5.0.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script>
-      window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')
-    </script>
-    <script src="js/plugins.js"></script>
-    <script src="js/particles.min.js"></script>
-    <script src="js/anchorme.min.js"></script>
-    <script src="js/main.js"></script>
     <script src="js/login.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
   </body>
 </html>

@@ -1,4 +1,8 @@
-// Text scramble
+/*
+TEXT SCRAMBLE
+_______________________________
+*/
+
 class TextScramble {
   constructor(el) {
     this.el = el
@@ -92,3 +96,19 @@ console.log(relocation);
 googleButton.addEventListener('click', function () {
   window.location = relocation;
 });
+
+
+
+/*
+BUTTON HOVER EFFECT
+_______________________________
+*/
+
+document.querySelector('.call-to-action').onmousemove = function (e) {
+
+  var x = e.pageX - e.target.offsetLeft;
+  var y = e.pageY - e.target.offsetTop;
+
+  e.target.style.setProperty('--x', x + 'px');
+  e.target.style.setProperty('--y', y + 'px');
+};
