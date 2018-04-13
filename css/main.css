@@ -530,6 +530,108 @@ Os-bar
 }
 
 /*---------------------------------------
+Login
+-----------------------------------------*/
+
+#login-interface {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#login-interface .container-login {
+  width: 600px;
+  text-align: center;
+  padding: 100px 0;
+  border-radius: 10px;
+}
+
+#login-interface .welcome {
+  font-weight: 100;
+  font-size: 2rem;
+  color: white;
+}
+
+#login-interface .google-button {
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  height: 60px;
+  margin-top: 80px;
+}
+
+#login-interface .google-button-block {
+  width: 354px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+#login-interface .logo {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 100%;
+}
+
+#login-interface .logo img {
+  height: 34px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+#login-interface .call-to-action {
+  position: relative;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: #7968ff;
+  padding: 1em 2em;
+  border: none;
+  color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  border-radius: 100px;
+}
+
+#login-interface .call-to-action span {
+  position: relative;
+  pointer-events: none;
+}
+
+#login-interface .call-to-action::before {
+  --size: 0;
+  content: '';
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(circle closest-side, #6bfff4, transparent);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  transition: width .2s ease, height .2s ease;
+}
+
+#login-interface .call-to-action:hover::before {
+  --size: 400px;
+}
+
+#login-interface .g-signin2 {
+  width: 120px;
+  margin: auto;
+}
+
+
+/*---------------------------------------
 Keyframes for animation
 -----------------------------------------*/
 
