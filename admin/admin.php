@@ -74,7 +74,7 @@
           ?>
           <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
-        <div class="addButtonContainer" data-action="add" data-type="implantation">
+        <div class="addButtonContainer" data-type="implantation">
           <a href="#implantationAddModal" id="implantationModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
         </div>
 
@@ -108,7 +108,7 @@
           ?>
           <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
-        <div class="addButtonContainer" data-action="add" data-type="startup">
+        <div class="addButtonContainer" data-type="startup">
           <a href="#startupAddModal" id="startupModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
         </div>
 
@@ -146,7 +146,7 @@
           ?>
           <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
-        <div class="addButtonContainer" data-action="add" data-type="user">
+        <div class="addButtonContainer" data-type="user">
           <a href="#userAddModal" id="userModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
         </div>
 
@@ -161,25 +161,25 @@
         <form class="col s12">
           <div class="row">
             <div class="input-field col s4">
-              <input class="validate" type="text" name="nameImplantation">
+              <input class="validate" type="text" name="nameImplantation" id="nameImplantation">
               <label for="nameImplantation">Name</label>
             </div>
             <div class="input-field col s8">
-              <input class="validate" type="text" name="streetImplantation">
+              <input class="validate" type="text" name="streetImplantation" id="streetImplantation">
               <label for="streetImplantation">Address</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s4">
-              <input class="validate" type="number" name="postalCodeImplantation">
+              <input class="validate" type="number" name="postalCodeImplantation" id="postalCodeImplantation">
               <label for="postalCodeImplantation">Postal Code</label>
             </div>
             <div class="input-field col s4">
-              <input class="validate" type="text" name="cityImplantation">
+              <input class="validate" type="text" name="cityImplantation" id="cityImplantation">
               <label for="cityImplantation">City</label>
             </div>
             <div class="input-field col s4">
-              <select>
+              <select id="countryImplantation">
                 <option value="" disabled selected>Choose your option</option>
                 <?php
                   $countryList = (new System($db))->getCountryList();
@@ -188,14 +188,14 @@
                   }
                 ?>
               <select>
-              <label>Country Code</label>
+              <label>Country</label>
             </div>
           </div>
         </form>
       </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Send</a>
+      <a href="#!" id="addImplantation" class="modal-action modal-close waves-effect waves-green btn-flat" data-type="implantation">Send</a>
     </div>
   </div>
 
@@ -205,7 +205,7 @@
      <p>A bunch of text</p>
    </div>
    <div class="modal-footer">
-     <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+     <a href="#!" id="addStartup" class="modal-action modal-close waves-effect waves-green btn-flat" data-type="startup">Agree</a>
    </div>
  </div>
 
@@ -215,7 +215,7 @@
     <p>A bunch of text</p>
   </div>
   <div class="modal-footer">
-    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    <a href="#!" id="addUser" class="modal-action modal-close waves-effect waves-green btn-flat" data-type="user">Agree</a>
   </div>
 </div>
 

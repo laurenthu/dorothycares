@@ -48,14 +48,18 @@ function ajaxRequestDisplayContent(range) { // ajax request
   dataRequestDisplayContent.send(null); // we send the request
 }
 
-// function ajaxRequestCreateContent(button) {
-//   action = button.getAttribute('data-action');
-//   type = button.getAttribute('data-type');
-//
-//   dataRequestCreateContent.onload = whenDataLoadedCreateContent; // we assign the function to excecute when the data are loading
-//   dataRequestCreateContent.open("GET", feed + '?type=' + type + '&action=' + action, true); // the type, the url, asynchronous true/false
-//   dataRequestCreateContent.send(null);
-// };
+function ajaxRequestCreateContent(button) { // ajax request
+  let addType = button.getAttribute('data-type');
+
+  dataRequestCreateContent.onload = whenDataLoadedCreateContent; // we assign the function to excecute when the data are loading
+
+  if (addType == 'implantation') {
+    let name = document.querySelector('#nameImplantation').value;
+    dataRequestCreateContent.open("GET", feed + '?type=' + type + '&name=' + name, true); // the type, the url, asynchronous true/false
+  }
+
+  dataRequestCreateContent.send(null);
+};
 
 function whenDataLoadedDisplayContent() { // what happens when the AJAX request is done
   let dataText = dataRequestDisplayContent.responseText; // we store the text of the response
@@ -97,10 +101,10 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
   }
 };
 
-// function whenDataLoadedCreateContent() { // what happens when the AJAX request is done
-//   let dataText = dataRequestCreateContent.responseText; // we store the text of the response
-//   dataObject = JSON.parse(dataText); // we convert the text into an object
-// };
+function whenDataLoadedCreateContent() { // what happens when the AJAX request is done
+  let dataText = dataRequestCreateContent.responseText; // we store the text of the response
+  dataObject = JSON.parse(dataText); // we convert the text into an object
+};
 
 // Materialize
 let tabs = document.querySelectorAll('.tabs'); // select tabs
@@ -241,14 +245,14 @@ userTab.addEventListener('click', function() { // display users on tab click
   ajaxRequestDisplayContent(paginationUser);
 });
 
-// addImplantationButton.addEventListener('click', function () { // Add an implantation
-//
-//
-//   // Refresh displays
-//   allPaginationDisplay();
-//   nextButtonDisableOrEnable(paginationImplantation);
-//   ajaxRequestDisplayContent(paginationImplantation);
-// });
+addImplantationButton.addEventListener('click', function () { // Add an implantation
+  ajaxRequestCreateContent(addImplantationButton);
+
+  // Refresh displays
+  allPaginationDisplay();
+  nextButtonDisableOrEnable(paginationImplantation);
+  ajaxRequestDisplayContent(paginationImplantation);
+});
 //
 // addStartupButton.addEventListener('click', function () { // Add a startup
 //
