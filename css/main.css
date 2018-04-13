@@ -10,6 +10,17 @@ body {
   width: 100vw;
 }
 
+.hiding-bg-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /*background-color: red;*/
+  z-index: 11;
+  display: none;
+}
+
 /*#particles-js {
   position: absolute;
   width: 100%;
@@ -190,7 +201,7 @@ EYE (MOUSE TRACKING & AUTO ANIMATION)
 
 /*
 ----------------------------------------------------------------------
-LONG ANSWER TEMPLATE
+MODALS
 ----------------------------------------------------------------------
 */
 
@@ -200,21 +211,45 @@ LONG ANSWER TEMPLATE
   position: fixed;
   /*padding-right: 40px;*/
   padding: 25px 40px 10px 0;
-  top: 50%; /*hide the box before the animation*/
-  right: -20px;
-  /*right: -100%;*/
+  top: 50%;
+  /*right: -20px;*/
+  right: -100%;
   transform: translateY(-50%);
   background-color: rgba(38, 38, 38, 0.78);
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
-  box-shadow: -1px 1px 80px -40px #0D1321;
+  box-shadow: -1px 1px 80px -20px #0D1321;
   transition: right ease 0.5s;
-  z-index: 11;
+  z-index: 12;
 }
-.modal-container {
 
+#profilePage { /* PROFILE */
+  /*width: 90%;*/
+  /*height: 80%;*/
+  width: 65%; /* MIKEY */
+  height: 65%; /* MIKEY */
+  position: fixed;
+  /*padding: 25px 40px 10px 0;*/ /* TOGGLE */
+  /*top: -120%;*/ /* hides the profile modal */
+  top: 0; /* shows the profile modal */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  box-shadow: -1px 1px 120px -30px #0D1321;
+  transition: top ease 0.5s;
+  z-index: 12;
+}
+
+.modal-container {
   display: flex;
   color: white;
+}
+.modal-container-2 { /* PROFILE */
+  display: flex;
+  flex-direction: column;
+  color: #232323;
 }
 .modal-header {
   position: absolute;
@@ -224,14 +259,43 @@ LONG ANSWER TEMPLATE
   left: 0;
   height: 100%;
   width: 30px;
-  /*background-color: lightgrey;*/
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
+.modal-header-2 { /* PROFILE */
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*left: 0;*/
+  height: 30px;
+  width: 100%;
+  bottom: 0;
+  /*height: 100%;*/
+  /*width: 30px;*/
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+/* CHECK WHAT BELOW DOES
+.modal-header-2 {  PROFILE MIKEY
+ -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  left: 47%;
+  top: 47%;
+}
+*/
 .modal-header .modal-close-btn {
   height: 50px;
   width: 6px;
   background-color: white;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.modal-header-2 .modal-close-btn-2 { /* PROFILE */
+  height: 6px;
+  width: 50px;
+  background-color: #232323;
   border-radius: 50px;
   cursor: pointer;
 }
@@ -240,6 +304,18 @@ LONG ANSWER TEMPLATE
   right: 60px;
   height: 90%;
   margin-left: 50px;
+  overflow: auto;
+  /*background-color: #57759f9e;*/
+}
+.modal-body-2 { /* PROFILE */
+  position: fixed;
+  height: 100%;
+  width: 80%;
+  max-width: 28rem;
+  /*top: 30%;*/
+  left: 50%;
+  /*transform: translate(-50%, -30%);*/
+  transform: translateX(-50%);
   overflow: auto;
   /*background-color: #57759f9e;*/
 }
@@ -258,6 +334,263 @@ LONG ANSWER TEMPLATE
   font-size: 0.85rem;
   line-height: 1.5;
 }
+
+.modal-body-title-container { /* PROFILE MIKEY */
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.modal-body-title-title {  /* PROFILE MIKEY */
+  width: 80%;
+}
+
+.modal-body-title-icons { /* PROFILE MIKEY */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 4rem;
+  margin-right: 1rem;
+  font-size: 1.8rem;
+  /*margin-left: 5em;*/
+  color: black;
+}
+.profile-details { /* PROFILE MIKEY */
+  /*display: inline-grid;*/
+  display: flex;
+  flex-direction: column;
+}
+.profile-lastname, .profile-firstname, .profile-language { /* PROFILE MIKEY */
+  margin-bottom: 1em;
+  background: transparent;  /*hide background from input*/
+  border: none; /*No border on input*/
+  outline: none;
+}
+.profile-lastname, .profile-firstname { /* PROFILE MIKEY */
+  box-shadow: 0px 1px 0px gray;
+  background: transparent;
+  float: right;
+  right: 0px;
+  margin-left: 2em;
+  border: none;
+}
+.profile-github, .profile-linkedin { /* PROFILE MIKEY */
+  border-radius: 0px;
+  box-shadow: 0px 1px 0px gray;
+  float: right;
+  margin-left: 2em;
+  margin-bottom: 1em;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.profile-language { /* PROFILE MIKEY */
+  margin-bottom: 2em;
+  float: right;
+}
+.profile-save-details { /* PROFILE MIKEY */
+  padding: 5px 0px;
+  margin-top: 25px;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  color: white;
+  background-color: lightblue;
+}
+.english { /* PROFILE MIKEY */
+  float: right;
+  margin-right: 10px;
+}
+
+/* profile hover */
+
+.profile-save-details:hover {  /* PROFILE MIKEY */
+  background-color: gray;
+  transition: ease 0.5s;
+}
+.profile-update:hover { /* PROFILE MIKEY */
+  color: lightblue;
+  transition: ease 0.5s;
+}
+.profile-logout:hover { /* PROFILE MIKEY */
+  color: lightpink;
+  transition: ease 1s;
+}
+
+/*Tooltip*/
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  font-size: 10px;
+  width: 70px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 100;
+  bottom: 65%;
+  left: 0%;
+  margin-left: -70px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Info page */
+
+#infoPage { /* PROFILE */
+  width: 30%;
+  height: 30%;
+  position: fixed;
+  padding: 25px 0px 10px 0;
+  /*top: -120%;*/ /* hides the profile modal */
+  top: 30px; /* shows the profile modal */
+  left: 0px;
+  background-color: grayscale;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: -1px 1px 80px -40px #0D1321;
+  transition: top ease 0.5s;
+  z-index: 11;
+}
+.modal-body-info {
+  display: fixed;
+  left: 100px;
+}
+.modal-info-title {
+  color: white;
+  margin:0px 0px 0px 0px;
+  display: block;
+  text-align: center;
+}
+.modal-info-creators {
+  color: lightgray;
+  margin-top: 0px;
+}
+.modal-info-creators { /*Powered by the Nine: Saadia Brahimi, Cali Armut, Laurent Hulstaert, Alexandre Ntougas, Michaël Tolis, Bertrand Honner, Yadrichnikov Nikolaï, Prince-kombo Bontala, Thomas Bouchard*/
+  text-align: center;
+}
+.version {
+  font-size: 14px;
+}
+/*.panel { /*Value of the modal if necessary
+  position: absolute;
+  border-radius: 15px;
+  width: 55%;
+  height: 15%;
+  left: 22%;
+}
+*/
+.modal-info-link {
+  display: block;
+  text-align: center;
+  color: white;
+  margin-right: 5px;
+  text-decoration: none;
+}
+.modal-info-link:hover {
+  text-decoration: line-through;
+}
+
+
+
+/*.answer-template-trigger {
+  right: -20px !important;
+}*/
+
+
+
+
+
+
+
+
+/* INPUTS in PROFILE */
+
+.input-wrapper label {
+  font-family: courier new;
+  color: #bbb;
+  font-size: 0.8rem; /* originally 11px */
+  text-transform: uppercase;
+  position: absolute;
+  z-index: 2;
+  /*left: 20px;*/
+  /*left: -50px;*/ /* change this to align placeholder */
+  top: 14px;
+  padding: 0 2px;
+  pointer-events: none;
+  /*background: #fff;*/
+  -webkit-transition: -webkit-transform 100ms ease;
+  -moz-transition: -moz-transform 100ms ease;
+  -o-transition: -o-transform 100ms ease;
+  -ms-transition: -ms-transform 100ms ease;
+  transition: transform 100ms ease;
+  -webkit-transform: translateY(-20px);
+  -moz-transform: translateY(-20px);
+  -o-transform: translateY(-20px);
+  -ms-transform: translateY(-20px);
+  transform: translateY(-20px);
+}
+input {
+  font-size: 0.8rem; /* originally 13px */
+  color: white;
+  background-color: #232323;
+  outline: none;
+  border: none;
+  border-bottom: 1px #555 solid;
+  padding: 10px 0px;
+  position: relative;
+  width: 100%; /*originally 9rem*/
+}
+#message{
+  line-height: 140%; /* change between em, px, % and auto to see difference */
+}
+input:invalid + label {
+  -webkit-transform: translateY(0);
+  -moz-transform: translateY(0);
+  -o-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+input:focus {
+  border-color: #44ffdc; /* originally #2b96f1 */
+}
+input:focus + label {
+  color: pink; /* originally #2b96f1 */
+  -webkit-transform: translateY(-20px);
+  -moz-transform: translateY(-20px);
+  -o-transform: translateY(-20px);
+  -ms-transform: translateY(-20px);
+  transform: translateY(-20px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -388,7 +721,7 @@ Terminal Content
     padding: 0px 15px 0px 15px;
     min-height: 45vh;
     max-height: 70%;
-    overflow: auto;     Hide the scroll bar after multiple request*/
+    overflow: auto;
 }
 .terminal-content .message {
     display: none;
