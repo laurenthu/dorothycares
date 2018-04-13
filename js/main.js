@@ -676,7 +676,7 @@ function date_time(selector) {
 }
 
 
-$(function () { // = $(document).ready(function(){})
+document.addEventListener('DOMContentLoaded', function() {
     let userInstruction; // variable temporaire
     let emailUser = document.querySelector('body').getAttribute('data-email');
     let tokenUser = document.querySelector('body').getAttribute('data-token');
@@ -688,19 +688,20 @@ $(function () { // = $(document).ready(function(){})
       document.querySelector('.user-input').focus();
     });
 
-    //$(document).on('keydown', function (e) { // we detect keyboard entry
     document.addEventListener('keydown', function (e) { // we detect keyboard entry
 
         document.querySelector('.user-input').focus();
-        //userInstruction = $('.user-input').text(); // we save the current value
         userInstruction = document.querySelector('.user-input').textContent; // we save the current value
 
         if (e.key == 'Enter' && userInstruction != '') {
             e.preventDefault();
             document.querySelector('.user-input').setAttribute('contentEditable', false);
             document.querySelector('.terminal-control').parentNode.removeChild(document.querySelector('.terminal-control'));
-            $('<span class="request">' + userInstruction + '</span>').appendTo($('.user-request').last());
-            //console.log(userInstruction);
+
+            let span = document.createElement("span");
+            span.classList.add("request");
+            document.querySelectorAll('.user-request')[document.querySelectorAll('.user-request').length - 1].appendChild(span);
+            span.innerHTML = '<span class="request">' + userInstruction + '</span>';
 
             $.ajax({
                 type: 'POST',
@@ -747,7 +748,7 @@ $(function () { // = $(document).ready(function(){})
                 },
                 complete: function (result, status) {
                     window.scrollTo(0, document.body.scrollHeight);
-                    document.querySelector('.user-input').setAttribute('contentEditable', false);
+                    document.querySelector('.user-input').setAttribute('contentEditable', true);
                     document.querySelector('.terminal-symbol').addEventListener('click', function () {
                         document.querySelector('.user-input').focus();
                     });
