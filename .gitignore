@@ -3,3 +3,4 @@ srv/_google-signin-client.php
 .htaccess
 googlee7d9bc3d5475312b.html
 .ovhconfig
+firebase/functions/node_modules/*
