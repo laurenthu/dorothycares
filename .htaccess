@@ -35,6 +35,9 @@ RewriteRule ^login/$ login.php [L,QSA]
 RewriteRule ^app/$ main.php [L,QSA]
 RewriteRule ^ajax/$ srv/ajax.php [L,QSA]
 
+## API > Dialogflow session ID
+RewriteRule ^api/session/([a-zA-Z0-9]+)/$ api/session.php?id=$1 [L,QSA]
+
 ## API > User
 RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/coach/$ api/user.php?emailUser=$2&tokenUser=$1&type=coachUser [L,QSA]
 RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/implantation/$ api/user.php?emailUser=$2&tokenUser=$1&type=implantationUser [L,QSA]
