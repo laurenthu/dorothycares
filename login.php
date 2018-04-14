@@ -31,7 +31,7 @@
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="website">
     <meta property="og:title" content="DorothAI">
-    <meta property="og:description" content="Dorothy cares about you. Iy'll help you along your way at BeCode.">
+    <meta property="og:description" content="Dorothy cares about you. It'll help you along your way at BeCode.">
     <meta property="og:url" content="https://dorothycares.io/">
     <meta property="og:site_name" content="DorothAI">
     <meta property="og:image" content="https://dorothycares.io/img/printscreen.jpg">

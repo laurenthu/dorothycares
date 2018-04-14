@@ -453,7 +453,6 @@ function displayMessage () {
 
 
   /* TO IMPLEMENT LATER:
-
   if (USER HAS UPDATED PROFILE) {
     welcomeMessageH1.innerHTML = messageGeneral;
   } else if(USER HAS NOT UPDATED PROFILE) {
@@ -477,11 +476,9 @@ _______________________________
     window.onclick = resetTimer; // catches touchpad clicks
     window.onscroll = resetTimer; // catches scrolling with arrow keys
     window.onkeypress = resetTimer;
-
     function display() {
 
     }
-
     function resetTimer() {
         clearTimeout(t);
         t = setTimeout(displayMessage, 3000);
@@ -704,55 +701,55 @@ document.addEventListener('DOMContentLoaded', function() {
             span.innerHTML = '<span class="request">' + userInstruction + '</span>';
 
             $.ajax({
-                type: 'POST',
-                url: baseUrl + 'query?v=' + version,
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                headers: {
-                    'Authorization': 'Bearer ' + accessToken
-                },
-                data: JSON.stringify({
-                    query: userInstruction,
-                    lang: "en",
-                    emailUser: emailUser,
-                    tokenUser: tokenUser,
-                    sessionId: sessionId
-                }),
+              type: 'POST',
+              url: baseUrl + 'query?v=' + version,
+              contentType: 'application/json; charset=utf-8',
+              dataType: 'json',
+              headers: {
+                'Authorization': 'Bearer ' + accessToken
+              },
+              data: JSON.stringify({
+                query: userInstruction,
+                lang: "en",
+                emailUser: emailUser,
+                tokenUser: tokenUser,
+                sessionId: sessionId
+              }),
 
-                success: function (data, status) { // answer include the answer return by the script
-                    answer = data.result.fulfillment.messages[0].speech;
-                    answer = anchorme(nl2br(answer), {
-                        attributes: [{
-                            name: "target",
-                            value: "_blank"
-                        }],
-                        files: false,
-                        ips: false
-                    });
-                    if (typeof data.sessionId !== 'undefined') {
-                      sessionId = data.sessionId;
-                    }
+              success: function (data, status) { // answer include the answer return by the script
+                answer = data.result.fulfillment.messages[0].speech;
+                answer = anchorme(nl2br(answer), {
+                    attributes: [{
+                        name: "target",
+                        value: "_blank"
+                    }],
+                    files: false,
+                    ips: false
+                });
+                if (typeof data.sessionId !== 'undefined') {
+                  sessionId = data.sessionId;
+                }
 
-                    $('<div class="answer">' + answer + '</span>').appendTo($('.user-request').last());
-                    $('<div class="instruction"></div>').appendTo($('.terminal-content'));
-                    $('<div class="user-request"></div>').appendTo($('.instruction').last());
-                    $('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
-                    $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
-                },
-                error: function (result, status, error) {
-                    $('<div class="answer">Sorry. There is a bug in my brai. Please try again!</span>').appendTo($('.user-request').last());
-                    $('<div class="instruction"></div>').appendTo($('.terminal-content'));
-                    $('<div class="user-request"></div>').appendTo($('.instruction').last());
-                    $('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
-                    $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
-                },
-                complete: function (result, status) {
-                    window.scrollTo(0, document.body.scrollHeight);
-                    document.querySelector('.user-input').setAttribute('contentEditable', true);
-                    document.querySelector('.terminal-symbol').addEventListener('click', function () {
-                        document.querySelector('.user-input').focus();
-                    });
-                },
+                $('<div class="answer">' + answer + '</span>').appendTo($('.user-request').last());
+                $('<div class="instruction"></div>').appendTo($('.terminal-content'));
+                $('<div class="user-request"></div>').appendTo($('.instruction').last());
+                $('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
+                $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
+              },
+              error: function (result, status, error) {
+                $('<div class="answer">Sorry. There is a bug in my brai. Please try again!</span>').appendTo($('.user-request').last());
+                $('<div class="instruction"></div>').appendTo($('.terminal-content'));
+                $('<div class="user-request"></div>').appendTo($('.instruction').last());
+                $('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
+                $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
+              },
+              complete: function (result, status) {
+                window.scrollTo(0, document.body.scrollHeight);
+                document.querySelector('.user-input').setAttribute('contentEditable', true);
+                document.querySelector('.terminal-symbol').addEventListener('click', function () {
+                  document.querySelector('.user-input').focus();
+                });
+              },
             });
 
         } else if (e.key == 'Enter' && userInstruction == '') {
