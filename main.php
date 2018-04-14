@@ -47,6 +47,9 @@
   <!--Canvas container for the particles-->
 	<canvas id="canvas"></canvas>
 
+  <!-- Hiding background div for modals -->
+  <div id="hiding-bg-div" class="hiding-bg-div"></div>
+
   <!-- Date and time -->
   <nav class="os-bar">
     <div class="os-bar__date-time"></div>
@@ -77,7 +80,6 @@
   <!-- Terminal -->
   <main class="terminal" id="terminal"> <!--Box container for header with button and input/output-->
     <header class="terminal-header" id="terminal-header" value="terminal">
-			<!-- <div><span class="window-name" id="window-name">Terminal</span></div>  -->
 			<div class="terminal-header-item" id="terminal-header-item">
 				<button class="terminal-header-btn maximize" id="maximize"></button>
 				<button class="terminal-header-btn close" id="close" value="close">
@@ -100,40 +102,43 @@
 	</main>
 
     <!-- Profile page -->
-    <!-- <section id="profilePage">
+    <!--
+    <section id="profilePage">
       <div class="modal-container-2">
         <div class="modal-body-2">
 
           <div class="modal-body-title-container">
             <div class="modal-body-title-title"><h1 class="modal-body-title">PROFILE</h1></div>
             <div class="modal-body-title-icons">
-              <i id="profile-update" class="profile-update fa fa-cog tooltip" aria-hidden="true"><span class="tooltiptext">edit profile</span></i></button>
-              <i id="profile-logout" class="profile-logout fa fa-power-off tooltip" aria-hidden="true"><span class="tooltiptext">logout</span></i></button>
+              <a href="/logout/"><i id="profile-logout" class="profile-logout fa fa-power-off tooltip" aria-hidden="true"><span class="tooltiptext">logout</span></i></a>
             </div>
           </div>
 
-          <form id="profile-details" class="profile-details" action="" method=""> <?php // LAURENT ?>
-            <span class="input-wrapper">
+          <form id="profile-details" class="profile-details" action="" method="">
+            <span class="profile-input-wrapper">
               <label for="profile-lastname">LAST NAME</label>
-              <input id="profile-lastname" class="profile-lastname" type="text" placeholder="DOROTHY"> <?php //  LAURENT: INITIALISE VALUE AS VALUE FETCHED FROM GOOGLE API ?>
+              <input id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy">
             </span>
-            <span class="input-wrapper">
+            <span class="profile-input-wrapper">
               <label for="profile-firstname">FIRST NAME</label>
-              <input id="profile-firstname" class="profile-firstname" type="text" placeholder="NINE"> <?php // LAURENT: INITIALISE VALUE AS VALUE FETCHED FROM GOOGLE API ?>
+              <input id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares">
             </span>
-            <span class="input-wrapper">
+            <span class="profile-input-wrapper">
               <label for="profile-language">LANGUAGE</label>
-              <input id="profile-language" class="profile-language" type="radio" checked="checked" name="ENG"><label class="english" onclick="profileedit()">En</label>
+              <input id="profile-language" class="profile-language" type="radio" checked="checked" name="ENG"><label class="english">En</label>
             </span>
-            <span class="input-wrapper">
+            <span class="profile-input-wrapper">
               <label for="profile-github">GITHUB</label>
-              <input id="profile-github" class="profile-github" type="text" name="Github account" placeholder="GITHUB">
+              <input id="profile-github" class="profile-github" type="text" name="Github account" placeholder="Github">
             </span>
-            <span class="input-wrapper">
+            <span class="profile-input-wrapper">
               <label for="profile-linkedin">LINKEDIN</label>
-              <input id="profile-linkedin" class="profile-linkedin" type="text" placeholder="LINKEDIN">
+              <input id="profile-linkedin" class="profile-linkedin" type="text" placeholder="Linkedin">
             </span>
-            <input id="profile-save-details" class="profile-save-details" type="submit" value="SAVE"> <?php // HIDE UNTIL USER CLICKS ON UPDATE ?>
+            <div class="profile-buttons">
+              <button id="profile-add-details" class="profile-add-details">Add</button>
+              <input id="profile-save-details" class="profile-save-details" type="submit" value="SAVE">
+            </div>
           </form>
 
         </div>
@@ -143,13 +148,24 @@
         </div>
 
       </div>
-    </section> -->
+    </section>
+    -->
 
     <!-- Info page -->
     <!--
     <section id="infoPage">
+      <div id="modal-container-3">
+        <div id="modal-body-info" class="modal-body-info">
+          <h1 class="modal-info-title">Dorothy Ai<span class="version"><?php echo VERSION ?></span></h1>
+          <h5 class="modal-info-creators">Powered by the Nine</h5>
+          <a class="modal-info-link" href="https://www.becode.org/">A Becode Project</a>
+          <a class="modal-info-link" href="policy/cookies-policy.html">Cookies-Policy</a>
+          <a class="modal-info-link" href="policy/privacy.html">Privacy</a>
+        </div>
+      </div>
     </section>
   -->
+
 
     <!-- Long answer template (for long answers e.g. about a specific coding language) -->
     <section id="answerTemplate">

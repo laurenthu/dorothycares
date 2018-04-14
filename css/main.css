@@ -227,7 +227,7 @@ MODALS
   /*width: 90%;*/
   /*height: 80%;*/
   width: 65%; /* MIKEY */
-  height: 65%; /* MIKEY */
+  height: 80%; /* MIKEY */
   position: fixed;
   /*padding: 25px 40px 10px 0;*/ /* TOGGLE */
   /*top: -120%;*/ /* hides the profile modal */
@@ -347,74 +347,96 @@ MODALS
 
 .modal-body-title-icons { /* PROFILE MIKEY */
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   width: 4rem;
-  margin-right: 1rem;
-  font-size: 1.8rem;
+  font-size: 2rem;
   /*margin-left: 5em;*/
   color: black;
+}
+.modal-body-title-icons a {
+  color: #978eff;
 }
 .profile-details { /* PROFILE MIKEY */
   /*display: inline-grid;*/
   display: flex;
   flex-direction: column;
+  margin-top: 2rem;
 }
-.profile-lastname, .profile-firstname, .profile-language { /* PROFILE MIKEY */
-  margin-bottom: 1em;
-  background: transparent;  /*hide background from input*/
-  border: none; /*No border on input*/
-  outline: none;
+.profile-input-wrapper {
+  display: flex;
 }
-.profile-lastname, .profile-firstname { /* PROFILE MIKEY */
-  box-shadow: 0px 1px 0px gray;
-  background: transparent;
-  float: right;
-  right: 0px;
-  margin-left: 2em;
-  border: none;
+.profile-input-wrapper label {
+  width: 30%;
 }
-.profile-github, .profile-linkedin { /* PROFILE MIKEY */
-  border-radius: 0px;
-  box-shadow: 0px 1px 0px gray;
-  float: right;
-  margin-left: 2em;
+.profile-input-wrapper input[type=text] {
   margin-bottom: 1em;
   background: transparent;
   border: none;
+  border-bottom: 1px solid black;
   outline: none;
+  width: 60%;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 100;
 }
+
 .profile-language { /* PROFILE MIKEY */
   margin-bottom: 2em;
-  float: right;
+  /*float: right;*/
 }
-.profile-save-details { /* PROFILE MIKEY */
+
+.profile-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 40px;
+}
+.profile-add-details {
+  text-transform: uppercase;
   padding: 5px 0px;
   margin-top: 25px;
   border-radius: 50px;
   border: none;
   outline: none;
   color: white;
-  background-color: lightblue;
+  /*background-color: lightblue;*/
+  background-color: #978eff;
+  cursor: pointer;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
+  width: 50%;
+}
+.profile-save-details { /* PROFILE MIKEY */
+  padding: 5px 0px;
+  margin-top: 15px;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  color: white;
+  /*background-color: lightblue;*/
+  background-color: #978eff;
+  cursor: pointer;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
+  width: 50%;
 }
 .english { /* PROFILE MIKEY */
-  float: right;
-  margin-right: 10px;
+  /*float: right;*/
+  /*margin-right: 10px;*/
+  margin-left: 0.75rem;
 }
 
 /* profile hover */
 
-.profile-save-details:hover {  /* PROFILE MIKEY */
-  background-color: gray;
-  transition: ease 0.5s;
-}
-.profile-update:hover { /* PROFILE MIKEY */
-  color: lightblue;
-  transition: ease 0.5s;
+.profile-save-details:hover, .profile-add-details:hover {  /* PROFILE MIKEY */
+  background-color: #232323;
+  transition: background-color ease-in-out 0.3s;
 }
 .profile-logout:hover { /* PROFILE MIKEY */
   color: lightpink;
-  transition: ease 1s;
+  transition: color ease-in-out 0.3s;
 }
 
 /*Tooltip*/
@@ -425,7 +447,9 @@ MODALS
 }
 .tooltip .tooltiptext {
   visibility: hidden;
-  font-size: 10px;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
+  font-size: 0.8rem;
   width: 70px;
   background-color: #555;
   color: #fff;
@@ -433,10 +457,12 @@ MODALS
   border-radius: 6px;
   padding: 5px 0;
   position: absolute;
-  z-index: 100;
-  bottom: 65%;
-  left: 0%;
-  margin-left: -70px;
+  z-index: 11;
+  /*bottom: 65%;*/
+  bottom: 0.3rem;
+  /*left: 0%;*/
+  left: 0.5rem;
+  margin-left: -80px;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -513,84 +539,6 @@ MODALS
 /*.answer-template-trigger {
   right: -20px !important;
 }*/
-
-
-
-
-
-
-
-
-/* INPUTS in PROFILE */
-
-.input-wrapper label {
-  font-family: courier new;
-  color: #bbb;
-  font-size: 0.8rem; /* originally 11px */
-  text-transform: uppercase;
-  position: absolute;
-  z-index: 2;
-  /*left: 20px;*/
-  /*left: -50px;*/ /* change this to align placeholder */
-  top: 14px;
-  padding: 0 2px;
-  pointer-events: none;
-  /*background: #fff;*/
-  -webkit-transition: -webkit-transform 100ms ease;
-  -moz-transition: -moz-transform 100ms ease;
-  -o-transition: -o-transform 100ms ease;
-  -ms-transition: -ms-transform 100ms ease;
-  transition: transform 100ms ease;
-  -webkit-transform: translateY(-20px);
-  -moz-transform: translateY(-20px);
-  -o-transform: translateY(-20px);
-  -ms-transform: translateY(-20px);
-  transform: translateY(-20px);
-}
-input {
-  font-size: 0.8rem; /* originally 13px */
-  color: white;
-  background-color: #232323;
-  outline: none;
-  border: none;
-  border-bottom: 1px #555 solid;
-  padding: 10px 0px;
-  position: relative;
-  width: 100%; /*originally 9rem*/
-}
-#message{
-  line-height: 140%; /* change between em, px, % and auto to see difference */
-}
-input:invalid + label {
-  -webkit-transform: translateY(0);
-  -moz-transform: translateY(0);
-  -o-transform: translateY(0);
-  -ms-transform: translateY(0);
-  transform: translateY(0);
-}
-input:focus {
-  border-color: #44ffdc; /* originally #2b96f1 */
-}
-input:focus + label {
-  color: pink; /* originally #2b96f1 */
-  -webkit-transform: translateY(-20px);
-  -moz-transform: translateY(-20px);
-  -o-transform: translateY(-20px);
-  -ms-transform: translateY(-20px);
-  transform: translateY(-20px);
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
