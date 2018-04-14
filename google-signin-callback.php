@@ -41,6 +41,7 @@
     $u->addUserLog($userData['email']);
     $u->updateRandomSaltdUser($userData['email']);
     $u->updatePasswordUser($userData['email']);
+    $u->updateSessionIdUser($userData['email'],session_id());
 
     $_SESSION['token'] = $u->getRandomSaltdUser($userData['email']);
 
