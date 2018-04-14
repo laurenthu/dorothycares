@@ -7,8 +7,9 @@ const RessourcesController = require ('../controllers/ressources');
 // Handle incoming GET requests to /ressources
 router.get("/", RessourcesController.get_all_ressources);
 // Handle incoming GET requests to /ressources/:ressourceId
-router.get("/:ressourceId", RessourcesController.get_ressource);
+// router.get("/:ressourceId", RessourcesController.get_ressource);
 
+router.get("/:ressourceName", RessourcesController.get_ressourceName);
 // Handle POST requests to /ressources
 router.post("/", RessourcesController.create_ressource);
 

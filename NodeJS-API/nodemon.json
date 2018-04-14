@@ -1,6 +1,6 @@
 {
   "env":{
-    "MONGO_LAB_DB": "mongodb://DorothyCares:TheN!neSold!ers@ds239309.mlab.com:39309/",
+    "MONGO_LAB_DB_USER": "DorothyCares",
     "MONGO_LAB_PW":"TheN!neSold!ers",
     "JWT_KEY": "wtfisthatkey",
     "SECRET": "guesswhat"
