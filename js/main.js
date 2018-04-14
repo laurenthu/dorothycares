@@ -646,11 +646,7 @@ Laurent
 ----------------------------------------------------------------------
 */
 
-let sessionId = Math.floor(Math.random() * Math.random() * 350000); // we generate a sessionId for dialogflow
-const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
-//const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae'; // agent v2 - DorothyCares
-const baseUrl = 'https://api.dialogflow.com/v1/';
-const version = '20170712';
+//let sessionId = Math.floor(Math.random() * Math.random() * 350000); // we generate a sessionId for dialogflow
 
 function nl2br(str) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
@@ -675,8 +671,13 @@ function date_time(selector) {
 
 document.addEventListener('DOMContentLoaded', function() {
     let userInstruction; // variable temporaire
+    const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
+    //const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae'; // agent v2 - DorothyCares
+    const baseUrl = 'https://api.dialogflow.com/v1/';
+    const version = '20170712';
     let emailUser = document.querySelector('body').getAttribute('data-email');
     let tokenUser = document.querySelector('body').getAttribute('data-token');
+    let sessionId = document.querySelector('body').getAttribute('data-dialogflow-session');
 
     date_time('.os-bar__date-time');
     document.querySelector('.user-input').setAttribute('contentEditable', true);
@@ -717,6 +718,7 @@ document.addEventListener('DOMContentLoaded', function() {
               }),
 
               success: function (data, status) { // answer include the answer return by the script
+                console.log(data);
                 answer = data.result.fulfillment.messages[0].speech;
                 answer = anchorme(nl2br(answer), {
                     attributes: [{
