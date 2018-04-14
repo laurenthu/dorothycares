@@ -1,42 +1,652 @@
-let buttonFullScreen = document.querySelector('.maximize');
-let buttonClose = document.querySelector('.close');
-let buttonMicro = document.querySelector('.os-bar__micro');
-let buttonVolume = document.querySelector('.os-bar__volume');
-let buttonLanguages = document.querySelector('.os-bar__language');
-let sliderContainer = document.querySelector('.slider-container');
-let sliderVolumeIcon = document.querySelector('.slider-container .volume-icon');
-let audioslider = document.getElementById("audioRange");
-let audioLevelDisplay = document.getElementById("volume-level");
-let audioLevelBeforeMute = 0;
-let languagesContainer = document.querySelector('.languages-container');
-let languagesItems = document.querySelectorAll('.languages-container div');
-let languagesItemsIcon = document.querySelectorAll('.languages-container div i');
-let sessionId = Math.floor(Math.random() * Math.random() * 350000); // we generate a sessionId for dialogflow
-const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
-//const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae'; // agent v2 - DorothyCares
-const baseUrl = 'https://api.dialogflow.com/v1/';
-const version = '20170712';
+/*
+----------------------------------------------------------------------
+BERTRAND
+----------------------------------------------------------------------
+*/
 
-if (buttonFullScreen != null) {
-  buttonFullScreen.addEventListener('click', function () {
-      let body = document.querySelector('body');
-      if (!document.mozFullScreen && !document.webkitFullScreen) {
-        if (body.requestFullScreen) {
-            body.requestFullScreen();
-        } else if (body.mozRequestFullScreen) {
-            body.mozRequestFullScreen();
-        } else if (body.webkitRequestFullScreen) {
-            body.webkitRequestFullScreen();
+
+/*
+INTRO ANIMATIONS (ball & menu)
+_______________________________
+*/
+
+
+let dorothyBall = document.querySelector('.dorothy-ball');
+let menu = document.getElementsByClassName('ball-menu-item');
+let menuOpen = false; // used to tell whether menu was clicked or not (acts as switch)
+let message = document.querySelector('.welcome-message-style');
+let welcomeMessageContainer = document.getElementById('welcomeMessageContainer');
+let messageClicked = false; // switch for whether welcome message was clicked or not
+let menuTerminal = document.querySelector('.menu-terminal');
+let menuProfile = document.querySelector('.menu-profile');
+let menuInfo = document.querySelector('.menu-info');
+let menuCalendar = document.querySelector('.menu-calendar');
+let answerModal = document.getElementById('answerTemplate');
+let longAnswerBtn = document.getElementById('answer-modal-btn');
+let profileModal = document.getElementById('profilePage');
+let hidingBgDiv = document.getElementById('hiding-bg-div');
+let menuProfileIsClicked = false;
+
+// function to show/hide menu (small balls)
+function showMenu (value) {
+  for(let i = 0; i < menu.length; i++){
+    menu[i].style.display = value;
+  }
+}
+
+// hide menu on page load
+showMenu("none");
+
+// intro animation [Anime JS], "breathing" ball effect
+let breathingBall = anime({
+  targets: '.dorothy-ball',
+  delay: 1500,
+  translateX: ['-50%', '-50%'],
+  translateY: ['50%', '50%'],
+  scale: [1, 1.05],
+  direction: 'alternate',
+  easing: 'easeInOutQuad',
+  duration: 1600,
+  loop: true,
+  autoplay: false
+});
+
+// on page load first make ball appear [Anime JS]
+anime({
+  targets: '.dorothy-ball',
+  translateX: '-50%',
+  translateY: '50%',
+  opacity: 1,
+  scale: [0, 1],
+  duration: 1000,
+  easing: 'easeInOutBack',
+  complete: breathingBall.play()
+});
+
+// When ball is clicked
+dorothyBall.addEventListener('click', function() {
+  // pause the breathing animation to avoid problems with its loop property [Anime JS]
+  breathingBall.pause();
+  // then move ball to the bottom [Anime JS]
+  anime({
+    targets: '.dorothy-ball',
+    bottom: '-130px',
+    translateX: '-50%',
+    translateY: '0%',
+    duration: 1200,
+    easing: 'easeOutElastic'
+  });
+  // create a timeline [Anime JS] to chain more animations
+  let myTimeline = anime.timeline();
+
+  // if menu isn't open do following:
+  if (menuOpen === false) {
+    welcomeMessageContainer.style.opacity = 0;
+    menuOpen = true;
+    // show the menu (small balls)
+    showMenu("block");
+    // lay out the timeline [Anime JS]
+    myTimeline
+      .add({
+        targets: '.menu-terminal',
+        scale: [0, 1],
+        offset: '+=500'
+      })
+      .add({
+        targets: '.menu-profile',
+        scale: [0, 1],
+        offset: '-=950'
+      })
+      .add({
+        targets: '.menu-info',
+        scale: [0, 1],
+        offset: '-=950'
+      })
+      .add({
+        targets: '.menu-calendar',
+        scale: [0, 1],
+        offset: '-=950',
+        complete: function(){
+          if (messageClicked == false) {
+            displayMessage();
+            welcomeMessageContainer.style.opacity = 1;
+          }
         }
+      });
+
+  // if menu is open do following:
+  } else {
+    menuOpen = false;
+    // lay out the timeline [Anime JS]
+    myTimeline
+      .add({
+        targets: '.menu-terminal',
+        scale: 0.4
+      })
+      .add({
+        targets: '.menu-profile',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-info',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-calendar',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-terminal',
+        scale: 0.4,
+        translateX: '150%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-profile',
+        scale: 0.4,
+        translateX: '100%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-info',
+        scale: 0.4,
+        translateX: '-100%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-calendar',
+        scale: 0.4,
+        translateX: '-150%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack',
+        complete: function(){ // once all of these animations are completed run the following:
+          showMenu("none"); // hide the menu
+          menuTerminal.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
+          menuProfile.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
+          menuInfo.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
+          menuCalendar.style.transform = "translateX(0%) translateY(0%)"; // set translate X and Y of menu buttons back to 0%
+        }
+      })
+  }
+});
+
+// When user clicks on welcome message launch showTerminal() function
+welcomeMessageContainer.addEventListener('click', showTerminal);
+
+// When user clicks on terminal button in menu launch showTerminal() function
+menuTerminal.addEventListener('click', showTerminal);
+
+// When user clicks on profile button in menu ...
+menuProfile.addEventListener('click', function(){
+  // if profile button is not clicked
+  if (menuProfileIsClicked == false) {
+    menuProfileIsClicked = true; // set profile button as clicked
+    showProfile(); // launch showProfile() function
+  } else { // if profile button is clicked
+    menuProfileIsClicked = false; // set profile button as unclicked
+    hideProfile(); // launch hideProfile() function
+  }
+});
+
+function showTerminal() {
+  // set switch back to false so that we can open it with one click
+  menuOpen = false;
+  // message will no longer appear, terminal is now shown as bg
+  messageClicked = true;
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  // fade out effect on welcome message
+  welcomeMessageContainer.style.opacity = 0;
+  // below triggers animations (first one is the terminal popping up)
+  anime({
+    targets: '.terminal',
+    bottom: 0,
+    duration: 1000,
+    begin: function(){
+      myTimeline
+      .add({
+        targets: '.menu-terminal',
+        scale: 0.4
+      })
+      .add({
+        targets: '.menu-profile',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-info',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-calendar',
+        scale: 0.4,
+        offset: '-=850'
+      })
+      .add({
+        targets: '.menu-terminal',
+        scale: 0.4,
+        translateX: '150%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-profile',
+        scale: 0.4,
+        translateX: '100%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-info',
+        scale: 0.4,
+        translateX: '-100%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack'
+      })
+      .add({
+        targets: '.menu-calendar',
+        scale: 0.4,
+        translateX: '-150%',
+        translateY: '400%',
+        duration: 300,
+        offset: '-=800',
+        easing: 'easeInBack',
+        complete: function(){ // once all of these animations are completed run the following (same as earlier):
+          welcomeMessageContainer.style.display = "none"; // hides welcome message for good
+          showMenu("none");
+          menuTerminal.style.transform = "translateX(0%) translateY(0%)";
+          menuProfile.style.transform = "translateX(0%) translateY(0%)";
+          menuInfo.style.transform = "translateX(0%) translateY(0%)";
+          menuCalendar.style.transform = "translateX(0%) translateY(0%)";
+        }
+      })
+    }
+  });
+}
+
+function showProfile () {
+  // set switch back to false so that we can open it with one click
+  menuOpen = false;
+  // show hiding background div so user can't click on background
+  hidingBgDiv.style.display = "block";
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  // below triggers animations (first one is the terminal popping up)
+  profileModal.style.top = "-20px";
+  myTimeline
+    .add({
+      targets: '.menu-terminal',
+      scale: 0.4
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-terminal',
+      scale: 0.4,
+      translateX: '150%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: 0.4,
+      translateX: '100%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: 0.4,
+      translateX: '-100%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: 0.4,
+      translateX: '-150%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack',
+      complete: function(){ // once all of these animations are completed run the following (same as earlier):
+        showMenu("none");
+        menuTerminal.style.transform = "translateX(0%) translateY(0%)";
+        menuProfile.style.transform = "translateX(0%) translateY(0%)";
+        menuInfo.style.transform = "translateX(0%) translateY(0%)";
+        menuCalendar.style.transform = "translateX(0%) translateY(0%)";
       }
-  }, false);
+    })
+}
+
+// when click on any menu buttons other than profile or on close button of profile modal, launch hideProfile()
+function hideProfile () {
+  // hide profile modal
+  profileModal.style.top = '-120%';
+  // hide hiding background div so user can't click on background
+  hidingBgDiv.style.display = 'none';
+  if (menuOpen == true) {
+    // show menu
+    myTimeline
+        .add({
+          targets: '.menu-terminal',
+          scale: [0, 1],
+          offset: '+=500'
+        })
+        .add({
+          targets: '.menu-profile',
+          scale: [0, 1],
+          offset: '-=950'
+        })
+        .add({
+          targets: '.menu-info',
+          scale: [0, 1],
+          offset: '-=950'
+        })
+        .add({
+          targets: '.menu-calendar',
+          scale: [0, 1],
+          offset: '-=950'
+          // complete: function(){
+          //   if (messageClicked == false) {
+          //     displayMessage();
+          //     welcomeMessageContainer.style.opacity = 1;
+          //   }
+          // }
+        });
+  }
+
+}
+
+
+
+
+// !!! ADD LINE BELOW TO OPEN LONG ANSWER MODAL WHEN USER CLICKS ON TEXT WITH LINK PROVIDED BY DOROTHY
+// [LINKTOCLICK].addEventListener('click', function(){
+//   answerModal.style.right = "-20px";
+// });
+
+// !!! ADD LINE BELOW TO CLOSE LONG ANSWER MODAL WHEN USER CLICKS ON TEXT WITH LINK PROVIDED BY DOROTHY
+longAnswerBtn.addEventListener('click', function(){
+  answerModal.style.right = "-120%";
+});
+
+
+
+/*
+TERMINAL SCROLL BAR: scroll down automatically when scroll bar appears
+_______________________________
+*/
+
+let scrollContainer = document.getElementById("terminal-content");
+
+function scrollDown() {
+  // when user presses 'enter' scrollbar scrolls down automatically
+  scrollContainer.scrollTop = scrollContainer.scrollHeight;
+}
+
+/*
+MOUSE TRACKING ANIMATION [OPTIONAL]
+_______________________________
+*/
+
+
+
+/*
+WELCOME MESSAGE CENTRE PAGE
+_______________________________
+*/
+function displayMessage () {
+  let welcomeMessageSpan = document.querySelector('#welcomeMessageContainer h1 span');
+  // array of different messages
+  let messageArray = ["wanna talk?", "ask me anything.", "wanna chat?", "can I help you with anything?", "what's up?", "how's it going?"];
+  // fetch message from messageArray at random
+  let randomMessage = messageArray[Math.floor(Math.random() * messageArray.length)];
+  // what will be displayed once user updated their profile
+  // let messageGeneral = 'Hey fellow becoder,' + ' ' + randomMessage;
+  // what will be displayed if user hasn't updated their profile
+  let messageNoName = 'Hello stranger, I would love to know your name! You can do this by updating your profile page in the menu below.';
+  // let messageWithName = 'Hello <span>FETCH NAME IN DB</span>, wanna talk?'; // Use this with DB (check with backend guys) and associate with this an array of more messages like 'it's good to see you again' or 'long time no see'
+
+  // add random message as content in the h1
+  welcomeMessageSpan.innerHTML = randomMessage;
+
+
+  /* TO IMPLEMENT LATER:
+  if (USER HAS UPDATED PROFILE) {
+    welcomeMessageH1.innerHTML = messageGeneral;
+  } else if(USER HAS NOT UPDATED PROFILE) {
+    welcomeMessageH1.innerHTML = messageNoName;
+  }
+  */
+}
+
+
+/*
+IDLE MESSAGE CENTRE PAGE [OPTIONAL]
+_______________________________
+*/
+
+// When user is idle for too long, launch function below:
+/*let inactivityTime = function () {
+    let t;
+    window.onload = resetTimer;
+    window.onmousemove = resetTimer;
+    window.onmousedown = resetTimer; // catches touchscreen presses
+    window.onclick = resetTimer; // catches touchpad clicks
+    window.onscroll = resetTimer; // catches scrolling with arrow keys
+    window.onkeypress = resetTimer;
+    function display() {
+
+    }
+    function resetTimer() {
+        clearTimeout(t);
+        t = setTimeout(displayMessage, 3000);
+    }
+};*/
+
+
+
+
+
+
+/*
+----------------------------------------------------------------------
+MIKEY
+----------------------------------------------------------------------
+*/
+
+
+
+
+/*
+Close button Function
+_______________________________
+*/
+
+document.getElementById('close').onclick = function(){  // Select element button "close" onclick
+  // Anime.js change the value of the Y axis to create an animation
+  anime({
+    targets: 'main, terminal',
+    // The target to animate (only works with ID)
+    translateY: [
+    // Affect the Y axis
+      { value: 700, duration: 2000},
+      // Value is the position in pixel, duration is the time the animation will take in millisecond
+    ],
+  });
 };
 
-if (buttonClose != null) {
-  buttonClose.addEventListener('click', function () {
-    location.reload();
-  }, false);
+/*
+Resize State Button Function
+_______________________________
+*/
+
+
+let terminal = document.querySelector('#terminal');   // Variable terminal initialisation
+let resizeBtn = document.querySelector('#maximize');  // Variable maximize initialisation
+let resizeState = false;                // State variable
+
+resizeBtn.addEventListener('click', function (){    // Function start on click on maximize button
+  if (resizeState == false) {             // Condition to create toggle
+    terminal.style.margin = "0 2.5vw";        // Change to new margin value
+    terminal.style.width = "95%";         // Change to new width value
+    terminal.style.top = "550px";         // Change to new top value
+    resizeState = true;               // Change the state to true
+  } else if (resizeState == true) {         // In other case if resizeState is = to true
+    terminal.style.margin = "0 22.5vw";       // Change to margin default value
+    terminal.style.width = "55%";         // Change to width default value
+    terminal.style.top = "700px";         // Change to top pixel default value
+    resizeState = false;              // Change the state to false
+  };
+})
+
+
+/*
+Particles animation
+_______________________________
+*/
+
+let resizeReset = function() {
+  w = canvasBody.width = window.innerWidth;
+  h = canvasBody.height = window.innerHeight;
+}
+
+const opts = {
+  particleColor: "white",
+  lineColor: "white",
+  particleAmount: 30,
+  defaultSpeed: 0.01,
+  variantSpeed: 0.3,
+  defaultRadius: 0.5,
+  variantRadius: 0.5,
+  linkRadius: 200,
 };
+
+window.addEventListener("resize", function(){
+  deBouncer();
+});
+
+let deBouncer = function() {
+    clearTimeout(tid);
+    tid = setTimeout(function() {
+        resizeReset();
+    }, delay);
+};
+
+let checkDistance = function(x1, y1, x2, y2){
+  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+};
+
+Particle = function(xPos, yPos){
+  this.x = Math.random() * w;
+  this.y = Math.random() * h;
+  this.speed = opts.defaultSpeed + Math.random() * opts.variantSpeed;
+  this.directionAngle = Math.floor(Math.random() * 360);
+  this.color = opts.particleColor;
+  this.radius = opts.defaultRadius + Math.random() * opts. variantRadius;
+  this.vector = {
+    x: Math.cos(this.directionAngle) * this.speed,
+    y: Math.sin(this.directionAngle) * this.speed
+  };
+  this.update = function(){
+    this.border();
+    this.x += this.vector.x;
+    this.y += this.vector.y;
+  };
+  this.border = function(){
+    if (this.x >= w || this.x <= 0) {
+      this.vector.x *= -1;
+    }
+    if (this.y >= h || this.y <= 0) {
+      this.vector.y *= -1;
+    }
+    if (this.x > w) this.x = w;
+    if (this.y > h) this.y = h;
+    if (this.x < 0) this.x = 0;
+    if (this.y < 0) this.y = 0;
+  };
+  this.draw = function(){
+    drawArea.beginPath();
+    drawArea.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+    drawArea.closePath();
+    drawArea.fillStyle = this.color;
+    drawArea.fill();
+  };
+};
+
+function setup(){
+  particles = [];
+  resizeReset();
+  for (let i = 0; i < opts.particleAmount; i++){
+    particles.push( new Particle() );
+  }
+  window.requestAnimationFrame(loop);
+}
+
+function loop(){
+  window.requestAnimationFrame(loop);
+  drawArea.clearRect(0,0,w,h);
+  for (let i = 0; i < particles.length; i++){
+    particles[i].update();
+    particles[i].draw();
+  }
+}
+
+const canvasBody = document.getElementById("canvas"),
+drawArea = canvasBody.getContext("2d");
+let delay = 200, tid;
+resizeReset();
+setup();
+
+
+/*
+----------------------------------------------------------------------
+Laurent
+----------------------------------------------------------------------
+*/
+
+//let sessionId = Math.floor(Math.random() * Math.random() * 350000); // we generate a sessionId for dialogflow
 
 function nl2br(str) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
@@ -49,203 +659,99 @@ function addFirstZero(i) {
     return i;
 }
 
-if (buttonMicro != null) {
-  buttonMicro.addEventListener('click', function () {
-    if (buttonMicro.querySelector('.fa').classList.contains('fa-microphone-slash')) {
-        buttonMicro.querySelector('.fa').classList.remove('fa-microphone-slash');
-        buttonMicro.querySelector('.fa').classList.add('fa-microphone');
-    } else {
-        buttonMicro.querySelector('.fa').classList.remove('fa-microphone');
-        buttonMicro.querySelector('.fa').classList.add('fa-microphone-slash');
-    };
-  });
-};
-
-if (buttonVolume != null) {
-  buttonVolume.addEventListener('click', function () {
-    if (sliderContainer.style.visibility == "hidden") {
-        sliderContainer.style.visibility = "visible";
-    } else {
-        sliderContainer.style.visibility = "hidden";
-    };
-  });
-};
-
-
-if (audioslider != null) {
-  audioLevelDisplay.innerHTML = audioslider.value;
-};
-
-function updateVolumeIcon() {
-    if (audioslider.value > 50) {
-        buttonVolume.querySelector('.fa').classList.remove('fa-volume-off', 'fa-volume-down');
-        buttonVolume.querySelector('.fa').classList.add('fa-volume-up');
-        sliderVolumeIcon.querySelector('.fa').classList.remove('fa-volume-off', 'fa-volume-down');
-        sliderVolumeIcon.querySelector('.fa').classList.add('fa-volume-up');
-    } else if (audioslider.value > 0) {
-        buttonVolume.querySelector('.fa').classList.remove('fa-volume-off', 'fa-volume-up');
-        buttonVolume.querySelector('.fa').classList.add('fa-volume-down');
-        sliderVolumeIcon.querySelector('.fa').classList.remove('fa-volume-off', 'fa-volume-up');
-        sliderVolumeIcon.querySelector('.fa').classList.add('fa-volume-down');
-    } else {
-        buttonVolume.querySelector('.fa').classList.remove('fa-volume-down', 'fa-volume-up');
-        buttonVolume.querySelector('.fa').classList.add('fa-volume-off');
-        sliderVolumeIcon.querySelector('.fa').classList.remove('fa-volume-down', 'fa-volume-up');
-        sliderVolumeIcon.querySelector('.fa').classList.add('fa-volume-off');
-    };
-};
-
-if (audioslider != null) {
-  audioslider.oninput = function () {
-    audioLevelDisplay.innerHTML = this.value;
-    updateVolumeIcon();
-  };
-};
-
-if (sliderVolumeIcon != null) {
-  sliderVolumeIcon.addEventListener('click', function () {
-    if (audioslider.value != 0) {
-        audioLevelBeforeMute = audioslider.value;
-        audioslider.value = 0;
-    } else {
-        audioslider.value = audioLevelBeforeMute;
-    };
-    audioLevelDisplay.innerHTML = audioslider.value;
-    updateVolumeIcon();
-  });
-};
-
-if (buttonLanguages != null) {
-  buttonLanguages.addEventListener('click', function () {
-    if (languagesContainer.style.visibility == "hidden") {
-        languagesContainer.style.visibility = "visible";
-    } else {
-        languagesContainer.style.visibility = "hidden";
-    };
-  });
-};
-
-if (document.querySelector(".os-bar") != null) {
-  $('body').click(function (evt) {
-    if (!$(evt.target).is('.slider-container') && !$(evt.target).is('.slider-container *') && !$(evt.target).is('.os-bar__volume i') && !$(evt.target).is('.os-bar__volume')) {
-      if (sliderContainer.style.visibility == "visible") {
-        sliderContainer.style.visibility = "hidden";
-      };
-    };
-  });
-
-  $('body').click(function (evt) {
-      if (!$(evt.target).is('.languages-container') && !$(evt.target).is('.languages-container *') && !$(evt.target).is('.os-bar__language')) {
-          if (languagesContainer.style.visibility == "visible") {
-              languagesContainer.style.visibility = "hidden";
-          };
-      };
-  });
-};
-
-for (i = 0; i < languagesItems.length; i++) {
-    languagesItems[i].addEventListener('click', function () {
-        languagesItemsIcon.forEach(function (icon) {
-            icon.classList.remove('fa-check-circle');
-            icon.classList.add('fa-circle');
-        });
-        this.querySelector('i').classList.remove('fa-circle');
-        this.querySelector('i').classList.add('fa-check-circle');
-        buttonLanguages.innerHTML = this.querySelector('span').innerHTML;
-    });
-}
-
 function date_time(selector) {
-    let date = new Date;
+    let date = new Date();
     result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
     result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
-    $(selector).html(result);
+    document.querySelector(selector).innerHTML = result;
     setTimeout('date_time("' + selector + '");', '1000');
     return true;
 }
 
 
-$(function () { // = $(document).ready(function(){})
+document.addEventListener('DOMContentLoaded', function() {
     let userInstruction; // variable temporaire
+    //const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
+    const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae'; // agent v2 - DorothyCares
+    const baseUrl = 'https://api.dialogflow.com/v1/';
+    const version = '20170712';
+    let emailUser = document.querySelector('body').getAttribute('data-email');
+    let tokenUser = document.querySelector('body').getAttribute('data-token');
+    let sessionId = document.querySelector('body').getAttribute('data-dialogflow-session');
 
-    $(document).ready(function () {
-        date_time('.os-bar__date-time');
-        $('.answer').first().hide();
-        $('.instruction').last().hide();
-        $('.answer').first().delay(1000).fadeIn();
-        $('.instruction').last().delay(1050).fadeIn(100);
-        $('.user-input').attr('contentEditable', true);
-        $('.terminal-symbol').on('click', function () {
-            $('.user-input').focus();
-        });
+    date_time('.os-bar__date-time');
+    document.querySelector('.user-input').setAttribute('contentEditable', true);
+    document.querySelector('.user-input').focus();
+    document.querySelector('.terminal-symbol').addEventListener('click', function () {
+      document.querySelector('.user-input').focus();
     });
 
-    $('.terminal-content').on('click', function (e) {
-        $('.user-input').focus();
-    });
-    $(document).on('keydown', function (e) { // we detect keyboard entry
+    document.addEventListener('keydown', function (e) { // we detect keyboard entry
 
-        $('.user-input').focus();
-        userInstruction = $('.user-input').text(); // we save the current value
+        document.querySelector('.user-input').focus();
+        userInstruction = document.querySelector('.user-input').textContent; // we save the current value
 
         if (e.key == 'Enter' && userInstruction != '') {
             e.preventDefault();
-            $('.user-input').attr('contentEditable', false);
-            //console.log(userInstruction);
+            document.querySelector('.user-input').setAttribute('contentEditable', false);
+            document.querySelector('.terminal-control').parentNode.removeChild(document.querySelector('.terminal-control'));
+
+            let span = document.createElement("span");
+            span.classList.add("request");
+            document.querySelectorAll('.user-request')[document.querySelectorAll('.user-request').length - 1].appendChild(span);
+            span.innerHTML = '<span class="request">' + userInstruction + '</span>';
 
             $.ajax({
-                type: 'POST',
-                url: baseUrl + 'query?v=' + version,
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                headers: {
-                    'Authorization': 'Bearer ' + accessToken
-                },
-                data: JSON.stringify({
-                    query: userInstruction,
-                    lang: "en",
-                    sessionId: sessionId
-                }),
+              type: 'POST',
+              url: baseUrl + 'query?v=' + version,
+              contentType: 'application/json; charset=utf-8',
+              dataType: 'json',
+              headers: {
+                'Authorization': 'Bearer ' + accessToken
+              },
+              data: JSON.stringify({
+                query: userInstruction,
+                lang: "en",
+                emailUser: emailUser,
+                tokenUser: tokenUser,
+                sessionId: sessionId
+              }),
 
-                success: function (data, status) { // answer include the answer return by the script
-                    answer = data.result.fulfillment.messages[0].speech;
-                    answer = anchorme(nl2br(answer), {
-                        attributes: [{
-                            name: "target",
-                            value: "_blank"
-                        }],
-                        files: false,
-                        ips: false
-                    });
-                    if (typeof data.sessionId !== 'undefined') {
-                      sessionId = data.sessionId;
-                    }
-                    console.log(data);
-                    $('.terminal-control').remove();
-                    $('<span class="request">' + userInstruction + '</span>').appendTo($('.user-request').last());
-                    $('<div class="answer">' + answer + '</span>').appendTo($('.user-request').last());
-                    $('<div class="instruction"></div>').appendTo($('.terminal-content'));
-                    $('<div class="user-request"></div>').appendTo($('.instruction').last());
-                    $('<span class="user">dorothAI@becode</span><span class="symbol">:~$</span>').appendTo($('.instruction .user-request').last());
-                    $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
-                },
-                error: function (result, status, error) {
-                    $('.terminal-control').remove();
-                    $('<span class="request">' + userInstruction + '</span>').appendTo($('.user-request').last());
-                    $('<div class="answer">Sorry. There is a bug in my brai. Please try again!</span>').appendTo($('.user-request').last());
-                    $('<div class="instruction"></div>').appendTo($('.terminal-content'));
-                    $('<div class="user-request"></div>').appendTo($('.instruction').last());
-                    $('<span class="user">dorothAI@becode</span><span class="symbol">:~$</span>').appendTo($('.instruction .user-request').last());
-                    $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
-                },
-                complete: function (result, status) {
-                    //console.log('Request complete [' + status + ']');
-                    window.scrollTo(0, document.body.scrollHeight);
-                    $('.user-input').attr('contentEditable', true);
-                    $('.terminal-symbol').on('click', function () {
-                        $('.user-input').focus();
-                    });
-                },
+              success: function (data, status) { // answer include the answer return by the script
+                console.log(data);
+                answer = data.result.fulfillment.messages[0].speech;
+                answer = anchorme(nl2br(answer), {
+                    attributes: [{
+                        name: "target",
+                        value: "_blank"
+                    }],
+                    files: false,
+                    ips: false
+                });
+                if (typeof data.sessionId !== 'undefined') {
+                  sessionId = data.sessionId;
+                }
+
+                $('<div class="answer">' + answer + '</span>').appendTo($('.user-request').last());
+                $('<div class="instruction"></div>').appendTo($('.terminal-content'));
+                $('<div class="user-request"></div>').appendTo($('.instruction').last());
+                $('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
+                $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
+              },
+              error: function (result, status, error) {
+                $('<div class="answer">Sorry. There is a bug in my brai. Please try again!</span>').appendTo($('.user-request').last());
+                $('<div class="instruction"></div>').appendTo($('.terminal-content'));
+                $('<div class="user-request"></div>').appendTo($('.instruction').last());
+                $('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
+                $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
+              },
+              complete: function (result, status) {
+                window.scrollTo(0, document.body.scrollHeight);
+                document.querySelector('.user-input').setAttribute('contentEditable', true);
+                document.querySelector('.terminal-symbol').addEventListener('click', function () {
+                  document.querySelector('.user-input').focus();
+                });
+              },
             });
 
         } else if (e.key == 'Enter' && userInstruction == '') {
@@ -253,115 +759,4 @@ $(function () { // = $(document).ready(function(){})
         }
     })
 
-});
-
-particlesJS("particles-js", {
-    "particles": {
-        "number": {
-            "value": 200,
-            "density": {
-                "enable": true,
-                "value_area": 800
-            }
-        },
-        "color": {
-            "value": "#1e5799"
-        },
-        "shape": {
-            "type": "circle",
-            "stroke": {
-                "width": 0,
-                "color": "#000000"
-            },
-            "polygon": {
-                "nb_sides": 5
-            },
-            "image": {
-                "src": "img/github.svg",
-                "width": 100,
-                "height": 100
-            }
-        },
-        "opacity": {
-            "value": 1,
-            "random": true,
-            "anim": {
-                "enable": true,
-                "speed": 1,
-                "opacity_min": 0,
-                "sync": false
-            }
-        },
-        "size": {
-            "value": 3,
-            "random": true,
-            "anim": {
-                "enable": false,
-                "speed": 4,
-                "size_min": 0.3,
-                "sync": false
-            }
-        },
-        "line_linked": {
-            "enable": false,
-            "distance": 150,
-            "color": "#ffffff",
-            "opacity": 0.4,
-            "width": 1
-        },
-        "move": {
-            "enable": true,
-            "speed": 1,
-            "direction": "none",
-            "random": true,
-            "straight": false,
-            "out_mode": "out",
-            "bounce": false,
-            "attract": {
-                "enable": false,
-                "rotateX": 600,
-                "rotateY": 600
-            }
-        }
-    },
-    "interactivity": {
-        "detect_on": "canvas",
-        "events": {
-            "onhover": {
-                "enable": false,
-                "mode": "bubble"
-            },
-            "onclick": {
-                "enable": true,
-                "mode": "push"
-            },
-            "resize": true
-        },
-        "modes": {
-            "grab": {
-                "distance": 400,
-                "line_linked": {
-                    "opacity": 1
-                }
-            },
-            "bubble": {
-                "distance": 250,
-                "size": 0,
-                "duration": 2,
-                "opacity": 0,
-                "speed": 3
-            },
-            "repulse": {
-                "distance": 400,
-                "duration": 0.4
-            },
-            "push": {
-                "particles_nb": 4
-            },
-            "remove": {
-                "particles_nb": 2
-            }
-        }
-    },
-    "retina_detect": true
 });

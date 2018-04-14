@@ -1,6 +1,9 @@
 <?php
 
   require_once "srv/_config.php";
+  require_once "srv/_google-signin-client.php";
+
+  (new User($db))->deleteRandomSaltdUser($_SESSION['email']);
 
   unset($_SESSION['access_token']);
 
@@ -8,8 +11,8 @@
 
   session_destroy();
 
-  header('Location: index.php');
+  header('Location: '.HOME_URL);
 
   exit();
-  
+
 ?>
