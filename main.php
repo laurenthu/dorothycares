@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/css/normalize.css">
 	<link rel="stylesheet" href="/css/main.css">
 
-  <title>DorothAI <?php echo VERSION ?> (Beta)</title>
+  <title>DorothAI <?= VERSION ?></title>
 
 	<!-- OpenGraph -->
   	<meta property="fb:app_id" content="306159282727976">
