@@ -28,7 +28,7 @@
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="website">
     <meta property="og:title" content="DorothAI">
-    <meta property="og:description" content="Dorothy cares about you. Iy'll help you along your way at BeCode.">
+    <meta property="og:description" content="Dorothy cares about you. It'll help you along your way at BeCode.">
     <meta property="og:url" content="https://dorothycares.io/">
     <meta property="og:site_name" content="DorothAI">
     <meta property="og:image" content="https://dorothycares.io/img/printscreen.jpg">
@@ -198,8 +198,10 @@
       //print_r( $u->checkGoogleIdUser($_SESSION['email']) );
       //print_r( $sy->getCountryList() );
       //echo formHTML::getFormSelectFromArray( $sy->getCountryList(), 'country', 'country', 'country', 'fr' );
-      //var_dump($s->addStartup('test',2));
-      var_dump($_SESSION);
+      //$emails = []
+      //var_dump($u->addMultipleUser($emails,5));
+
+      //var_dump($_SESSION);
       //echo phpversion();
     ?>
   -->
