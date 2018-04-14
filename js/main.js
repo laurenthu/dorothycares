@@ -648,6 +648,24 @@ Laurent
 
 //let sessionId = Math.floor(Math.random() * Math.random() * 350000); // we generate a sessionId for dialogflow
 
+function asciiToHex(str) {
+  let arr1 = [];
+  for (let n = 0, l = str.length; n < l; n ++) {
+    let hex = Number(str.charCodeAt(n)).toString(16);
+    arr1.push(hex);
+  }
+  return arr1.join('');
+}
+
+function hexToAscii(hexa) {
+  hexa = hexa.toString();//force conversion
+  let str = '';
+  for (let i = 0; (i < hexa.length && hexa.substr(i, 2) !== '00'); i += 2)
+    str += String.fromCharCode(parseInt(hexa.substr(i, 2), 16));
+  return str;
+}
+
+
 function nl2br(str) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
 }
@@ -678,6 +696,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let emailUser = document.querySelector('body').getAttribute('data-email');
     let tokenUser = document.querySelector('body').getAttribute('data-token');
     let sessionId = document.querySelector('body').getAttribute('data-dialogflow-session');
+    console.log(sessionId);
 
     date_time('.os-bar__date-time');
     document.querySelector('.user-input').setAttribute('contentEditable', true);
@@ -739,7 +758,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
               },
               error: function (result, status, error) {
-                $('<div class="answer">Sorry. There is a bug in my brai. Please try again!</span>').appendTo($('.user-request').last());
+                $('<div class="answer">Sorry. There is a bug in my brain. Please try again!</span>').appendTo($('.user-request').last());
                 $('<div class="instruction"></div>').appendTo($('.terminal-content'));
                 $('<div class="user-request"></div>').appendTo($('.instruction').last());
                 $('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
