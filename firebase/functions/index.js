@@ -65,9 +65,10 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
   function giveCoaches(app) {
     // let siteName = app.getArgument(SITE_NAME_ARGUMENT);
     // Keeping track of the version of the function that will be deployed
-    console.log('give give coaches v2.5');
+    console.log('give give coaches v3.5');
     let email;
     let token;
+    let myResArr = [];
     // make the request to our api to have the informations
     let sessionId = request.body.sessionId;
     console.log('sessionId:', sessionId);
@@ -100,11 +101,14 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
             body = JSON.parse(body);
             body.api = 'rel';
             console.log('on res body second', body);
-          })
-        })
+            for (let i = 0; i < body.response.length; i++) {
+              myResArr[i] = body.response[i].firstName + ' <' + body.response[i].email + '>';
+              console.log('my res arr', myResArr[i]);
+            }
+            app.ask('Your coaches are ' + myResArr.join(" and ") + '.');
 
-        app.ask('Hello from give coaches');
-
+          });
+        });
       });
       // Handling erros
     }).on('error', (e) => {
