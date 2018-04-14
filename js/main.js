@@ -671,8 +671,8 @@ function date_time(selector) {
 
 document.addEventListener('DOMContentLoaded', function() {
     let userInstruction; // variable temporaire
-    const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
-    //const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae'; // agent v2 - DorothyCares
+    //const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
+    const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae'; // agent v2 - DorothyCares
     const baseUrl = 'https://api.dialogflow.com/v1/';
     const version = '20170712';
     let emailUser = document.querySelector('body').getAttribute('data-email');
