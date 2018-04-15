@@ -20,6 +20,7 @@ class Startup {
 
       $statement = $this->db->prepare(
         "SELECT
+        `C`.`idClasse` as `idStartup`,
         `C`.`nameClasse` as `nameStartup`,
         `I`.`idImplantation`,
         `I`.`nameimplantation`
