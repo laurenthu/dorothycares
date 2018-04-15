@@ -55,7 +55,11 @@ function ajaxRequestCreateContent(button) { // ajax request
 
   if (addType == 'implantation') {
     let name = document.querySelector('#nameImplantation').value;
-    dataRequestCreateContent.open("GET", feed + '?type=' + type + '&name=' + name, true); // the type, the url, asynchronous true/false
+    let street = document.querySelector('#streetImplantation').value;
+    let postalCode = document.querySelector('#postalCodeImplantation').value;
+    let city = document.querySelector('#cityImplantation').value;
+    let countryCode = document.querySelector('#countryImplantation').value; // get attribute?
+    dataRequestCreateContent.open("GET", feed + '?type=' + addType + '&action=add&name=' + name + '&street=' + street + '&postalCode=' + postalCode + '&city=' + city + '&countryCode=' + countryCode, true); // the type, the url, asynchronous true/false
   }
 
   dataRequestCreateContent.send(null);

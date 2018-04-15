@@ -5,6 +5,31 @@
   header('Access-Control-Allow-Origin: *');
   header('Content-type: application/json');
 
+// Add, Update or Delete data from database
+if (isset($_GET['action']) && is_string($_GET['action'])) { // security checks
+
+  if ($_GET['action'] == 'add') { // determine type of action
+
+    if (isset($_GET['type']) && is_string($_GET['type'])) { // Security checks
+
+      if ($_GET['type'] == 'implantation') { // determine type of data
+
+        if (
+          isset($_GET['name']) && is_string($_GET['name'])
+          && isset($_GET['street']) && is_string($_GET['street'])
+          && isset($_GET['postalCode']) && is_int(intval($_GET['postalCode']))
+          && isset($_GET['city']) && is_string($_GET['city'])
+          && isset($_GET['countryCode']) && is_string($_GET['countryCode'])) { // security checks
+
+            $addimp = new Implantation($db);
+            $addimp->addImplantation($_GET['name'], $_GET['street'], $_GET['postalCode'], $_GET['city'], $_GET['countryCode']); // adds a new implantation with the data provided
+            die(); // we kill the script
+      }
+    }
+  }
+}
+
+// return info from database for the display
 if (isset($_GET['type']) && is_string($_GET['type'])) { // Security checks
 
   if ($_GET['type'] == 'implantation') { // Determine type of content
