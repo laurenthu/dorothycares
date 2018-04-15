@@ -18,6 +18,7 @@ class Implantation {
 
       $statement = $this->db->prepare(
         "SELECT
+        `I`.`idImplantation` as `id`,
         `I`.`nameimplantation` as `name`,
         `I`.`streetimplantation` as `street`,
         `I`.`postalCodeimplantation` as `postalCode`,
@@ -77,6 +78,7 @@ class Implantation {
 
       $statement = $this->db->prepare(
         "SELECT
+        `I`.`idImplantation` as `id`,
         `I`.`nameimplantation` as `name`,
         `I`.`streetimplantation` as `street`,
         `I`.`postalCodeimplantation` as `postalCode`,
@@ -94,6 +96,35 @@ class Implantation {
 
       if($statement->rowCount() > 0) {
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function addImplantation($name,$street = NULL, $postalCode = NULL, $city = NULL, $countryCode = NULL) {
+    /*
+    (IN) email of the user to check
+    (OUT) return last id is insertion was well done / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("INSERT INTO `implantation` (`idImplantation`,`nameimplantation`,`streetimplantation`,`postalCodeimplantation`,`cityimplantation`,`countryCodeimplantation`) VALUES (NULL,:name,:street,:postalCode,:city,:countryCode)");
+      $statement->bindParam(':name', $name, PDO::PARAM_STR);
+      $statement->bindParam(':street', $street, PDO::PARAM_STR);
+      $statement->bindParam(':postalCode', $postalCode, PDO::PARAM_STR);
+      $statement->bindParam(':city', $city, PDO::PARAM_STR);
+      $statement->bindParam(':countryCode', $countryCode, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $this->db->lastInsertId();
       } else {
         return false;
       }

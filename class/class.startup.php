@@ -43,12 +43,12 @@ class Startup {
         $statement = $this->db->prepare(
           "SELECT
           `O`.`keyOption` as `type`,
-          `CM`.`keyClasseMeta` as `key`,
+		      `O`.`valueOption` as `value`,
           `O`.`nameOption` as `name`,
           `CM`.`valueClasseMeta` as `value`
 
-           FROM `classeMeta` as `CM`
-           LEFT JOIN `option` as `O` ON `O`.`valueOption` = `CM`.`keyClasseMeta`
+          FROM `classeMeta` as `CM`
+          LEFT JOIN `option` as `O` ON `O`.`idOption` = `CM`.`idOption`
 
            WHERE `CM`.`idClasse` = :idStartup");
         $statement->bindParam(':idStartup', $id, PDO::PARAM_INT);
@@ -200,6 +200,31 @@ class Startup {
 
       if($statement->rowCount() > 0) {
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function addStartup($name) {
+    /*
+    (IN) email of the user to check
+    (OUT) return last id is insertion was well done / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("INSERT INTO `classe` (`idClasse`,`nameClasse`) VALUES (NULL,:name)");
+      $statement->bindParam(':name', $name, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $this->db->lastInsertId();
       } else {
         return false;
       }

@@ -58,6 +58,33 @@ class User {
 
   }
 
+  public function getUserId($emailUser) {
+    /*
+    (IN) $emailUser: email of the user for which we want to collect the data
+    (OUT) string if a data is found, NULL if a data is found but empty, false if no user was found
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `idUser` as `information` FROM `user` WHERE `emailUser` = :emailUser LIMIT 0,1");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if($statement->rowCount()) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+
   public function getUserFirstName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
@@ -73,6 +100,32 @@ class User {
       if($statement->rowCount()) {
         $data = $statement->fetch(PDO::FETCH_ASSOC);
         return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateUserFirstName($emailUser,$firstName) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `firstNameUser` = :firstName WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $firstName;
       } else {
         return false;
       }
@@ -110,6 +163,32 @@ class User {
 
   }
 
+  public function updateUserLastName($emailUser,$lastName) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `lastNameUser` = :lastName WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $lastName;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   public function getUserMainLanguageCode($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
@@ -125,6 +204,32 @@ class User {
       if($statement->rowCount()) {
         $data = $statement->fetch(PDO::FETCH_ASSOC);
         return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateUserMainLanguageCode($emailUser,$languageCode) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `mainLanguageUser` = :languageCode WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $languageCode;
       } else {
         return false;
       }
@@ -181,6 +286,32 @@ class User {
       if($statement->rowCount()) {
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         return $row['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateUserType($emailUser,$typeUser) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `typeUser` = :typeUser WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $typeUser;
       } else {
         return false;
       }
@@ -354,12 +485,12 @@ class User {
         $statement = $this->db->prepare(
           "SELECT
           `O`.`keyOption` as `type`,
-          `UM`.`keyUserMeta` as `key`,
+		      `O`.`valueOption` as `key`,
           `O`.`nameOption` as `name`,
           `UM`.`valueUserMeta` as `value`
 
            FROM `userMeta` as `UM`
-           LEFT JOIN `option` as `O` ON `O`.`valueOption` = `UM`.`keyUserMeta`
+           LEFT JOIN `option` as `O` ON `O`.`idOption` = `UM`.`idOption`
 
            WHERE `UM`.`idUser` = :idUser");
 
@@ -609,6 +740,31 @@ class User {
 
   }
 
+  public function deleteRandomSaltdUser($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) true is randomSalt was well deleted / false if was not deleted
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `randomSalt` = NULL WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   public function getRandomSaltdUser($emailUser) {
     /*
     (IN) email of the user to check
@@ -717,13 +873,66 @@ class User {
     /*
     (IN) email of the user to check
     (IN) $ramdonSalt of the user to check
-    (OUT) true return is password math / false if not
+    (OUT)return true is password match / false if not
     */
     $hashOriginal = $this->getPasswordUser($emailUser);
     $googleId = $this->getGoogleIdUser($emailUser);
     $passwordToTest = $emailUser.$googleId.$randomSalt;
 
     return password_verify($passwordToTest, $hashOriginal);
+
+  }
+
+  public function addUserLog($emailUser) {
+    /*
+    (IN) email of the user to check
+    (OUT) return true is insertion was well done / false if not
+    */
+
+    try {
+
+      $id = $this->getUserId($emailUser);
+      $statement = $this->db->prepare("INSERT INTO `userLog` (`idLog`,`idUser`,`timeLog`) VALUES (NULL,:idUser, NOW())");
+      $statement->bindParam(':idUser', $id, PDO::PARAM_INT);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function addUser($email,$languageCode = 'en', $typeUser = 'learner') {
+    /*
+    (IN) email of the user to check
+    (OUT) return ID of the user is insertion was well done / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("INSERT INTO `user` (`idUser`,`idGoogleUser`,`randomSalt`,`passwordUser`,`emailUser`,`firstNameUser`,`lastNameUser`,`mainLanguageUser`,`typeUser`) VALUES (NULL,NULL,NULL,NULL,:email,NULL,NULL,:languageCode,:typeUser)");
+      $statement->bindParam(':email', $email, PDO::PARAM_STR);
+      $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
+      $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $this->db->lastInsertId();
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
 
   }
 
