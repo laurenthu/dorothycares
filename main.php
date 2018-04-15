@@ -83,8 +83,7 @@
 			<!-- <div><span class="window-name" id="window-name">Terminal</span></div>  -->
 			<div class="terminal-header-item" id="terminal-header-item">
 				<button class="terminal-header-btn maximize" id="maximize"></button>
-				<button class="terminal-header-btn close" id="close" value="close">
-        </button>
+				<button class="terminal-header-btn close" id="close" value="close"></button>
 			</div>
 		</header>
 		<div class="terminal-content customScroll">  <!--Content inside the terminal i/o, interaction with dorothy by text-->
@@ -169,31 +168,13 @@
       <div class="modal-header">
         <div id="answer-modal-btn" class="modal-close-btn"></div>
       </div>
-      <div class="modal-body">
-        <h1 class="modal-body-title">PHP</h1>
-        <div class="modal-body-block">
-          <h3 class="modal-body-block-title">What is PHP?</h3>
-          <div class="modal-body-block-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, labore, tempora. A et voluptas cum, esse eum culpa pariatur tenetur praesentium dicta? Esse nobis voluptatibus architecto minima ea sint nostrum?</div>
-        </div>
-        <div class="modal-body-block">
-          <h3 class="modal-body-block-title">How to install PHP?</h3>
-          <div class="modal-body-block-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus molestias, vero non ad natus pariatur explicabo culpa error sint totam eos quas incidunt, architecto suscipit, rem ut veritatis doloribus eligendi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque ullam fugiat dignissimos. Eum quod nisi cumque perferendis magnam porro, tempore, fuga molestiae adipisci ex eos ut amet magni nam voluptas!</div>
-        </div>
-        <div class="modal-body-block">
-          <h3 class="modal-body-block-title">How to install PHP?</h3>
-          <div class="modal-body-block-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus molestias, vero non ad natus pariatur explicabo culpa error sint totam eos quas incidunt, architecto suscipit, rem ut veritatis doloribus eligendi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque ullam fugiat dignissimos. Eum quod nisi cumque perferendis magnam porro, tempore, fuga molestiae adipisci ex eos ut amet magni nam voluptas!</div>
-        </div>
-        <div class="modal-body-block">
-          <h3 class="modal-body-block-title">How to install PHP?</h3>
-          <div class="modal-body-block-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus molestias, vero non ad natus pariatur explicabo culpa error sint totam eos quas incidunt, architecto suscipit, rem ut veritatis doloribus eligendi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque ullam fugiat dignissimos. Eum quod nisi cumque perferendis magnam porro, tempore, fuga molestiae adipisci ex eos ut amet magni nam voluptas!</div>
-        </div>
-      </div>
+      <div class="modal-body"></div>
     </div>
   </section>
 
   <!-- JS Insertion -->
   <script src="/js/anime.min.js"></script> <!-- http://animejs.com/ -->
-  <script src="/js/jquery-3.2.1.min.js"></script> <!-- http://jquery.com/ -->
+  <!-- <script src="/js/jquery-3.2.1.min.js"></script> -->
   <script src="/js/modernizr-3.5.0.min.js"></script> <!-- https://modernizr.com/ -->
   <script src="/js/plugins.js"></script>
   <script src="/js/anchorme.min.js"></script> <!-- https://github.com/alexcorvi/anchorme.js/ -->

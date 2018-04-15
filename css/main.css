@@ -1,242 +1,327 @@
-body {
-  padding: 0;
-  margin: 0;
-  color: rgba(255,255,255,1);
-  /*background-color: #978eff;*/
-  /*font-family: 'Source Code Pro', monospace;*/
-  font-family: 'Roboto Mono', monospace;
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
-  animation: bgColorAnim 300s infinite;
-}
+/*
+-----------------------------------------------
+BACKGROUND
+-----------------------------------------------
+*/
 
-@keyframes bgColorAnim {
-  0% {
-    background-color: #978EFF;
+  body {
+    padding: 0;
+    margin: 0;
+    color: rgba(255,255,255,1);
+    /*background-color: #978eff;*/
+    /*font-family: 'Source Code Pro', monospace;*/
+    font-family: 'Roboto Mono', monospace;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    -webkit-animation: bgColorAnim 300s infinite;
+            animation: bgColorAnim 300s infinite;
   }
-  20% {
-    background-color: #63A9FF;
+
+  @-webkit-keyframes bgColorAnim {
+    0% {
+      background-color: #978EFF;
+    }
+    20% {
+      background-color: #63A9FF;
+    }
+    35% {
+      background-color: #667cbe;
+    }
+    55% {
+      /*background-color: #FF6BAD;*/
+      background-color: #d47fa5;
+    }
+    70% {
+      /*background-color: #DD4493;*/
+      background-color: #b97cbf;
+    }
+    85% {
+      background-color: #7F49DD;
+    }
+    100% {
+      background-color: #978EFF;
+    }
   }
-  35% {
-    background-color: #667cbe;
+
+  @keyframes bgColorAnim {
+    0% {
+      background-color: #978EFF;
+    }
+    20% {
+      background-color: #63A9FF;
+    }
+    35% {
+      background-color: #667cbe;
+    }
+    55% {
+      /*background-color: #FF6BAD;*/
+      background-color: #d47fa5;
+    }
+    70% {
+      /*background-color: #DD4493;*/
+      background-color: #b97cbf;
+    }
+    85% {
+      background-color: #7F49DD;
+    }
+    100% {
+      background-color: #978EFF;
+    }
   }
-  55% {
-    /*background-color: #FF6BAD;*/
-    background-color: #d47fa5;
+
+  /* -------- Background moving particles -------- */
+  #canvas {
+    position: absolute;
+    display: block;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
   }
-  70% {
-    /*background-color: #DD4493;*/
-    background-color: #b97cbf;
+
+  /* -------- Background hiding div used to make elements unclickable -------- */
+  .hiding-bg-div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /*background-color: red;*/
+    z-index: 11;
+    display: none;
   }
-  85% {
-    background-color: #7F49DD;
+
+  /*#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,1);
+    background-color: #978eff;
+    background-image: url('../img/space-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-attachment: fixed;
+    z-index: -1;
+  }*/
+
+  /* -------- Top bar with date and time -------- */
+  .os-bar {
+    text-align: right;
+    font-size: 22px;
+    position: fixed;
+    display: block;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 50px;
+    padding:7px 0px;
+    top: 10px;
+    color:rgba(255,255,255,.9);
+    /*background-color: rgba(39,64,96,.5);*/
+    border-radius: 10px;
   }
-  100% {
-    background-color: #978EFF;
+  .os-bar__windows-item {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 25px;
+    width:20%;
+    max-width: 250px;
+    height: 100%;
+    overflow: hidden;
+    padding: 2px;
+    color:rgba(255,255,255,1);
+    margin:0px 5px;
   }
-}
-
-
-.hiding-bg-div {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  /*background-color: red;*/
-  z-index: 11;
-  display: none;
-}
-
-/*#particles-js {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,1);
-  background-color: #978eff;
-  background-image: url('../img/space-bg.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 50% 50%;
-  background-attachment: fixed;
-  z-index: -1;
-}*/
-
-.dorothy-ball {
-  position: fixed;
-  bottom: 50%;
-  left: 50%;
-  /*transform: translateX(-50%) translateY(-50%);*/
-  width: 200px;
-  height: 200px;
-  /*background-color: #fff;*/
-  border-radius: 100%;
-  z-index: 10;
-  cursor: pointer;
-  /*box-shadow: inset 30px -10px 60px 5px #56cbf9, 0px 0px 100px 0px #6896b5;*/
-  /*box-shadow: inset 80px -10px 100px 5px #56cbf9, -40px -10px 100px -40px #6896b5;*/ /* Either this */
-  /*box-shadow: inset 80px -10px 100px 5px #56cbf9, 0px 0px 100px -20px #abddff; */ /* Or this */
-  /*box-shadow: inset 80px -20px 100px 5px #55C9BE, 0px 0px 100px -20px #ABDDFF; */
-  box-shadow: inset 80px -10px 100px 5px #8ee7db, 0px 0px 100px -20px #abddff;
-  opacity: 0; /* ------------ toggle maybe ------------ */
-  transition: box-shadow ease 0.5s;
-}
-.dorothy-ball:hover {
-  /*box-shadow: inset -80px -10px 100px 5px #56cbf9, 40px -10px 100px -40px #6896b5;*/
-  box-shadow: inset -80px -10px 100px 5px #a69df0, 40px -10px 100px -40px #6896b5;
-}
-
-.ball-menu {
-  width: 350px;
-  height: 130px;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
-  /*border: 1px solid white;*/
-  z-index: 1;
-}
-
-.ball-menu-item {
-  width: 50px;
-  height: 50px;
-  /*background-color: #56cbf9;*/
-  background-color: #8fdaff;
-  border-radius: 100%;
-  position: absolute;
-  z-index: 5;
-  /*display: none;*/
-  transition: background-color ease 0.3s;
-}
-.ball-menu-item:hover {
-  background-color: #645ea0;
-}
-.ball-menu-item i {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-          transform: translateX(-50%) translateY(-50%);
-  font-size: 20px;
-  color: white;
-}
-.ball-menu-item.menu-terminal {
-  top: 60px;
-  left: 0;
-  cursor: pointer;
-}
-.ball-menu-item.menu-profile {
-  top: 0;
-  left: 87.5px;
-  cursor: pointer;
-}
-.ball-menu-item.menu-info {
-  top: 0;
-  right: 87.5px;
-  cursor: pointer;
-}
-.ball-menu-item.menu-calendar {
-  top: 60px;
-  right: 0;
-  background-color: lightgrey !important;
-}
-
-.ball-menu-item-label {
-  height: 70px;
-  width: 100px;
-  font-weight: 300;
-  text-align: center;
-  position: absolute;
-  transition: opacity ease 0.3s;
-}
-.ball-menu-item-label.terminal-label {
-  opacity: 0;
-}
-.ball-menu-item-label.profile-label {
-  opacity: 0;
-}
-.ball-menu-item-label.info-label {
-  opacity: 0;
-}
-.ball-menu-item-label.calendar-label {
-  opacity: 0;
-}
-
-.ball-menu-item-label.terminal-label {
-  top: 30px;
-  left: -25px;
-}
-.ball-menu-item-label.profile-label {
-  top: -30px;
-  left: 62px;
-}
-.ball-menu-item-label.info-label {
-  top: -30px;
-  right: 62px;
-}
-.ball-menu-item-label.calendar-label {
-  top: 30px;
-  right: -25px;
-}
-
-.menu-terminal:hover + .terminal-label {
-  opacity: 1;
-}
-.menu-profile:hover + .profile-label {
-  opacity: 1;
-}
-.menu-info:hover + .info-label {
-  opacity: 1;
-}
-.menu-calendar:hover + .calendar-label {
-  opacity: 1;
-}
+  .os-bar__date-time {
+    position: absolute;
+    display: block;
+    justify-content: left;
+    align-items: left;
+    right: 50px;
+    width:120px;
+    height: 100%;
+    text-align: left;
+    font-size: 1em;
+    font-weight: 100;
+  }
 
 
 /*
-----------------------------------------------------------------------
+-----------------------------------------------
+BALL & MENU
+-----------------------------------------------
+*/
+
+  .dorothy-ball {
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    /*transform: translateX(-50%) translateY(-50%);*/
+    width: 200px;
+    height: 200px;
+    /*background-color: #fff;*/
+    border-radius: 100%;
+    z-index: 10;
+    cursor: pointer;
+    /*box-shadow: inset 30px -10px 60px 5px #56cbf9, 0px 0px 100px 0px #6896b5;*/
+    /*box-shadow: inset 80px -10px 100px 5px #56cbf9, -40px -10px 100px -40px #6896b5;*/ /* Either this */
+    /*box-shadow: inset 80px -10px 100px 5px #56cbf9, 0px 0px 100px -20px #abddff; */ /* Or this */
+    /*box-shadow: inset 80px -20px 100px 5px #55C9BE, 0px 0px 100px -20px #ABDDFF; */
+    box-shadow: inset 80px -10px 100px 5px #8ee7db, 0px 0px 100px -20px #abddff;
+    opacity: 0; /* ------------ toggle maybe ------------ */
+    transition: box-shadow ease 0.5s;
+  }
+  .dorothy-ball:hover {
+    /*box-shadow: inset -80px -10px 100px 5px #56cbf9, 40px -10px 100px -40px #6896b5;*/
+    box-shadow: inset -80px -10px 100px 5px #a69df0, 40px -10px 100px -40px #6896b5;
+  }
+
+  .ball-menu {
+    width: 350px;
+    height: 130px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+    /*border: 1px solid white;*/
+    z-index: 1;
+  }
+
+  .ball-menu-item {
+    width: 50px;
+    height: 50px;
+    /*background-color: #56cbf9;*/
+    background-color: #8fdaff;
+    border-radius: 100%;
+    position: absolute;
+    z-index: 5;
+    /*display: none;*/
+    transition: background-color ease 0.3s;
+  }
+  .ball-menu-item:hover {
+    background-color: #645ea0;
+  }
+  .ball-menu-item i {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+    font-size: 20px;
+    color: white;
+  }
+  .ball-menu-item.menu-terminal {
+    top: 60px;
+    left: 0;
+    cursor: pointer;
+  }
+  .ball-menu-item.menu-profile {
+    top: 0;
+    left: 87.5px;
+    cursor: pointer;
+  }
+  .ball-menu-item.menu-info {
+    top: 0;
+    right: 87.5px;
+    cursor: pointer;
+  }
+  .ball-menu-item.menu-calendar {
+    top: 60px;
+    right: 0;
+    background-color: lightgrey !important;
+  }
+
+  .ball-menu-item-label {
+    height: 70px;
+    width: 100px;
+    font-weight: 300;
+    text-align: center;
+    position: absolute;
+    transition: opacity ease 0.3s;
+  }
+  .ball-menu-item-label.terminal-label {
+    opacity: 0;
+  }
+  .ball-menu-item-label.profile-label {
+    opacity: 0;
+  }
+  .ball-menu-item-label.info-label {
+    opacity: 0;
+  }
+  .ball-menu-item-label.calendar-label {
+    opacity: 0;
+  }
+
+  .ball-menu-item-label.terminal-label {
+    top: 30px;
+    left: -25px;
+  }
+  .ball-menu-item-label.profile-label {
+    top: -30px;
+    left: 62px;
+  }
+  .ball-menu-item-label.info-label {
+    top: -30px;
+    right: 62px;
+  }
+  .ball-menu-item-label.calendar-label {
+    top: 30px;
+    right: -25px;
+  }
+
+  .menu-terminal:hover + .terminal-label {
+    opacity: 1;
+  }
+  .menu-profile:hover + .profile-label {
+    opacity: 1;
+  }
+  .menu-info:hover + .info-label {
+    opacity: 1;
+  }
+  .menu-calendar:hover + .calendar-label {
+    opacity: 1;
+  }
+
+
+/*
+-----------------------------------------------
 WELCOME MESSAGE
-----------------------------------------------------------------------
+-----------------------------------------------
 */
 
-.welcome-message-style {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-          transform: translateX(-50%) translateY(-50%);
-  text-align: center;
-  max-width: 600px;
-  cursor: pointer;
-  /*display: none;*/
-  opacity: 0;
-  transition: opacity ease 0.5s, color ease 0.3s;
-}
-.welcome-message-style h1 {
-  font-weight: 100;
-  font-size: 25px;
-}
-.welcome-message-style:hover {
-  color: lightgrey;
-}
+  .welcome-message-style {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+    text-align: center;
+    max-width: 600px;
+    cursor: pointer;
+    /*display: none;*/
+    opacity: 0;
+    transition: opacity ease 0.5s, color ease 0.3s;
+  }
+  .welcome-message-style h1 {
+    font-weight: 100;
+    font-size: 25px;
+  }
+  .welcome-message-style:hover {
+    color: lightgrey;
+  }
 
 
 /*
-----------------------------------------------------------------------
-EYE (MOUSE TRACKING & AUTO ANIMATION)
-----------------------------------------------------------------------
+-----------------------------------------------
+MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
+-----------------------------------------------
 */
 
-
-
-/*
-----------------------------------------------------------------------
-MODALS
-----------------------------------------------------------------------
-*/
-
+/* -------- Long answer modal coming from the right -------- */
 #answerTemplate {
   width: 90%;
   height: 80%;
@@ -246,8 +331,10 @@ MODALS
   top: 50%;
   /*right: -20px;*/
   right: -120%;
-  transform: translateY(-50%);
-  background-color: rgba(38, 38, 38, 0.78);
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  /*background-color: rgba(38, 38, 38, 0.78);*/
+  background-color: #5b55a2;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   box-shadow: -1px 1px 80px -20px #0D1321;
@@ -255,25 +342,31 @@ MODALS
   z-index: 12;
 }
 
+/* -------- Profile modal coming from the top -------- */
 #profilePage { /* PROFILE */
   /*width: 90%;*/
   /*height: 80%;*/
   width: 65%; /* MIKEY */
+  max-width: 800px;
   height: 80%; /* MIKEY */
   position: fixed;
   /*padding: 25px 40px 10px 0;*/ /* TOGGLE */
   top: -120%; /* hides the profile modal */
   /*top: 0;*/ /* shows the profile modal */
   left: 50%;
-  transform: translateX(-50%);
-  background-color: white;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  /*background-color: white;*/
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
   box-shadow: -1px 1px 120px -30px #0D1321;
   transition: top ease 0.5s;
   z-index: 12;
+  -webkit-animation: bgColorAnim 300s infinite;
+          animation: bgColorAnim 300s infinite;
 }
 
+/* -------- Common styles for modals -------- */
 .modal-container {
   display: flex;
   color: white;
@@ -283,6 +376,7 @@ MODALS
   flex-direction: column;
   color: #232323;
 }
+
 .modal-header {
   position: absolute;
   display: flex;
@@ -308,15 +402,6 @@ MODALS
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
 }
-/* CHECK WHAT BELOW DOES
-.modal-header-2 {  PROFILE MIKEY
- -ms-transform: rotate(90deg);
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
-  left: 47%;
-  top: 47%;
-}
-*/
 .modal-header .modal-close-btn {
   height: 50px;
   width: 6px;
@@ -331,6 +416,7 @@ MODALS
   border-radius: 50px;
   cursor: pointer;
 }
+
 .modal-body {
   position: fixed;
   right: 60px;
@@ -347,7 +433,8 @@ MODALS
   /*top: 30%;*/
   left: 50%;
   /*transform: translate(-50%, -30%);*/
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
   overflow: auto;
   /*background-color: #57759f9e;*/
 }
@@ -366,18 +453,17 @@ MODALS
   font-size: 0.85rem;
   line-height: 1.5;
 }
-
-.modal-body-title-container { /* PROFILE MIKEY */
+.modal-body-block-content a {
+  color: white;
+}
+.modal-body-title-container { /* PROFILE */
   display: flex;
   justify-content: space-between;
 }
-
-
-.modal-body-title-title {  /* PROFILE MIKEY */
+.modal-body-title-title {  /* PROFILE */
   width: 80%;
 }
-
-.modal-body-title-icons { /* PROFILE MIKEY */
+.modal-body-title-icons { /* PROFILE */
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -389,7 +475,8 @@ MODALS
 .modal-body-title-icons a {
   color: #978eff;
 }
-.profile-details { /* PROFILE MIKEY */
+
+.profile-details { /* PROFILE */
   /*display: inline-grid;*/
   display: flex;
   flex-direction: column;
@@ -411,16 +498,13 @@ MODALS
   font-family: 'Roboto Mono', monospace;
   font-weight: 100;
 }
-
-.profile-language { /* PROFILE MIKEY */
+.profile-language { /* PROFILE */
   margin-bottom: 2em;
   /*float: right;*/
 }
-
 .profile-logout {
   transition: color ease 0.3s;
 }
-
 .profile-buttons {
   display: flex;
   width: 100%;
@@ -448,6 +532,7 @@ MODALS
 .profile-save-details { /* PROFILE MIKEY */
   padding: 5px 0px;
   margin-top: 15px;
+  margin-bottom: 50px;
   border-radius: 50px;
   border: none;
   outline: none;
@@ -466,8 +551,7 @@ MODALS
   margin-left: 0.75rem;
 }
 
-/* profile hover */
-
+/* -------- Profile modal hover effects -------- */
 .profile-save-details:hover, .profile-add-details:hover {  /* PROFILE MIKEY */
   background-color: #232323;
 }
@@ -475,8 +559,7 @@ MODALS
   color: #e17474;
 }
 
-/*Tooltip*/
-
+/* -------- Tooltip for logout button in profile modal -------- */
 .tooltip {
   position: relative;
   display: inline-block;
@@ -514,25 +597,27 @@ MODALS
   opacity: 1;
 }
 
-/* Info page */
-
-#infoPage { /* PROFILE */
+/* -------- Info modal (about) coming from the left -------- */
+#infoPage {
   width: 40%;
   /*height: 30%;*/
   position: fixed;
   /*padding: 25px 0px 10px 0;*/
   padding: 2rem 1rem;
-  /*top: -120%;*/ /* hides the profile modal */
-  top: 30px; /* shows the profile modal */
+  /*top: -120%;*/
+  top: 30px;
   left: -120%;
-  background-color: #978eff;
+  /*background-color: #978eff;*/
   border-bottom-right-radius: 50px;
   border-top-right-radius: 50px;
   box-shadow: -1px 1px 80px -30px #0D1321;
   transition: left ease 0.5s;
   z-index: 11;
   cursor: pointer;
+  -webkit-animation: bgColorAnim 300s infinite;
+          animation: bgColorAnim 300s infinite;
 }
+
 .modal-body-info {
   display: fixed;
   left: 100px;
@@ -556,14 +641,6 @@ MODALS
   font-size: 1rem;
   margin-left: 0.75rem;
 }
-/*.panel { /*Value of the modal if necessary
-  position: absolute;
-  border-radius: 15px;
-  width: 55%;
-  height: 15%;
-  left: 22%;
-}
-*/
 .modal-info-link {
   font-weight: 100;
   display: block;
@@ -575,44 +652,30 @@ MODALS
   width: 60%;
   position: relative;
   left: 50%;
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 .modal-info-link:hover {
   text-decoration: line-through;
 }
-
-
 
 /*.answer-template-trigger {
   right: -20px !important;
 }*/
 
 
-
 /*
-//////////////////////////////////////////////////////////////////////
-MIKEY
-//////////////////////////////////////////////////////////////////////
+-----------------------------------------------
+TERMINAL (CHATBOX)
+-----------------------------------------------
 */
 
-
-
-
-/*Contain particle (background-animation.js)*/
-#canvas {
-  position: absolute;
-  display: block;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-/*Box windows Terminal*/
 .terminal {
   position: fixed;
   bottom: -100%; /*hide the box before the animation*/
   left: 50%;
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
   /* background-color: rgba(30, 60, 90, 0.6); to test aspect terminal #0C0221 */
   /*background-color: #57759f9e;*/
   width: 75%;  /*default ratio to keep*/
@@ -626,7 +689,7 @@ MIKEY
   transition: width ease 0.2s, margin ease 0.2s, top ease 0.2s;
   z-index: 0;
   font-weight: 300;
-  font-size: 18px;
+  font-size: 1.1rem;
 }
 
 /*White bar on top of the Terminal*/
@@ -636,7 +699,6 @@ MIKEY
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
-/*Terminal-button container*/
 .terminal-header-btn {
   width: 16px;
   height: 16px;
@@ -644,7 +706,6 @@ MIKEY
   margin-right: 0px;
   display: none;
 }
-/*Terminal-button container*/
 .terminal-header-item {
   position: absolute;
   display: inline;
@@ -713,10 +774,10 @@ Terminal Content
 ---------------------------------------*/
 
 .terminal-content { /*Container for content (input / output display*/
-    padding: 0px 15px 0px 15px;
-    min-height: 45vh;
-    max-height: 70%;
-    overflow: auto;
+  padding: 0px 15px 0px 15px;
+  min-height: 45vh;
+  max-height: 70%;
+  overflow: auto;
 }
 .terminal-content .message {
     display: none;
@@ -761,7 +822,9 @@ Terminal interaction /Text/
 ----------------------------------------*/
 
 .instruction {
-    padding-bottom:10px;
+  padding-bottom:10px;
+  overflow-wrap: break-word; /* makes long string wrap once 'enter' key is pressed */
+  word-wrap: break-word; /* makes long string wrap once 'enter' key is pressed */
 }
 
 .request {
@@ -779,7 +842,8 @@ Terminal interaction /Text/
     margin:0px 6px 0px 2px;
 }*/
 .answer {
-    color: #cfffff;
+    /*color: #cfffff;*/
+    color: #81ffff;
     margin-top: 15px;
 }
 .answer a {
@@ -803,63 +867,22 @@ Terminal interaction /Text/
 .user-request .terminal-symbol {
     font-size: 120%;
     font-weight: bold;
-    animation: blink .5s ease-in-out;
-    animation-iteration-count: infinite;
+    -webkit-animation: blink .5s ease-in-out;
+            animation: blink .5s ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
 }
 .terminal-control {
   margin-left: 20px;
 }
 
-/*----------------------------------------
-Os-bar
-------------------------------------------*/
 
-.os-bar {
-  text-align: right;
-  font-size: 22px;
-  position: fixed;
-  display: block;
-  flex-wrap: wrap;
-  width: 100%;
-  height: 50px;
-  padding:7px 0px;
-  top: 10px;
-  color:rgba(255,255,255,.9);
-  /*background-color: rgba(39,64,96,.5);*/
-  border-radius: 10px;
-}
 
-.os-bar__windows-item {
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-width: 25px;
-  width:20%;
-  max-width: 250px;
-  height: 100%;
-  overflow: hidden;
-  padding: 2px;
-  color:rgba(255,255,255,1);
-  margin:0px 5px;
-}
-
-.os-bar__date-time {
-  position: absolute;
-  display: block;
-  justify-content: left;
-  align-items: left;
-  right: 50px;
-  width:120px;
-  height: 100%;
-  text-align: left;
-  font-size: 1em;
-  font-weight: 100;
-}
-
-/*---------------------------------------
-Login
------------------------------------------*/
+/*
+-----------------------------------------------
+LOGIN PAGE
+-----------------------------------------------
+*/
 
 #login-interface {
   width: 100vw;
@@ -868,20 +891,17 @@ Login
   justify-content: center;
   align-items: center;
 }
-
 #login-interface .container-login {
   width: 600px;
   text-align: center;
   padding: 100px 0;
   border-radius: 10px;
 }
-
 #login-interface .welcome {
   font-weight: 100;
   font-size: 2rem;
   color: white;
 }
-
 #login-interface .google-button {
   display: flex;
   justify-content: center;
@@ -889,7 +909,6 @@ Login
   height: 60px;
   margin-top: 80px;
 }
-
 #login-interface .google-button-block {
   width: 354px;
   border-radius: 50px;
@@ -898,7 +917,6 @@ Login
   background-color: #fff;
   box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.1);
 }
-
 #login-interface .logo {
   position: relative;
   display: flex;
@@ -907,13 +925,11 @@ Login
   background-color: white;
   border-radius: 100%;
 }
-
 #login-interface .logo img {
   height: 34px;
   padding-left: 12px;
   padding-right: 12px;
 }
-
 #login-interface .call-to-action {
   position: relative;
   -webkit-appearance: none;
@@ -929,12 +945,10 @@ Login
   overflow: hidden;
   border-radius: 100px;
 }
-
 #login-interface .call-to-action span {
   position: relative;
   pointer-events: none;
 }
-
 #login-interface .call-to-action::before {
   --size: 0;
   content: '';
@@ -948,20 +962,32 @@ Login
           transform: translate(-50%, -50%);
   transition: width .2s ease, height .2s ease;
 }
-
 #login-interface .call-to-action:hover::before {
   --size: 400px;
 }
-
 #login-interface .g-signin2 {
   width: 120px;
   margin: auto;
 }
 
 
-/*---------------------------------------
-Keyframes for animation
------------------------------------------*/
+/*
+-----------------------------------------------
+KEYFRAMES FOR CURSOR ANIMATION
+-----------------------------------------------
+*/
+
+@-webkit-keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 
 @keyframes blink {
   0% {
@@ -972,5 +998,45 @@ Keyframes for animation
   }
   100% {
     opacity: 0;
+  }
+}
+
+
+/*
+-----------------------------------------------
+MEDIA QUERIES
+-----------------------------------------------
+*/
+
+@media only screen and (max-width: 700px) {
+  /* make width of welcome message bigger */
+  .welcome-message-style {
+    width: 80%;
+  }
+  /* make width of terminal bigger and font-size a bit smaller */
+  .terminal {
+    width: 90%;
+    font-size: 0.9rem;
+  }
+  /* make width of modal bigger and height a bit smaller */
+  #profilePage {
+    width: 90%;
+    height: 70%;
+  }
+  /* reduce input text font-size */
+  .profile-input-wrapper input[type=text] {
+    font-size: 0.8rem;
+  }
+  /* reduce label text font-size */
+  .profile-input-wrapper label {
+    font-size: 0.8rem;
+  }
+  /* make width of info modal bigger */
+  #infoPage {
+    width: 60%;
+  }
+  /* hide date and time */
+  .os-bar__date-time {
+    display: none;
   }
 }
