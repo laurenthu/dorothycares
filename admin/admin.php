@@ -224,7 +224,7 @@
          </div>
          <div class="row">
            <div class="input-field col s12">
-             <textarea id="addLinkedLearners" class="validate materialize-textarea" required></textarea>
+             <textarea id="addLinkedLearners" class="validate materialize-textarea"</textarea>
              <label for="addLinkedLearners">Learners to add</label>
            </div>
          </div>
