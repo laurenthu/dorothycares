@@ -161,25 +161,25 @@
         <form class="col s12">
           <div class="row">
             <div class="input-field col s4">
-              <input class="validate" type="text" name="nameImplantation" id="nameImplantation">
+              <input class="validate" type="text" name="nameImplantation" id="nameImplantation" required>
               <label for="nameImplantation">Name</label>
             </div>
             <div class="input-field col s8">
-              <input class="validate" type="text" name="streetImplantation" id="streetImplantation">
+              <input class="validate" type="text" name="streetImplantation" id="streetImplantation" required>
               <label for="streetImplantation">Address</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s4">
-              <input class="validate" type="number" name="postalCodeImplantation" id="postalCodeImplantation">
+              <input class="validate" type="number" name="postalCodeImplantation" id="postalCodeImplantation" required>
               <label for="postalCodeImplantation">Postal Code</label>
             </div>
             <div class="input-field col s4">
-              <input class="validate" type="text" name="cityImplantation" id="cityImplantation">
+              <input class="validate" type="text" name="cityImplantation" id="cityImplantation" required>
               <label for="cityImplantation">City</label>
             </div>
             <div class="input-field col s4">
-              <select id="countryImplantation">
+              <select id="countryImplantation" required>
                 <option value="" disabled selected>Choose your option</option>
                 <?php
                   $countryList = (new System($db))->getCountryList();
@@ -187,7 +187,7 @@
                     echo '<option value="' . $value['value'] . '">' . $value['name'] . '</option>';
                   }
                 ?>
-              <select>
+              </select>
               <label>Country</label>
             </div>
           </div>
@@ -195,17 +195,44 @@
       </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" id="addImplantation" class="modal-action modal-close waves-effect waves-green btn-flat" data-type="implantation">Send</a>
+      <a href="#!" id="addImplantation" class="modal-action modal-close waves-effect waves-green btn-flat" data-type="implantation">Add</a>
     </div>
   </div>
 
   <div id="startupAddModal" class="modal">
    <div class="modal-content">
-     <h4>Modal Header</h4>
-     <p>A bunch of text</p>
+     <h4>Add a startup</h4>
+     <div class="row">
+       <form class="col s12">
+         <div class="row">
+           <div class="input-field col s6">
+             <input class="validate" type="text" name="nameStartup" id="nameStartup" required>
+             <label for="nameStartup">Name</label>
+           </div>
+           <div class="input-field col s6">
+             <select id="linkedImplantation" required>
+               <option value="" disabled selected>Choose your option</option>
+               <?php
+                 $implantationList = (new Implantation($db))->getImplantationList();
+                 foreach ($implantationList as $value) {
+                   echo '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+                 }
+               ?>
+             </select>
+             <label>Implantation</label>
+           </div>
+         </div>
+         <div class="row">
+           <div class="input-field col s12">
+             <textarea id="addLinkedLearners" class="validate materialize-textarea" required></textarea>
+             <label for="addLinkedLearners">Learners to add</label>
+           </div>
+         </div>
+       </form>
+     </div>
    </div>
    <div class="modal-footer">
-     <a href="#!" id="addStartup" class="modal-action modal-close waves-effect waves-green btn-flat" data-type="startup">Agree</a>
+     <a href="#!" id="addStartup" class="modal-action modal-close waves-effect waves-green btn-flat" data-type="startup">Add</a>
    </div>
  </div>
 

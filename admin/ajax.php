@@ -22,8 +22,26 @@ if (isset($_GET['action']) && is_string($_GET['action'])) { // security checks
           && isset($_GET['countryCode']) && is_string($_GET['countryCode'])) { // security checks
 
             $addimp = new Implantation($db);
+            $json['request']['status'] = 'success';
+            $json['request']['message'] = 'Data added.';
             $addimp->addImplantation($_GET['name'], $_GET['street'], $_GET['postalCode'], $_GET['city'], $_GET['countryCode']); // adds a new implantation with the data provided
+            echo json_encode($json);
             die(); // we kill the script
+        }
+      } elseif ($_GET['type'] == 'startup') { // determine type of data
+
+        if (
+          isset($_GET['name']) && is_string($_GET['name'])
+          && isset($_GET['implantationId']) && is_int(intval($_GET['implantationId']))
+          && isset($_GET['addLinkedLearners']) && is_string($_GET['addLinkedLearners'])) { // security checks
+
+            $addsta = new Startup($db);
+            $json['request']['status'] = 'success';
+            $json['request']['message'] = 'Data added.';
+            $addsta->addStartup($_GET['name']); // adds a new startup with the data provided
+            echo json_encode($json);
+            die(); // we kill the script
+        }
       }
     }
   }
@@ -85,7 +103,7 @@ if (isset($_GET['type']) && is_string($_GET['type'])) { // Security checks
       echo json_encode($json);
       die(); // we kill the script
     }
-
   }
-};
+}
+
 ?>

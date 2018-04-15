@@ -60,6 +60,11 @@ function ajaxRequestCreateContent(button) { // ajax request
     let city = document.querySelector('#cityImplantation').value;
     let countryCode = document.querySelector('#countryImplantation').value; // get attribute?
     dataRequestCreateContent.open("GET", feed + '?type=' + addType + '&action=add&name=' + name + '&street=' + street + '&postalCode=' + postalCode + '&city=' + city + '&countryCode=' + countryCode, true); // the type, the url, asynchronous true/false
+  } else if (addType == 'startup') {
+    let name = document.querySelector('#nameStartup').value;
+    let implantationId = document.querySelector('#linkedImplantation').value; // get attribute?
+    let addLinkedLearners = document.querySelector('#addLinkedLearners').value;
+    dataRequestCreateContent.open("GET", feed + '?type=' + addType + '&action=add&name=' + name + '&implantationId=' + implantationId + '&addLinkedLearners=' + addLinkedLearners, true); // the type, the url, asynchronous true/false
   }
 
   dataRequestCreateContent.send(null);
@@ -257,16 +262,16 @@ addImplantationButton.addEventListener('click', function () { // Add an implanta
   nextButtonDisableOrEnable(paginationImplantation);
   ajaxRequestDisplayContent(paginationImplantation);
 });
-//
-// addStartupButton.addEventListener('click', function () { // Add a startup
-//
-//
-//   // Refresh displays
-//   allPaginationDisplay();
-//   nextButtonDisableOrEnable(paginationStartup);
-//   ajaxRequestDisplayContent(paginationStartup);
-// });
-//
+
+addStartupButton.addEventListener('click', function () { // Add a startup
+  ajaxRequestCreateContent(addStartupButton);
+
+  // Refresh displays
+  allPaginationDisplay();
+  nextButtonDisableOrEnable(paginationStartup);
+  ajaxRequestDisplayContent(paginationStartup);
+});
+
 // addUserButton.addEventListener('click', function () { // Add an User
 //
 //
