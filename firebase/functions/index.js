@@ -19,6 +19,8 @@ const IMPLANTATION_ACTION = 'user.becode.getImplantation';
 
 const STARTUP_ACTION = 'user.becode.getStartup';
 
+const STARTUP_MEMBERS_ACTION = 'user.becode.getStartupMember';
+
 const RELATIONAL_URL = 'https://dev.dorothycares.io/api';
 
 
@@ -57,7 +59,7 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
         body = JSON.stringify(body);
         console.log('on res body stringify', body);
 
-        app.ask('Hello from give ressource' + body);
+        app.ask(body);
 
       });
       // Handling erros
@@ -228,6 +230,70 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
       console.error(e);
     });
   }
+
+  function giveStartUpMembers(app) {
+    // Keeping track of the version of the function that will be deployed
+    console.log('give startup members v1.2');
+    let email;
+    let token;
+    let startUpId;
+    // make the request to our api to have the informations
+    let sessionId = request.body.sessionId;
+    console.log('sessionId:', sessionId);
+    https.get(RELATIONAL_URL + '/session/' + sessionId + '/', (res) => {
+      // declaring the body
+      let body = '';
+      // checking the status of the request
+      console.log('statusCode:', res.statusCode);
+      // On response, fill the data inside the body
+      res.on('data', (data) => {
+        body += data;
+      });
+      // Once the body is filled with the informations
+      res.on('end', () => {
+        // parse the body
+        body = JSON.parse(body);
+        console.log('on res body', body);
+
+        email = body.response.email;
+        token = body.response.token;
+        console.log('response email', email);
+        console.log('response token', token);
+        https.get(RELATIONAL_URL + '/user/' + token + '/' + email + '/startup/', (res) => {
+          let body = '';
+          console.log('statusCode:', res.statusCode);
+          res.on('data', (data) => {
+            body += data;
+          });
+          res.on('end', () => {
+            body = JSON.parse(body);
+            body.api = 'rel';
+            startUpId = body.response.idStartup;
+            console.log('on res body second', body);
+            console.log('startup Id', startUpId);
+            https.get(RELATIONAL_URL + '/startup/' + token + '/' + email + '/members/' + startUpId + '/learner/', (res) => {
+              let body = '';
+              console.log('statusCode:', res.statusCode);
+              res.on('data', (data) => {
+                body += data;
+              });
+              res.on('end', () => {
+                body = JSON.parse(body);
+                body.api = 'rel';
+                body.modal = 'true';
+                body = JSON.stringify(body);
+                console.log('on res body third', body);
+                app.ask(body);
+              });
+            });
+          });
+        })
+      });
+      // Handling erros
+    }).on('error', (e) => {
+      console.error(e);
+    });
+  }
   // 3.X Declaring the endConversation function just to link the DialogFlow agent to the Google Assistant
   // function endConversation(app) {}
 
@@ -237,6 +303,7 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
   actionMap.set(RELATIONAL_ACTION, giveCoaches);
   actionMap.set(IMPLANTATION_ACTION, giveImplantation);
   actionMap.set(STARTUP_ACTION, giveStartUp);
+  actionMap.set(STARTUP_MEMBERS_ACTION, giveStartUpMembers);
   // actionMap.set(END_ACTION, endConversation);
 
   app.handleRequest(actionMap);

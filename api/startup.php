@@ -23,7 +23,7 @@ if( !(new User($db))->checkPassworduser($email,$token) ) {
 
   $json['request']['status'] = 'error';
   $json['request']['message'] = 'Sorry you can\'t access to this page. Your token is invalid.';
-    echo json_encode($json);
+  echo json_encode($json);
   die(); // we kill the script
 
 } else {
