@@ -429,7 +429,7 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
   }
 
   .modal-body {
-    /*position: fixed;*/
+    position: fixed;
     /*right: 60px;*/
     width: 90%;
     height: 90%;
