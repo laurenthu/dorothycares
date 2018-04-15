@@ -131,10 +131,10 @@ exports.create_ressource = (req, res, next) => {
 
 exports.update_ressource = (req, res, next) => {
 
-  const reqName = req.params.ressourceName;
+  const id = req.params.ressourceId;
 
   Ressources.findOneAndUpdate({
-      name: reqName
+      _id: id
     }, req.body, {
       new: false
     })
@@ -157,10 +157,9 @@ exports.update_ressource = (req, res, next) => {
 }
 
 exports.delete_ressource = (req, res, next) => {
-  const reqName = req.params.ressourceName;
-
+  const id = req.params.ressourceId;
   Ressources.remove({
-      name: reqName
+      _id: id
     })
     .exec()
     .then(result => {

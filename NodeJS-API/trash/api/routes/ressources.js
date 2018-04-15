@@ -14,9 +14,9 @@ router.get("/:ressourceName", RessourcesController.get_ressourceName);
 router.post("/", RessourcesController.create_ressource);
 
 // Handle PATCH requests to /ressources/:ressourcesId
-router.patch("/:ressourceName", RessourcesController.update_ressource);
+router.patch("/:ressourceId", RessourcesController.update_ressource);
 
 // Handle DELETE requests to /ressources/:ressourcesId
-router.delete("/:ressourceName", RessourcesController.delete_ressource);
+router.delete("/:ressourceId",RessourcesController.delete_ressource);
 
 module.exports = router;
