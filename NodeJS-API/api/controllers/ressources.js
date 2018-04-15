@@ -4,7 +4,7 @@ const Ressources = require("../models/ressources");
 
 exports.get_all_ressources = (req, res, next) => {
   Ressources.find()
-    .select("_id name intro category installation documentation tutorials exercice examples news")
+    .select("_id name intro displayName category installation documentation tutorials exercices examples news")
     .exec()
     .then(docs => {
       res.status(200).json({
@@ -13,6 +13,7 @@ exports.get_all_ressources = (req, res, next) => {
           return {
             _id: doc._id,
             name: doc.name,
+            displayName: doc.displayName,
             intro: doc.intro,
             category: doc.category,            
             installation: doc.installation,
@@ -62,6 +63,7 @@ exports.get_ressource = (req, res, next) => {
 exports.get_ressourceName = (req, res, next) => {
   const reqName = req.params.ressourceName
   Ressources.findOne({ name: reqName })
+    .select("_id name intro displayName category installation documentation tutorials exercices examples news")
     .exec()
     .then(ressources => {
       if (!ressources) {
@@ -88,6 +90,7 @@ exports.create_ressource = (req, res, next) => {
   const newRessources = new Ressources({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
+    displayName: req.body.displayName,
     intro: req.body.intro,
     category: req.body.category,    
     installation: req.body.installation,
@@ -106,6 +109,7 @@ exports.create_ressource = (req, res, next) => {
         createdRessources: {
           _id: result._id,
           name: result.name,
+          displayName: result.displayName,
           intro: result.intro,
           category: result.category,
           installation: result.installation,

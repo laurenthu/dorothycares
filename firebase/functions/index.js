@@ -12,6 +12,9 @@ const https = require('https');
 const RESSOURCES_ACTION = 'coding.technologies.ressources';
 const TECH_ARGUMENT = 'codingTechnology';
 
+const TOOLBOX_ACTION = 'coding.technologies.toolbox';
+const SIDE_TECH_ARGUMENT = 'codingToolbox';
+
 /* REL RESSOURCES */
 const RELATIONAL_ACTION = 'user.becode.getCoach';
 
@@ -56,6 +59,42 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
         console.log('on res body', body);
         body.modal = true;
         body.api = 'no-rel';
+        body.type = 'ressources';
+        body = JSON.stringify(body);
+        console.log('on res body stringify', body);
+
+        app.ask(body);
+
+      });
+      // Handling erros
+    }).on('error', (e) => {
+      console.error(e);
+    });
+  }
+
+  function giveToolbox(app) {
+    // Keeping track of the version of the function that will be deployed
+    console.log('give toolbox v1.3');
+    let codingToolbox = app.getArgument(SIDE_TECH_ARGUMENT);
+    // make the request to our api to have the informations
+    console.log('https://dorothycares.herokuapp.com/toolbox/'+codingToolbox);
+    https.get('https://dorothycares.herokuapp.com/toolbox/'+codingToolbox, (res) => {
+      // declaring the body
+      let body = '';
+      // checking the status of the request
+      console.log('statusCode:', res.statusCode);
+      // On response, fill the data inside the body
+      res.on('data', (data) => {
+        body += data;
+      });
+      // Once the body is filled with the informations
+      res.on('end', () => {
+        // parse the body
+        body = JSON.parse(body);
+        console.log('on res body', body);
+        body.modal = true;
+        body.api = 'no-rel';
+        body.type = 'toolbox';
         body = JSON.stringify(body);
         console.log('on res body stringify', body);
 
@@ -105,6 +144,7 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
           res.on('end', () => {
             body = JSON.parse(body);
             body.api = 'rel';
+            body.type = 'text';
             console.log('on res body second', body);
             for (let i = 0; i < body.response.length; i++) {
               myResArr[i] = body.response[i].firstName + ' <' + body.response[i].email + '>';
@@ -162,6 +202,7 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
           res.on('end', () => {
             body = JSON.parse(body);
             body.api = 'rel';
+            body.type = 'text';
             implantation = body.response.name;
             street = body.response.street;
             postalCode = body.response.postalCode;
@@ -217,6 +258,7 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
           res.on('end', () => {
             body = JSON.parse(body);
             body.api = 'rel';
+            body.type = 'text';
             startUp = body.response.nameStartup;
             startUpGit = body.response.meta[0].value;
             console.log('on res body second', body);
@@ -281,6 +323,7 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
                 body = JSON.parse(body);
                 body.api = 'rel';
                 body.modal = 'true';
+                body.type = 'list';
                 body = JSON.stringify(body);
                 console.log('on res body third', body);
                 app.ask(body);
@@ -300,6 +343,7 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
   // 4. build an action map, which maps intent names to functions
   let actionMap = new Map();
   actionMap.set(RESSOURCES_ACTION, giveRessources);
+  actionMap.set(TOOLBOX_ACTION, giveToolbox);
   actionMap.set(RELATIONAL_ACTION, giveCoaches);
   actionMap.set(IMPLANTATION_ACTION, giveImplantation);
   actionMap.set(STARTUP_ACTION, giveStartUp);

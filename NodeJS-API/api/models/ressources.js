@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const ressourcesSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {type: String},
+    displayName: {type: String},
     intro: {type: String},
     category: {type: String},    
     installation: {type: Array},

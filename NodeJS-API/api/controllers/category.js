@@ -1,26 +1,23 @@
 const mongoose = require("mongoose");
 
-const Toolbox = require("../models/toolbox");
+const Category = require("../models/category");
 
-exports.get_all_toolbox = (req, res, next) => {
-  Toolbox.find()
-    .select("_id name desc category usecase tools")
+exports.get_all_category = (req, res, next) => {
+  Category.find()
+    .select("_id name ressources toolbox")
     .exec()
     .then(docs => {
       res.status(200).json({
         count: docs.length,
-        toolbox: docs.map(doc => {
+        category: docs.map(doc => {
           return {
             _id: doc._id,
             name: doc.name,
-            displayName: doc.displayName,
-            desc: doc.desc,
-            category: doc.category,            
-            usecase: doc.usecase,
-            tools: doc.tools
+            ressources: doc.ressources,
+            toolbox: doc.toolbox
             // request: {
             //   type: "GET",
-            //   url: "https://dorothycares.herokuapp.com/toolbox/" + doc._id
+            //   url: "https://dorothycares.herokuapp.com/category/" + doc._id
             // }
           };
         })
@@ -33,20 +30,20 @@ exports.get_all_toolbox = (req, res, next) => {
     });
 }
 
-// exports.get_toolbox = (req, res, next) => {
-//   Toolbox.findById(req.params.toolboxId)
+// exports.get_category = (req, res, next) => {
+//   Category.findById(req.params.categoryId)
 //     .exec()
-//     .then(toolbox => {
-//       if (!toolbox) {
+//     .then(category => {
+//       if (!category) {
 //         return res.status(404).json({
-//           message: "Toolbox not found"
+//           message: "category not found"
 //         });
 //       }
 //       res.status(200).json({
-//         toolbox: toolbox
+//         category: category
 //         // request: {
 //         //   type: "GET",
-//         //   url: "https://dorothycares.herokuapp.com/toolbox/"
+//         //   url: "https://dorothycares.herokuapp.com/category/"
 //         // }
 //       });
 //     })
@@ -56,21 +53,26 @@ exports.get_all_toolbox = (req, res, next) => {
 //       });
 //     });
 // }
-exports.get_toolboxName = (req, res, next) => {
-  const reqName = req.params.toolboxName
-  Toolbox.findOne({ name: reqName })
+exports.get_categoryName = (req, res, next) => {
+  const reqName = req.params.categoryName
+  Category.findOne({
+      name: reqName
+    })
+    .select('_id name ressources toolbox')
+    .populate('ressources', 'displayName intro')
+    .populate('toolbox', 'displayName desc')
     .exec()
-    .then(toolbox => {
-      if (!toolbox) {
+    .then(category => {
+      if (!category) {
         return res.status(404).json({
-          message: "Toolbox not found"
+          message: "Toolb not found"
         });
       }
       res.status(200).json({
-        toolbox: toolbox
+        category: category
         // request: {
         //   type: "GET",
-        //   url: "https://dorothycares.herokuapp.com/toolbox/"
+        //   url: "https://dorothycares.herokuapp.com/category/"
         // }
       });
     })
@@ -81,33 +83,27 @@ exports.get_toolboxName = (req, res, next) => {
     });
 }
 
-exports.create_toolbox = (req, res, next) => {
-  const newToolbox = new Toolbox({
+exports.create_category = (req, res, next) => {
+  const newCategory = new Category({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
-    displayName: req.body.displayName,
-    desc: req.body.desc,
-    category: req.body.category,    
-    usecase: req.body.usecase,
-    tools: req.body.tools
+    ressources: req.body.ressources,
+    toolbox: req.body.toolbox
   });
-  newToolbox
+  newCategory
     .save()
     .then(result => {
       console.log(result);
       res.status(201).json({
-        message: "Created toolbox successfully",
-        createdToolbox: {
+        message: "Created category successfully",
+        createdCategory: {
           _id: result._id,
           name: result.name,
-          displayName: result.displayName,
-          desc: result.desc,
-          category: result.category,
-          usecase: result.usecase,
-          tools: result.tools
+          ressources: result.ressources,
+          toolbox: result.toolbox
           // request: {
           //   type: 'GET',
-          //   url: "https://dorothycares.herokuapp.com/toolbox/" + result._id
+          //   url: "https://dorothycares.herokuapp.com/category/" + result._id
           // }
         }
       });
@@ -120,11 +116,11 @@ exports.create_toolbox = (req, res, next) => {
     });
 }
 
-exports.update_toolbox = (req, res, next) => {
+exports.update_category = (req, res, next) => {
 
-  const reqName = req.params.toolboxName;
+  const reqName = req.params.categoryName;
 
-  Toolbox.findOneAndUpdate({
+  Category.findOneAndUpdate({
       name: reqName
     }, req.body, {
       new: false
@@ -132,10 +128,10 @@ exports.update_toolbox = (req, res, next) => {
     .exec()
     .then(result => {
       res.status(200).json({
-        message: 'Toolbox updated'
+        message: 'Category updated'
         // request: {
         //   type: 'GET',
-        //   url: 'https://dorothycares.herokuapp.com/toolbox/' + id
+        //   url: 'https://dorothycares.herokuapp.com/category/' + id
         // }
       });
     })
@@ -147,19 +143,19 @@ exports.update_toolbox = (req, res, next) => {
     });
 }
 
-exports.delete_toolbox = (req, res, next) => {
-  const reqName = req.params.toolboxName;
+exports.delete_category = (req, res, next) => {
+  const reqName = req.params.categoryName;
 
-  Toolbox.remove({
+  Category.remove({
       name: reqName
     })
     .exec()
     .then(result => {
       res.status(200).json({
-        message: 'Toolbox deleted'
+        message: 'Category deleted'
         // request: {
         //   type: 'POST',
-        //   url: 'https://dorothycares.herokuapp.com/toolbox/',
+        //   url: 'https://dorothycares.herokuapp.com/category/',
         //   body: {
         //     name: 'String',
         //     price: 'Number'
