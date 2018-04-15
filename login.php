@@ -15,7 +15,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Login - DorothAI Cares <?php echo VERSION ?> (Dev)</title>
+    <title>Login - DorothyCares <?php echo VERSION ?> (Dev)</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,300" rel="stylesheet">

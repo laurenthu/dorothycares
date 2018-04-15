@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/css/normalize.css">
 	<link rel="stylesheet" href="/css/main.css">
 
-  <title>DorothAI <?= VERSION ?></title>
+  <title>DorothyCares <?= VERSION ?></title>
 
 	<!-- OpenGraph -->
   	<meta property="fb:app_id" content="306159282727976">
@@ -154,8 +154,8 @@
   <section id="infoPage">
     <div id="modal-container-3">
       <div id="modal-body-info" class="modal-body-info">
-        <h1 class="modal-info-title">Dorothy Ai<span class="version">v.1</span></h1>
-        <h5 class="modal-info-creators">Powered by the Nine</h5>
+        <h1 class="modal-info-title">DorothyCares<span class="version">v<?= VERSION ?></span></h1>
+        <h5 class="modal-info-creators">Powered by "The Nine"</h5>
         <a class="modal-info-link" href="https://www.becode.org/">A Becode Project</a>
         <a class="modal-info-link" href="/policy/cookies-policy.html">Cookies-Policy</a>
         <a class="modal-info-link" href="/policy/privacy.html">Privacy</a>
