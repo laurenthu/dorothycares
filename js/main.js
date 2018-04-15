@@ -22,6 +22,7 @@ let menuProfile = document.querySelector('.menu-profile');
 let menuInfo = document.querySelector('.menu-info');
 let menuCalendar = document.querySelector('.menu-calendar');
 let answerModal = document.getElementById('answerTemplate');
+let answerModalBody = document.querySelector('#answerTemplate .modal-body');
 let longAnswerBtn = document.getElementById('answer-modal-btn');
 let profileModal = document.getElementById('profilePage');
 let profileModalBtn = document.getElementById('profile-modal-btn');
@@ -602,6 +603,7 @@ function hideInfo () {
 // !!! ADD LINE BELOW TO CLOSE LONG ANSWER MODAL WHEN USER CLICKS ON TEXT WITH LINK PROVIDED BY DOROTHY
 longAnswerBtn.addEventListener('click', function(){
   answerModal.style.right = "-120%";
+  hidingBgDiv.style.display = "none";
 });
 
 
@@ -834,3 +836,29 @@ drawArea = canvasBody.getContext("2d");
 let delay = 200, tid;
 resizeReset();
 setup();
+
+/*
+----------------------------------------------------------------------
+Laurent
+----------------------------------------------------------------------
+*/
+
+function nl2br(str) {
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
+}
+
+function addFirstZero(i) {
+    if (i < 10) {
+        i = '0' + i;
+    }
+    return i;
+}
+
+function date_time(selector) {
+    let date = new Date();
+    result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
+    result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
+    document.querySelector(selector).innerHTML = result;
+    setTimeout('date_time("' + selector + '");', '1000');
+    return true;
+}
