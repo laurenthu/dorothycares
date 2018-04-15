@@ -8,6 +8,7 @@ const passport = require('passport');
 const mongoose = require("mongoose");
 
 const ressourcesRoutes = require("./api/routes/ressources");
+const toolboxRoutes = require("./api/routes/toolbox");
 
 mongoose.Promise = global.Promise;
 const DBName = 'dorothycares'
@@ -39,7 +40,8 @@ app.use((req, res, next) => {
 });
 
 // Routes which should handle requests
-app.use("/ressources", ressourcesRoutes)
+app.use("/ressources", ressourcesRoutes);
+app.use("/toolbox", toolboxRoutes);
 
 // Index Route
 app.get('/', (req, res) => {

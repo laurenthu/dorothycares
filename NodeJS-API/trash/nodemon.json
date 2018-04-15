@@ -1,8 +1,0 @@
-{
-  "env":{
-    "MONGO_LAB_DB_USER": "DorothyCares",
-    "MONGO_LAB_PW":"TheN!neSold!ers",
-    "JWT_KEY": "wtfisthatkey",
-    "SECRET": "guesswhat"
-  }
-}
