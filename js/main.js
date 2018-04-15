@@ -24,8 +24,11 @@ let menuCalendar = document.querySelector('.menu-calendar');
 let answerModal = document.getElementById('answerTemplate');
 let longAnswerBtn = document.getElementById('answer-modal-btn');
 let profileModal = document.getElementById('profilePage');
+let profileModalBtn = document.getElementById('profile-modal-btn');
 let hidingBgDiv = document.getElementById('hiding-bg-div');
 let menuProfileIsClicked = false;
+let infoModal = document.getElementById('infoPage');
+let menuInfoIsClicked = false;
 
 // function to show/hide menu (small balls)
 function showMenu (value) {
@@ -185,7 +188,11 @@ dorothyBall.addEventListener('click', function() {
 });
 
 // When user clicks on welcome message launch showTerminal() function
-welcomeMessageContainer.addEventListener('click', showTerminal);
+welcomeMessageContainer.addEventListener('click', function(){
+  showTerminal();
+  hideProfile();
+  hideInfo();
+});
 
 // When user clicks on terminal button in menu launch showTerminal() function
 menuTerminal.addEventListener('click', showTerminal);
@@ -200,6 +207,83 @@ menuProfile.addEventListener('click', function(){
     menuProfileIsClicked = false; // set profile button as unclicked
     hideProfile(); // launch hideProfile() function
   }
+});
+
+// When user clicks on flat button in profile modal hide the modal
+profileModalBtn.addEventListener('click', function(){
+  // launch hideProfile() function
+  hideProfile();
+  // launch hideInfo() function
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  // display:block on menu
+  showMenu('block');
+  // set menuOpen switch to true
+  menuOpen = true;
+  // show menu
+  myTimeline
+    .add({
+      targets: '.menu-terminal',
+      scale: [0, 1],
+      offset: '+=500'
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: [0, 1],
+      offset: '-=950'
+    });
+});
+
+// When user clicks on info button show info modal
+menuInfo.addEventListener('click', function(){
+  // if (menuInfoIsClicked == false) {
+    showInfo();
+  // } else {
+    // hideInfo();
+  // }
+});
+
+// When user clicks on info modal hide info modal
+infoModal.addEventListener('click', function(){
+  hideInfo();
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  // display:block on menu
+  showMenu('block');
+  // set menuOpen switch to true
+  menuOpen = true;
+  // show menu
+  myTimeline
+    .add({
+      targets: '.menu-terminal',
+      scale: [0, 1],
+      offset: '+=500'
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: [0, 1],
+      offset: '-=950'
+    });
 });
 
 function showTerminal() {
@@ -286,6 +370,7 @@ function showTerminal() {
 }
 
 function showProfile () {
+  menuProfileIsClicked = false;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
   // show hiding background div so user can't click on background
@@ -293,7 +378,7 @@ function showProfile () {
   // create another timeline for the menu buttons [anime JS]
   let myTimeline = anime.timeline();
   // below triggers animations (first one is the terminal popping up)
-  profileModal.style.top = "-20px";
+  profileModal.style.top = 0;
   myTimeline
     .add({
       targets: '.menu-terminal',
@@ -363,8 +448,10 @@ function showProfile () {
 function hideProfile () {
   // hide profile modal
   profileModal.style.top = '-120%';
-  // hide hiding background div so user can't click on background
+  // hide hiding background div so user can click on background
   hidingBgDiv.style.display = 'none';
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
   if (menuOpen == true) {
     // show menu
     myTimeline
@@ -395,10 +482,116 @@ function hideProfile () {
           // }
         });
   }
-
 }
 
+function showInfo () {
+  menuInfoIsClicked = true;
+  // set switch back to false so that we can open it with one click
+  menuOpen = false;
+  // show hiding background div so user can't click on background
+  // hidingBgDiv.style.display = "block";
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  // below triggers animations (first one is the terminal popping up)
+  infoModal.style.left = 0;
+  myTimeline
+    .add({
+      targets: '.menu-terminal',
+      scale: 0.4
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-terminal',
+      scale: 0.4,
+      translateX: '150%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: 0.4,
+      translateX: '100%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: 0.4,
+      translateX: '-100%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: 0.4,
+      translateX: '-150%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack',
+      complete: function(){ // once all of these animations are completed run the following (same as earlier):
+        showMenu("none");
+        menuTerminal.style.transform = "translateX(0%) translateY(0%)";
+        menuProfile.style.transform = "translateX(0%) translateY(0%)";
+        menuInfo.style.transform = "translateX(0%) translateY(0%)";
+        menuCalendar.style.transform = "translateX(0%) translateY(0%)";
+      }
+    })
+}
 
+function hideInfo () {
+  menuInfoIsClicked = false;
+  // hide info modal
+  infoModal.style.left = '-120%';
+  // hide hiding background div so user can click on background
+  // hidingBgDiv.style.display = 'none';
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  if (menuOpen == true) {
+  // show menu
+  myTimeline
+    .add({
+      targets: '.menu-terminal',
+      scale: [0, 1],
+      offset: '+=500'
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: [0, 1],
+      offset: '-=950'
+    });
+  }
+}
 
 
 // !!! ADD LINE BELOW TO OPEN LONG ANSWER MODAL WHEN USER CLICKS ON TEXT WITH LINK PROVIDED BY DOROTHY
@@ -453,6 +646,7 @@ function displayMessage () {
 
 
   /* TO IMPLEMENT LATER:
+
   if (USER HAS UPDATED PROFILE) {
     welcomeMessageH1.innerHTML = messageGeneral;
   } else if(USER HAS NOT UPDATED PROFILE) {
@@ -476,9 +670,11 @@ _______________________________
     window.onclick = resetTimer; // catches touchpad clicks
     window.onscroll = resetTimer; // catches scrolling with arrow keys
     window.onkeypress = resetTimer;
+
     function display() {
 
     }
+
     function resetTimer() {
         clearTimeout(t);
         t = setTimeout(displayMessage, 3000);
@@ -638,125 +834,3 @@ drawArea = canvasBody.getContext("2d");
 let delay = 200, tid;
 resizeReset();
 setup();
-
-
-/*
-----------------------------------------------------------------------
-Laurent
-----------------------------------------------------------------------
-*/
-
-//let sessionId = Math.floor(Math.random() * Math.random() * 350000); // we generate a sessionId for dialogflow
-
-function nl2br(str) {
-    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
-}
-
-function addFirstZero(i) {
-    if (i < 10) {
-        i = '0' + i;
-    }
-    return i;
-}
-
-function date_time(selector) {
-    let date = new Date();
-    result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
-    result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
-    document.querySelector(selector).innerHTML = result;
-    setTimeout('date_time("' + selector + '");', '1000');
-    return true;
-}
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    let userInstruction; // variable temporaire
-    //const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
-    const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae'; // agent v2 - DorothyCares
-    const baseUrl = 'https://api.dialogflow.com/v1/';
-    const version = '20170712';
-    let emailUser = document.querySelector('body').getAttribute('data-email');
-    let tokenUser = document.querySelector('body').getAttribute('data-token');
-    let sessionId = document.querySelector('body').getAttribute('data-dialogflow-session');
-
-    date_time('.os-bar__date-time');
-    document.querySelector('.user-input').setAttribute('contentEditable', true);
-    document.querySelector('.user-input').focus();
-    document.querySelector('.terminal-symbol').addEventListener('click', function () {
-      document.querySelector('.user-input').focus();
-    });
-
-    document.addEventListener('keydown', function (e) { // we detect keyboard entry
-
-        document.querySelector('.user-input').focus();
-        userInstruction = document.querySelector('.user-input').textContent; // we save the current value
-
-        if (e.key == 'Enter' && userInstruction != '') {
-            e.preventDefault();
-            document.querySelector('.user-input').setAttribute('contentEditable', false);
-            document.querySelector('.terminal-control').parentNode.removeChild(document.querySelector('.terminal-control'));
-
-            let span = document.createElement("span");
-            span.classList.add("request");
-            document.querySelectorAll('.user-request')[document.querySelectorAll('.user-request').length - 1].appendChild(span);
-            span.innerHTML = '<span class="request">' + userInstruction + '</span>';
-
-            $.ajax({
-              type: 'POST',
-              url: baseUrl + 'query?v=' + version,
-              contentType: 'application/json; charset=utf-8',
-              dataType: 'json',
-              headers: {
-                'Authorization': 'Bearer ' + accessToken
-              },
-              data: JSON.stringify({
-                query: userInstruction,
-                lang: "en",
-                emailUser: emailUser,
-                tokenUser: tokenUser,
-                sessionId: sessionId
-              }),
-
-              success: function (data, status) { // answer include the answer return by the script
-                console.log(data);
-                answer = data.result.fulfillment.messages[0].speech;
-                answer = anchorme(nl2br(answer), {
-                    attributes: [{
-                        name: "target",
-                        value: "_blank"
-                    }],
-                    files: false,
-                    ips: false
-                });
-                if (typeof data.sessionId !== 'undefined') {
-                  sessionId = data.sessionId;
-                }
-
-                $('<div class="answer">' + answer + '</span>').appendTo($('.user-request').last());
-                $('<div class="instruction"></div>').appendTo($('.terminal-content'));
-                $('<div class="user-request"></div>').appendTo($('.instruction').last());
-                $('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
-                $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
-              },
-              error: function (result, status, error) {
-                $('<div class="answer">Sorry. There is a bug in my brai. Please try again!</span>').appendTo($('.user-request').last());
-                $('<div class="instruction"></div>').appendTo($('.terminal-content'));
-                $('<div class="user-request"></div>').appendTo($('.instruction').last());
-                $('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
-                $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
-              },
-              complete: function (result, status) {
-                window.scrollTo(0, document.body.scrollHeight);
-                document.querySelector('.user-input').setAttribute('contentEditable', true);
-                document.querySelector('.terminal-symbol').addEventListener('click', function () {
-                  document.querySelector('.user-input').focus();
-                });
-              },
-            });
-
-        } else if (e.key == 'Enter' && userInstruction == '') {
-          e.preventDefault();
-        }
-    })
-
-});

@@ -843,6 +843,84 @@ class User {
 
   }
 
+  public function updateSessionIdUser($emailUser,$sessionId) {
+    /*
+    (IN) email of the user to check
+    (OUT) true is ok, false it not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `sessionIdUser` = :sessionId WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':sessionId', $sessionId, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function getEmailUserBySessionIdUser($sessionId) {
+    /*
+    (IN) sessionId of the user to check
+    (OUT) return email if ok, false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `emailUser` as `information` FROM `user` WHERE `sessionIdUser` = :sessionId LIMIT 0,1");
+      $statement->bindParam(':sessionId', $sessionId, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function getTokenUserBySessionIdUser($sessionId) {
+    /*
+    (IN) sessionId of the user to check
+    (OUT) return token if ok, false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `randomSalt` as `information` FROM `user` WHERE `sessionIdUser` = :sessionId LIMIT 0,1");
+      $statement->bindParam(':sessionId', $sessionId, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   protected function getPasswordUser($emailUser) {
     /*
     (IN) email of the user to check
