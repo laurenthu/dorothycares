@@ -135,8 +135,8 @@
             <input id="profile-linkedin" class="profile-linkedin" type="text" placeholder="Linkedin">
           </span>
           <div class="profile-buttons">
-            <button id="profile-add-details" class="profile-add-details" disabled>Add</button> <!-- ADDED THIS BUTTON -->
-            <input id="profile-save-details" class="profile-save-details" type="submit" value="SAVE">
+            <!-- <button id="profile-add-details" class="profile-add-details" disabled>Add</button>--> <!-- ADDED THIS BUTTON -->
+            <button id="profile-save-details" class="profile-save-details">Save</button>
           </div>
         </form>
 
