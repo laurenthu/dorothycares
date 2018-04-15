@@ -157,8 +157,8 @@
         <h1 class="modal-info-title">Dorothy Ai<span class="version">v.1</span></h1>
         <h5 class="modal-info-creators">Powered by the Nine</h5>
         <a class="modal-info-link" href="https://www.becode.org/" target="_blank">A Becode Project</a>
-        <a class="modal-info-link" href="policy/cookies-policy.html" target="_blank">Cookies-Policy</a>
-        <a class="modal-info-link" href="policy/privacy.html" target="_blank">Privacy</a>
+        <a class="modal-info-link" href="/policy/cookies-policy.html" target="_blank">Cookies-Policy</a>
+        <a class="modal-info-link" href="/policy/privacy.html" target="_blank">Privacy</a>
       </div>
     </div>
   </section>
@@ -199,6 +199,7 @@
   <script src="/js/anchorme.min.js"></script> <!-- https://github.com/alexcorvi/anchorme.js/ -->
   <script src="/js/axios.min.js"></script> <!-- https://github.com/axios/axios -->
   <script src="/js/main.js"></script>
+  <script src="/js/dialogflow.js"></script>
 
   <!--
   Dev var_dump
