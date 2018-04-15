@@ -435,61 +435,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
               });
 
-            // $.ajax({
-            //   type: 'POST',
-            //   url: baseUrl + 'query?v=' + version,
-            //   contentType: 'application/json; charset=utf-8',
-            //   dataType: 'json',
-            //   headers: {
-            //     'Authorization': 'Bearer ' + accessToken
-            //   },
-            //   data: JSON.stringify({
-            //     query: userInstruction,
-            //     lang: "en",
-            //     emailUser: emailUser,
-            //     tokenUser: tokenUser,
-            //     sessionId: sessionId
-            //   }),
-            //
-            //   success: function (data, status) { // answer include the answer return by the script
-            //     console.log(data);
-            //     answer = data.result.fulfillment.messages[0].speech;
-                // answer = anchorme(nl2br(answer), {
-                //     attributes: [{
-                //         name: "target",
-                //         value: "_blank"
-                //     }],
-                //     files: false,
-                //     ips: false
-                // });
-            //     if (typeof data.sessionId !== 'undefined') {
-            //       sessionId = data.sessionId;
-            //     }
-            //
-            //     $('<div class="answer">' + answer + '</span>').appendTo($('.user-request').last());
-            //     $('<div class="instruction"></div>').appendTo($('.terminal-content'));
-            //     $('<div class="user-request"></div>').appendTo($('.instruction').last());
-            //     //$('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
-            //     $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
-            //   },
-            //   error: function (result, status, error) {
-            //     $('<div class="answer">Sorry. There is a bug in my brain. Please try again!</span>').appendTo($('.user-request').last());
-            //     $('<div class="instruction"></div>').appendTo($('.terminal-content'));
-            //     $('<div class="user-request"></div>').appendTo($('.instruction').last());
-            //     // $('<span class="user"></span><span class="symbol"></span>').appendTo($('.instruction .user-request').last());
-            //     $('<span class="terminal-control"><div class="user-input"></div><span class="terminal-symbol">_</span></span>').appendTo($('.instruction .user-request').last());
-            //   },
-            //   complete: function (result, status) {
-            //     window.scrollTo(0, document.body.scrollHeight);
-            //     document.querySelector('.user-input').setAttribute('contentEditable', true);
-            //     document.querySelector('.terminal-symbol').addEventListener('click', function () {
-            //       document.querySelector('.user-input').focus();
-            //     });
-            //   },
-            // });
 
         } else if (e.key == 'Enter' && userInstruction == '') {
+
           e.preventDefault();
+          
         }
     })
 
