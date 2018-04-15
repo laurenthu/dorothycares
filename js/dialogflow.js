@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
               .then(function (response) { // if request succeeded
 
-                console.log(response);
+                //console.log(response);
                 // we store the session for the context following
                 if (typeof response.data.sessionId !== 'undefined') {
                   sessionId = response.data.sessionId;
@@ -367,27 +367,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
                   // we parse the JSON
                   dorothyAnswerObject = JSON.parse(dorothyAnswerText);
-                  //console.log(dorothyAnswerObject.api);
 
                   if (dorothyAnswerObject.api === 'no-rel') {
 
                     if (dorothyAnswerObject.type === 'ressources') {
 
                       if (dorothyAnswerObject.modal === true) {
+
                         dorothyAnswerText = 'Check in the modal for the requested information. Hope that\'s will help you.';
                         answerModalBody.innerHTML = '';
                         toggleAnswerModal(answerModal,true);
                         writeRessourcesInfoModal(dorothyAnswerObject.ressources, answerModalBody);
+
                       }
 
                     } else if (dorothyAnswerObject.type === 'toolbox') {
 
                       if (dorothyAnswerObject.modal === true) {
+
                         dorothyAnswerText = 'Check in the modal for the requested information. Hope that\'s will help you.';
                         answerModalBody.innerHTML = '';
                         toggleAnswerModal(answerModal,true);
                         console.log(dorothyAnswerObject.toolbox);
                         writeToolboxInfoModal(dorothyAnswerObject.toolbox, answerModalBody);
+
                       }
 
                     }
@@ -405,7 +408,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         dorothyAnswerText = 'Check in the modal for the requested information. Hope that\'s will help you.';
                         answerModalBody.innerHTML = '';
                         toggleAnswerModal(answerModal,true);
-                        //console.log(dorothyAnswerObject);
                         writeStartupMembersInfoModal(dorothyAnswerObject, answerModalBody);
 
                       }
@@ -420,7 +422,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else { // if Dorothy answer a text
 
                   dorothyAnswerText = formatTextFromDorothy(response.data.result.fulfillment.messages[0].speech);
-
                   addDorothyAnswerText(dorothyAnswerText,'.user-request',false); // we display the answer
                   addNewUserRequest('.instruction'); // we create a new entry section for the user
 
@@ -439,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (e.key == 'Enter' && userInstruction == '') {
 
           e.preventDefault();
-          
+
         }
     })
 
