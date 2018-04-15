@@ -135,7 +135,7 @@
             <input id="profile-linkedin" class="profile-linkedin" type="text" placeholder="Linkedin">
           </span>
           <div class="profile-buttons">
-            <button id="profile-add-details" class="profile-add-details">Add</button> <!-- ADDED THIS BUTTON -->
+            <button id="profile-add-details" class="profile-add-details" disabled>Add</button> <!-- ADDED THIS BUTTON -->
             <input id="profile-save-details" class="profile-save-details" type="submit" value="SAVE">
           </div>
         </form>
@@ -157,8 +157,8 @@
         <h1 class="modal-info-title">Dorothy Ai<span class="version">v.1</span></h1>
         <h5 class="modal-info-creators">Powered by the Nine</h5>
         <a class="modal-info-link" href="https://www.becode.org/">A Becode Project</a>
-        <a class="modal-info-link" href="policy/cookies-policy.html">Cookies-Policy</a>
-        <a class="modal-info-link" href="policy/privacy.html">Privacy</a>
+        <a class="modal-info-link" href="/policy/cookies-policy.html">Cookies-Policy</a>
+        <a class="modal-info-link" href="/policy/privacy.html">Privacy</a>
       </div>
     </div>
   </section>
