@@ -50,8 +50,7 @@
 
       $json['request']['status'] = 'success';
       $json['request']['message'] = 'Congrats. You have all the requested information.';
-      $json['response']['idImplantation'] = $u->getUserImplantationId($email);
-      $json['response']['nameImplantation'] = $u->getUserImplantationName($email);
+      $json['response'] = (new Implantation($db))->getImplantationInformation($u->getUserImplantationId($email));
 
       // we return all the information in json
       echo json_encode($json);
