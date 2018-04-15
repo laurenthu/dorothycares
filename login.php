@@ -11,7 +11,7 @@
   $loginURL = $gClient->createAuthUrl();
 ?>
 <!DOCTYPE html>
-<html class="no-js" lang="">
+<html class="no-js" lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -58,7 +58,7 @@
         <div class="google-button" data-location="<?php echo $loginURL ?>">
           <div class="google-button-block">
             <div class="logo">
-              <img src="/img/google-logo.png" alt="Google Logo">
+              <img src="img/google-logo.png" alt="Google Logo">
             </div>
             <div class="call-to-action">
               <span>Sign in with Google</span>
