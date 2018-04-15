@@ -2,13 +2,41 @@ body {
   padding: 0;
   margin: 0;
   color: rgba(255,255,255,1);
-  background-color: #978eff;
+  /*background-color: #978eff;*/
   /*font-family: 'Source Code Pro', monospace;*/
   font-family: 'Roboto Mono', monospace;
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+  animation: bgColorAnim 300s infinite;
 }
+
+@keyframes bgColorAnim {
+  0% {
+    background-color: #978EFF;
+  }
+  20% {
+    background-color: #63A9FF;
+  }
+  35% {
+    background-color: #667cbe;
+  }
+  55% {
+    /*background-color: #FF6BAD;*/
+    background-color: #d47fa5;
+  }
+  70% {
+    /*background-color: #DD4493;*/
+    background-color: #b97cbf;
+  }
+  85% {
+    background-color: #7F49DD;
+  }
+  100% {
+    background-color: #978EFF;
+  }
+}
+
 
 .hiding-bg-div {
   position: absolute;
@@ -48,12 +76,15 @@ body {
   cursor: pointer;
   /*box-shadow: inset 30px -10px 60px 5px #56cbf9, 0px 0px 100px 0px #6896b5;*/
   /*box-shadow: inset 80px -10px 100px 5px #56cbf9, -40px -10px 100px -40px #6896b5;*/ /* Either this */
-  box-shadow: inset 80px -10px 100px 5px #56cbf9, 0px 0px 100px -20px #abddff; /* Or this */
+  /*box-shadow: inset 80px -10px 100px 5px #56cbf9, 0px 0px 100px -20px #abddff; */ /* Or this */
+  /*box-shadow: inset 80px -20px 100px 5px #55C9BE, 0px 0px 100px -20px #ABDDFF; */
+  box-shadow: inset 80px -10px 100px 5px #8ee7db, 0px 0px 100px -20px #abddff;
   opacity: 0; /* ------------ toggle maybe ------------ */
   transition: box-shadow ease 0.5s;
 }
 .dorothy-ball:hover {
-  box-shadow: inset -80px -10px 100px 5px #56cbf9, 40px -10px 100px -40px #6896b5;
+  /*box-shadow: inset -80px -10px 100px 5px #56cbf9, 40px -10px 100px -40px #6896b5;*/
+  box-shadow: inset -80px -10px 100px 5px #a69df0, 40px -10px 100px -40px #6896b5;
 }
 
 .ball-menu {
@@ -71,7 +102,8 @@ body {
 .ball-menu-item {
   width: 50px;
   height: 50px;
-  background-color: #56cbf9;
+  /*background-color: #56cbf9;*/
+  background-color: #8fdaff;
   border-radius: 100%;
   position: absolute;
   z-index: 5;
@@ -79,7 +111,7 @@ body {
   transition: background-color ease 0.3s;
 }
 .ball-menu-item:hover {
-  background-color: #232323;
+  background-color: #645ea0;
 }
 .ball-menu-item i {
   position: relative;
@@ -213,7 +245,7 @@ MODALS
   padding: 25px 40px 10px 0;
   top: 50%;
   /*right: -20px;*/
-  right: -100%;
+  right: -120%;
   transform: translateY(-50%);
   background-color: rgba(38, 38, 38, 0.78);
   border-top-left-radius: 10px;
@@ -230,8 +262,8 @@ MODALS
   height: 80%; /* MIKEY */
   position: fixed;
   /*padding: 25px 40px 10px 0;*/ /* TOGGLE */
-  /*top: -120%;*/ /* hides the profile modal */
-  top: 0; /* shows the profile modal */
+  top: -120%; /* hides the profile modal */
+  /*top: 0;*/ /* shows the profile modal */
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
@@ -385,6 +417,10 @@ MODALS
   /*float: right;*/
 }
 
+.profile-logout {
+  transition: color ease 0.3s;
+}
+
 .profile-buttons {
   display: flex;
   width: 100%;
@@ -407,6 +443,7 @@ MODALS
   font-family: 'Roboto Mono', monospace;
   font-weight: 700;
   width: 50%;
+  transition: background-color ease 0.3s;
 }
 .profile-save-details { /* PROFILE MIKEY */
   padding: 5px 0px;
@@ -421,6 +458,7 @@ MODALS
   font-family: 'Roboto Mono', monospace;
   font-weight: 700;
   width: 50%;
+  transition: background-color ease 0.3s;
 }
 .english { /* PROFILE MIKEY */
   /*float: right;*/
@@ -432,11 +470,9 @@ MODALS
 
 .profile-save-details:hover, .profile-add-details:hover {  /* PROFILE MIKEY */
   background-color: #232323;
-  transition: background-color ease-in-out 0.3s;
 }
 .profile-logout:hover { /* PROFILE MIKEY */
-  color: lightpink;
-  transition: color ease-in-out 0.3s;
+  color: #e17474;
 }
 
 /*Tooltip*/
@@ -481,27 +517,30 @@ MODALS
 /* Info page */
 
 #infoPage { /* PROFILE */
-  width: 30%;
-  height: 30%;
+  width: 40%;
+  /*height: 30%;*/
   position: fixed;
-  padding: 25px 0px 10px 0;
+  /*padding: 25px 0px 10px 0;*/
+  padding: 2rem 1rem;
   /*top: -120%;*/ /* hides the profile modal */
   top: 30px; /* shows the profile modal */
-  left: 0px;
-  background-color: grayscale;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
-  box-shadow: -1px 1px 80px -40px #0D1321;
-  transition: top ease 0.5s;
+  left: -120%;
+  background-color: #978eff;
+  border-bottom-right-radius: 50px;
+  border-top-right-radius: 50px;
+  box-shadow: -1px 1px 80px -30px #0D1321;
+  transition: left ease 0.5s;
   z-index: 11;
+  cursor: pointer;
 }
 .modal-body-info {
   display: fixed;
   left: 100px;
 }
 .modal-info-title {
+  font-weight: 300;
   color: white;
-  margin:0px 0px 0px 0px;
+  margin: 0;
   display: block;
   text-align: center;
 }
@@ -511,9 +550,11 @@ MODALS
 }
 .modal-info-creators { /*Powered by the Nine: Saadia Brahimi, Cali Armut, Laurent Hulstaert, Alexandre Ntougas, Michaël Tolis, Bertrand Honner, Yadrichnikov Nikolaï, Prince-kombo Bontala, Thomas Bouchard*/
   text-align: center;
+  margin-top: 1rem;
 }
 .version {
-  font-size: 14px;
+  font-size: 1rem;
+  margin-left: 0.75rem;
 }
 /*.panel { /*Value of the modal if necessary
   position: absolute;
@@ -524,11 +565,17 @@ MODALS
 }
 */
 .modal-info-link {
+  font-weight: 100;
   display: block;
   text-align: center;
   color: white;
   margin-right: 5px;
+  margin-bottom: 0.4rem;
   text-decoration: none;
+  width: 60%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .modal-info-link:hover {
   text-decoration: line-through;
@@ -732,7 +779,7 @@ Terminal interaction /Text/
     margin:0px 6px 0px 2px;
 }*/
 .answer {
-    color: #7cf4ff;
+    color: #cfffff;
     margin-top: 15px;
 }
 .answer a {

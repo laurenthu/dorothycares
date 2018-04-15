@@ -24,8 +24,11 @@ let menuCalendar = document.querySelector('.menu-calendar');
 let answerModal = document.getElementById('answerTemplate');
 let longAnswerBtn = document.getElementById('answer-modal-btn');
 let profileModal = document.getElementById('profilePage');
+let profileModalBtn = document.getElementById('profile-modal-btn');
 let hidingBgDiv = document.getElementById('hiding-bg-div');
 let menuProfileIsClicked = false;
+let infoModal = document.getElementById('infoPage');
+let menuInfoIsClicked = false;
 
 // function to show/hide menu (small balls)
 function showMenu (value) {
@@ -185,7 +188,11 @@ dorothyBall.addEventListener('click', function() {
 });
 
 // When user clicks on welcome message launch showTerminal() function
-welcomeMessageContainer.addEventListener('click', showTerminal);
+welcomeMessageContainer.addEventListener('click', function(){
+  showTerminal();
+  hideProfile();
+  hideInfo();
+});
 
 // When user clicks on terminal button in menu launch showTerminal() function
 menuTerminal.addEventListener('click', showTerminal);
@@ -200,6 +207,83 @@ menuProfile.addEventListener('click', function(){
     menuProfileIsClicked = false; // set profile button as unclicked
     hideProfile(); // launch hideProfile() function
   }
+});
+
+// When user clicks on flat button in profile modal hide the modal
+profileModalBtn.addEventListener('click', function(){
+  // launch hideProfile() function
+  hideProfile();
+  // launch hideInfo() function
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  // display:block on menu
+  showMenu('block');
+  // set menuOpen switch to true
+  menuOpen = true;
+  // show menu
+  myTimeline
+    .add({
+      targets: '.menu-terminal',
+      scale: [0, 1],
+      offset: '+=500'
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: [0, 1],
+      offset: '-=950'
+    });
+});
+
+// When user clicks on info button show info modal
+menuInfo.addEventListener('click', function(){
+  // if (menuInfoIsClicked == false) {
+    showInfo();
+  // } else {
+    // hideInfo();
+  // }
+});
+
+// When user clicks on info modal hide info modal
+infoModal.addEventListener('click', function(){
+  hideInfo();
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  // display:block on menu
+  showMenu('block');
+  // set menuOpen switch to true
+  menuOpen = true;
+  // show menu
+  myTimeline
+    .add({
+      targets: '.menu-terminal',
+      scale: [0, 1],
+      offset: '+=500'
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: [0, 1],
+      offset: '-=950'
+    });
 });
 
 function showTerminal() {
@@ -286,6 +370,7 @@ function showTerminal() {
 }
 
 function showProfile () {
+  menuProfileIsClicked = false;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
   // show hiding background div so user can't click on background
@@ -293,7 +378,7 @@ function showProfile () {
   // create another timeline for the menu buttons [anime JS]
   let myTimeline = anime.timeline();
   // below triggers animations (first one is the terminal popping up)
-  profileModal.style.top = "-20px";
+  profileModal.style.top = 0;
   myTimeline
     .add({
       targets: '.menu-terminal',
@@ -363,8 +448,10 @@ function showProfile () {
 function hideProfile () {
   // hide profile modal
   profileModal.style.top = '-120%';
-  // hide hiding background div so user can't click on background
+  // hide hiding background div so user can click on background
   hidingBgDiv.style.display = 'none';
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
   if (menuOpen == true) {
     // show menu
     myTimeline
@@ -395,10 +482,116 @@ function hideProfile () {
           // }
         });
   }
-
 }
 
+function showInfo () {
+  menuInfoIsClicked = true;
+  // set switch back to false so that we can open it with one click
+  menuOpen = false;
+  // show hiding background div so user can't click on background
+  // hidingBgDiv.style.display = "block";
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  // below triggers animations (first one is the terminal popping up)
+  infoModal.style.left = 0;
+  myTimeline
+    .add({
+      targets: '.menu-terminal',
+      scale: 0.4
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: 0.4,
+      offset: '-=850'
+    })
+    .add({
+      targets: '.menu-terminal',
+      scale: 0.4,
+      translateX: '150%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: 0.4,
+      translateX: '100%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: 0.4,
+      translateX: '-100%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: 0.4,
+      translateX: '-150%',
+      translateY: '400%',
+      duration: 300,
+      offset: '-=800',
+      easing: 'easeInBack',
+      complete: function(){ // once all of these animations are completed run the following (same as earlier):
+        showMenu("none");
+        menuTerminal.style.transform = "translateX(0%) translateY(0%)";
+        menuProfile.style.transform = "translateX(0%) translateY(0%)";
+        menuInfo.style.transform = "translateX(0%) translateY(0%)";
+        menuCalendar.style.transform = "translateX(0%) translateY(0%)";
+      }
+    })
+}
 
+function hideInfo () {
+  menuInfoIsClicked = false;
+  // hide info modal
+  infoModal.style.left = '-120%';
+  // hide hiding background div so user can click on background
+  // hidingBgDiv.style.display = 'none';
+  // create another timeline for the menu buttons [anime JS]
+  let myTimeline = anime.timeline();
+  if (menuOpen == true) {
+  // show menu
+  myTimeline
+    .add({
+      targets: '.menu-terminal',
+      scale: [0, 1],
+      offset: '+=500'
+    })
+    .add({
+      targets: '.menu-profile',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-info',
+      scale: [0, 1],
+      offset: '-=950'
+    })
+    .add({
+      targets: '.menu-calendar',
+      scale: [0, 1],
+      offset: '-=950'
+    });
+  }
+}
 
 
 // !!! ADD LINE BELOW TO OPEN LONG ANSWER MODAL WHEN USER CLICKS ON TEXT WITH LINK PROVIDED BY DOROTHY
@@ -453,6 +646,7 @@ function displayMessage () {
 
 
   /* TO IMPLEMENT LATER:
+
   if (USER HAS UPDATED PROFILE) {
     welcomeMessageH1.innerHTML = messageGeneral;
   } else if(USER HAS NOT UPDATED PROFILE) {
@@ -476,9 +670,11 @@ _______________________________
     window.onclick = resetTimer; // catches touchpad clicks
     window.onscroll = resetTimer; // catches scrolling with arrow keys
     window.onkeypress = resetTimer;
+
     function display() {
 
     }
+
     function resetTimer() {
         clearTimeout(t);
         t = setTimeout(displayMessage, 3000);
@@ -638,7 +834,6 @@ drawArea = canvasBody.getContext("2d");
 let delay = 200, tid;
 resizeReset();
 setup();
-
 
 /*
 ----------------------------------------------------------------------
