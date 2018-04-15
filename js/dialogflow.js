@@ -249,6 +249,51 @@ function writeToolboxInfoModal(dataObject, contentBody) {
 
 }
 
+function writeStartupMembersInfoModal(dataObject, contentBody) {
+
+  let content = '';
+
+  // <h1> Title
+  content += '<h1 class="modal-body-title">' + dataObject.displayName + '</h1>';
+
+  // Intro section
+  if (typeof dataObject.desc !== 'undefined') {
+    content += '<div class="modal-body-block">';
+    content += '<h3 class="modal-body-block-title">More information</h3>';
+    content += '<div class="modal-body-block-content">' + dataObject.desc + '</div>';
+    content += '</div>';
+  }
+
+  if (dataObject.tools.length > 0) {
+    content += '<div class="modal-body-block tools">';
+    content += '<h3 class="modal-body-block-title">Tools</h3>';
+    content += '<div class="modal-body-block-content">';
+    content += '<ul class="modal-body-block-list">';
+    dataObject.tools.forEach( (item) => {
+      content += '<li class="modal-body-block-list-item">' + createLink(item.url,item.name) + '</li>';
+    });
+    content += '</ul>';
+    content += '</div>';
+    content += '</div>';
+  }
+
+  if (dataObject.usecase.length > 0) {
+    content += '<div class="modal-body-block usecase">';
+    content += '<h3 class="modal-body-block-title">Usecases</h3>';
+    content += '<div class="modal-body-block-content">';
+    content += '<ul class="modal-body-block-list">';
+    dataObject.usecase.forEach( (item) => {
+      content += '<li class="modal-body-block-list-item">' + createLink(item.url,item.name) + '</li>';
+    });
+    content += '</ul>';
+    content += '</div>';
+    content += '</div>';
+  }
+
+  contentBody.innerHTML = content;
+
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     let userInstruction; // variable temporaire
     //const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
