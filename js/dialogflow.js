@@ -46,6 +46,16 @@ function formatTextFromDorothy (str) {
   return anchorme(nl2br(str), options);
 }
 
+function escapeHtml(text) {
+  return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+}
+
+
 function addDorothyAnswerText(answer, selector, error = false) {
   // (IN) [string] answer : text of the answer to display in terminal
   // (IN) [string] selector : selector to target where to write
@@ -254,40 +264,37 @@ function writeStartupMembersInfoModal(dataObject, contentBody) {
   let content = '';
 
   // <h1> Title
-  content += '<h1 class="modal-body-title">' + dataObject.displayName + '</h1>';
+  content += '<h1 class="modal-body-title">Startup members</h1>';
 
-  // Intro section
-  if (typeof dataObject.desc !== 'undefined') {
-    content += '<div class="modal-body-block">';
-    content += '<h3 class="modal-body-block-title">More information</h3>';
-    content += '<div class="modal-body-block-content">' + dataObject.desc + '</div>';
-    content += '</div>';
-  }
-
-  if (dataObject.tools.length > 0) {
-    content += '<div class="modal-body-block tools">';
-    content += '<h3 class="modal-body-block-title">Tools</h3>';
+  if (dataObject.response.length > 0) {
+    content += '<div class="modal-body-block member-list">';
+    content += '<h3 class="modal-body-block-title">List</h3>';
     content += '<div class="modal-body-block-content">';
-    content += '<ul class="modal-body-block-list">';
-    dataObject.tools.forEach( (item) => {
-      content += '<li class="modal-body-block-list-item">' + createLink(item.url,item.name) + '</li>';
+    content += '<table class="modal-body-block-table">';
+    dataObject.response.forEach( (item) => {
+      content += '<tr class="modal-body-block-row">';
+      if (item.firstName !== null) {
+        content += '<td class="modal-body-block-cell">' + item.firstName + '<td>';
+      } else {
+        content += '<td class="modal-body-block-cell empty"> - <td>';
+      }
+      if (item.lastName !== null) {
+        content += '<td class="modal-body-block-cell">' + item.lastName + '<td>';
+      } else {
+        content += '<td class="modal-body-block-cell empty"> - <td>';
+      }
+      content += '<td class="modal-body-block-cell">' + formatTextFromDorothy(item.email) + '<td>';
+      content += '</tr>';
     });
-    content += '</ul>';
+    content += '</table>';
     content += '</div>';
     content += '</div>';
-  }
-
-  if (dataObject.usecase.length > 0) {
-    content += '<div class="modal-body-block usecase">';
-    content += '<h3 class="modal-body-block-title">Usecases</h3>';
-    content += '<div class="modal-body-block-content">';
-    content += '<ul class="modal-body-block-list">';
-    dataObject.usecase.forEach( (item) => {
-      content += '<li class="modal-body-block-list-item">' + createLink(item.url,item.name) + '</li>';
-    });
-    content += '</ul>';
-    content += '</div>';
-    content += '</div>';
+  } else {
+   content += '<div class="modal-body-block tools">';
+   content += '<div class="modal-body-block-content">';
+   content += 'Sorry. There is nobody in this startup for the moment.';
+   content += '</div>';
+   content += '</div>';
   }
 
   contentBody.innerHTML = content;
@@ -389,9 +396,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     if (dorothyAnswerObject.type === 'text') {
 
+                      dorothyAnswerText = formatTextFromDorothy(dorothyAnswerObject.message);
+
                     } else if (dorothyAnswerObject.type === 'list') {
 
                       if (dorothyAnswerObject.modal === true) {
+
+                        dorothyAnswerText = 'Check in the modal for the requested information. Hope that\'s will help you.';
+                        answerModalBody.innerHTML = '';
+                        toggleAnswerModal(answerModal,true);
+                        //console.log(dorothyAnswerObject);
+                        writeStartupMembersInfoModal(dorothyAnswerObject, answerModalBody);
 
                       }
 
@@ -403,6 +418,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   addNewUserRequest('.instruction');
 
                 } else { // if Dorothy answer a text
+
+                  dorothyAnswerText = formatTextFromDorothy(response.data.result.fulfillment.messages[0].speech);
 
                   addDorothyAnswerText(dorothyAnswerText,'.user-request',false); // we display the answer
                   addNewUserRequest('.instruction'); // we create a new entry section for the user
