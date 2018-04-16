@@ -617,7 +617,7 @@ let scrollContainer = document.getElementById("terminal-content");
 
 function scrollDown() {
   // when user presses 'enter' scrollbar scrolls down automatically
-  scrollContainer.scrollTop = scrollContainer.scrollHeight;
+  //scrollContainer.scrollTop = scrollContainer.scrollHeight;
 }
 
 /*
