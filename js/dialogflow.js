@@ -418,26 +418,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
                   addDorothyAnswerText(dorothyAnswerText,'.user-request',false);
                   addNewUserRequest('.instruction');
-                  scrollDown();
 
                 } else { // if Dorothy answer a text
 
                   dorothyAnswerText = formatTextFromDorothy(response.data.result.fulfillment.messages[0].speech);
                   addDorothyAnswerText(dorothyAnswerText,'.user-request',false); // we display the answer
                   addNewUserRequest('.instruction'); // we create a new entry section for the user
-                  scrollDown();
 
                 }
 
+                scrollDown();
 
               })
               .catch(function (error) { // if the request failed
 
                 addDorothyAnswerText(error,'.user-request',true); // we display the answer
                 addNewUserRequest('.instruction'); // we create a new entry section for the user
-                scrollDown();
 
               });
+
 
 
         } else if (e.key == 'Enter' && userInstruction == '') {
@@ -445,6 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
           e.preventDefault();
 
         }
+
     })
 
 });

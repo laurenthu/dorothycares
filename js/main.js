@@ -613,11 +613,11 @@ TERMINAL SCROLL BAR: scroll down automatically when scroll bar appears
 _______________________________
 */
 
-let scrollContainer = document.getElementById("terminal-content");
+let scrollContainer = document.querySelector('.terminal-content');
 
 function scrollDown() {
   // when user presses 'enter' scrollbar scrolls down automatically
-  //scrollContainer.scrollTop = scrollContainer.scrollHeight;
+  scrollContainer.scrollTop = scrollContainer.scrollHeight;
 }
 
 /*
