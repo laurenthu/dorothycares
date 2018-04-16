@@ -102,25 +102,25 @@
 	</main>
 
   <!-- Profile page -->
-  <section id="profilePage">
+  <!-- <section id="profilePage">
     <div class="modal-container-2">
       <div class="modal-body-2">
 
         <div class="modal-body-title-container">
           <div class="modal-body-title-title"><h1 class="modal-body-title">PROFILE</h1></div>
           <div class="modal-body-title-icons">
-            <a href="/logout/"><i id="profile-logout" class="profile-logout fa fa-power-off tooltip" aria-hidden="true"><span class="tooltiptext">logout</span></i></a> <!-- ADDED ANCHOR TAG -->
+            <a href="/logout/"><i id="profile-logout" class="profile-logout fa fa-power-off tooltip" aria-hidden="true"><span class="tooltiptext">logout</span></i></a>
           </div>
         </div>
 
         <form id="profile-details" class="profile-details" action="" method="">
           <span class="profile-input-wrapper">
             <label for="profile-lastname">LAST NAME</label>
-            <input id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy"> <!-- LAURENT: INITIALISE VALUE AS VALUE FETCHED FROM GOOGLE API -->
+            <input id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy">
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-firstname">FIRST NAME</label>
-            <input id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares"> <!-- LAURENT: INITIALISE VALUE AS VALUE FETCHED FROM GOOGLE API -->
+            <input id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares">
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-language">LANGUAGE</label>
@@ -135,7 +135,6 @@
             <input id="profile-linkedin" class="profile-linkedin" type="text" placeholder="Linkedin">
           </span>
           <div class="profile-buttons">
-            <!-- <button id="profile-add-details" class="profile-add-details" disabled>Add</button>--> <!-- ADDED THIS BUTTON -->
             <button id="profile-save-details" class="profile-save-details">Save</button>
           </div>
         </form>
@@ -147,7 +146,7 @@
       </div>
 
     </div>
-  </section>
+  </section> -->
 
 
   <!-- Info page -->
