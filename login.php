@@ -18,7 +18,7 @@
     <title>Login - DorothyCares <?php echo VERSION ?> (Dev)</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:100,300|Roboto:500" rel="stylesheet">
 
     <!-- Google Sign-In -->
     <meta name="google-signin-scope" content="profile email">
