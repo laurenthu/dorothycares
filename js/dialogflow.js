@@ -435,6 +435,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 addDorothyAnswerText(error,'.user-request',true); // we display the answer
                 addNewUserRequest('.instruction'); // we create a new entry section for the user
+                scrollDown();
 
               });
 
