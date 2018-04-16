@@ -125,11 +125,21 @@ function writeRessourcesInfoModal(dataObject, contentBody) {
     content += '<h3 class="modal-body-block-title">Installation</h3>';
     content += '<div class="modal-body-block-content">';
     content += '<ul class="modal-body-block-list">';
-    content += '<li class="modal-body-block-list-item"><span>Official:</span> ' + createLink(dataObject.installation[0].official) + '</li>';
-    content += '<li class="modal-body-block-list-item"><span>Windows:</span> ' + createLink(dataObject.installation[0].Windows) + '</li>';
-    content += '<li class="modal-body-block-list-item"><span>Mac:</span> ' + createLink(dataObject.installation[0].Mac) + '</li>';
-    content += '<li class="modal-body-block-list-item"><span>Ubuntu:</span> ' + createLink(dataObject.installation[0].Ubuntu) + '</li>';
-    content += '<li class="modal-body-block-list-item"><span>Other:</span> ' + createLink(dataObject.installation[0].other) + '</li>';
+    if (dataObject.installation[0].official !== '') {
+      content += '<li class="modal-body-block-list-item"><span>Official:</span> ' + createLink(dataObject.installation[0].official) + '</li>';
+    }
+    if (dataObject.installation[0].Windows !== '') {
+      content += '<li class="modal-body-block-list-item"><span>Windows:</span> ' + createLink(dataObject.installation[0].Windows) + '</li>';
+    }
+    if (dataObject.installation[0].Mac !== '') {
+      content += '<li class="modal-body-block-list-item"><span>Mac:</span> ' + createLink(dataObject.installation[0].Mac) + '</li>';
+    }
+    if (dataObject.installation[0].Ubuntu !== '') {
+      content += '<li class="modal-body-block-list-item"><span>Ubuntu:</span> ' + createLink(dataObject.installation[0].Ubuntu) + '</li>';
+    }
+    if (dataObject.installation[0].other !== '') {
+      content += '<li class="modal-body-block-list-item"><span>Other:</span> ' + createLink(dataObject.installation[0].other) + '</li>';
+    }
     content += '</ul>';
     content += '</div>';
     content += '</div>';
@@ -169,7 +179,11 @@ function writeRessourcesInfoModal(dataObject, contentBody) {
     content += '<div class="modal-body-block-content">';
     content += '<ul class="modal-body-block-list">';
     dataObject.exercices.forEach( (item) => {
-      content += '<li class="modal-body-block-list-item">' + createLink(item.url,item.name) + '</li>';
+      if (item.name !== 'undefined') {
+        content += '<li class="modal-body-block-list-item">' + createLink(item.url,item.name) + '</li>';
+      } else {
+        content += '<li class="modal-body-block-list-item">' + createLink(item.url) + '</li>';
+      }
     });
     content += '</ul>';
     content += '</div>';
@@ -203,7 +217,11 @@ function writeRessourcesInfoModal(dataObject, contentBody) {
     content += '<div class="modal-body-block-content">';
     content += '<ul class="modal-body-block-list">';
     dataObject.news.forEach( (item) => {
-      content += '<li class="modal-body-block-list-item">' + createLink(item.url,item.name) + '</li>';
+      if (item.name !== 'undefined') {
+        content += '<li class="modal-body-block-list-item">' + createLink(item.url,item.name) + '</li>';
+      } else {
+        content += '<li class="modal-body-block-list-item">' + createLink(item.url) + '</li>';
+      }
     });
     content += '</ul>';
     content += '</div>';
