@@ -928,7 +928,7 @@ formProfile.addEventListener('submit', function(e) {
 
   if (document.querySelectorAll('#profile-details .error').length == 0) {
 
-    json.type = 'profileUpdate';
+    json.type = 'updateProfile';
 
     console.log('No error');
     console.log(json);

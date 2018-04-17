@@ -11,31 +11,29 @@
   $jsonData = json_decode($jsonData['formAnswer']);
   //var_dump($jsonData);
 
-  if ($jsonData->type == 'profileUpdate') {
+  if ($jsonData->type == 'updateProfile') {
 
-    foreach($jsonData->user as $key => $value) {
+  foreach($jsonData->user as $key => $value) {
 
-      if ($value != '' && $key == 'firstName') { // we update first name if not empty
+    if ($value != '' && $key == 'firstName') { // we update first name if not empty
 
-        $u->updateUserFirstName($_SESSION['email'],$value);
+      $u->updateUserFirstName($_SESSION['email'],$value);
 
-      } elseif ($value != '' && $key == 'lastName') { // we update last name if not empty
+    } elseif ($value != '' && $key == 'lastName') { // we update last name if not empty
 
-        $u->updateUserLastName($_SESSION['email'],$value);
+      $u->updateUserLastName($_SESSION['email'],$value);
 
-      } elseif ($value != '' && $key == 'mainLanguage') { // we update main language if not empty
+    } elseif ($value != '' && $key == 'mainLanguage') { // we update main language if not empty
 
-        $u->updateUserMainLanguageCode($_SESSION['email'],$value);
-
-      }
+      $u->updateUserMainLanguageCode($_SESSION['email'],$value);
 
     }
 
   }
 
-  /*foreach ($jsonData as $value) {
-    print_r($value);
-  }*/
+} elseif ($jsonData->type == 'getProfile') {
+
+}
 
 
 
