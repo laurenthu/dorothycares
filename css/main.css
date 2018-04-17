@@ -503,7 +503,8 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     width: 30%;
     color: white;
   }
-  .profile-input-wrapper input[type=text] {
+  .profile-input-wrapper input[type=text],
+  .profile-input-wrapper input[type=url] {
     margin-bottom: 1em;
     background: transparent;
     border: none;

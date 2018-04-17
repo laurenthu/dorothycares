@@ -879,20 +879,81 @@ function date_time(selector) {
   return true;
 }
 
+function validateEmail(email) {
+  let regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(email);
+}
+
+function validateURL(url) {
+  let regex = new RegExp('^(https?:\\/\\/)?'+ // protocol
+  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return regex.test(url);
+}
+
 formProfile.addEventListener('submit', function(e) {
+
   e.preventDefault();
-  console.log('submit profile');
   let inputs = document.querySelectorAll('input');
+  let selects = document.querySelectorAll('select');
+  let json = {};
+  json.user = {};
 
   inputs.forEach( function(item) {
 
-    if (item.getAttribute('type') === 'text') {
-      console.log('Text:',item.value);
-    } else {
-      console.log('Other:',item.value);
+    item.classList.remove('error'); // on retire toutes les classes error
+    item.setAttribute('data-error-message','');
+
+    if (item.getAttribute('required') != null && item.value == '') {
+      item.classList.add('error');
+      item.setAttribute('data-error-message','This field is required.')
+    }
+    if (item.getAttribute('type') === 'text' && item.value.length <= 3) {
+      item.classList.add('error');
+      item.setAttribute('data-error-message','Your entry is a bit too short')
+    }
+    if (item.getAttribute('type') === 'url' && item.value.length > 0) {
+      if (validateURL(item.value) == false) {
+        item.classList.add('error');
+        item.setAttribute('data-error-message','This url is not valid.')
+      }
     }
 
+    json.user[item.name] = item.value;
 
   })
+
+  if (document.querySelectorAll('#profile-details .error').length == 0) {
+
+    json.type = 'profileUpdate';
+
+    console.log('No error');
+    console.log(json);
+    const axiosAjax = axios.create({
+      baseURL: '/',
+      timeout: 10000, // 10 sec
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      },
+      maxContentLength: 1000000, // 1Mo
+    });
+
+    axiosAjax.post('ajax/', {
+      formAnswer: JSON.stringify(json)
+    })
+    .then(function (response) {
+      //hideProfile();
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  } else {
+    console.log('error');
+  }
 
 })

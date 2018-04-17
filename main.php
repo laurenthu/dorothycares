@@ -115,12 +115,12 @@
 
         <form id="profile-details" class="profile-details" action="#" method="get">
           <span class="profile-input-wrapper">
-            <label for="profile-lastname">LAST NAME</label>
-            <input name="lastName" id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy" required>
-          </span>
-          <span class="profile-input-wrapper">
             <label for="profile-firstname">FIRST NAME</label>
             <input name="firstName" id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-lastname">LAST NAME</label>
+            <input name="lastName" id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy" required>
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-language">LANGUAGE</label>
