@@ -78,7 +78,7 @@
   </div>
 
   <!-- Terminal -->
-  <main class="terminal" id="terminal"> <!--Box container for header with button and input/output-->
+  <main class="terminal" id="terminal" data-visibility="true"> <!--Box container for header with button and input/output-->
     <header class="terminal-header" id="terminal-header" value="terminal">
 			<!-- <div><span class="window-name" id="window-name">Terminal</span></div>  -->
 			<div class="terminal-header-item" id="terminal-header-item">
@@ -102,7 +102,7 @@
 	</main>
 
   <!-- Profile page -->
-  <section id="profilePage">
+  <section id="profilePage" data-visibility="false">
     <div class="modal-container-2">
       <div class="modal-body-2">
 

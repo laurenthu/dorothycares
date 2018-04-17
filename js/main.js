@@ -17,6 +17,7 @@ let menuOpen = false; // used to tell whether menu was clicked or not (acts as s
 let message = document.querySelector('.welcome-message-style');
 let welcomeMessageContainer = document.getElementById('welcomeMessageContainer');
 let messageClicked = false; // switch for whether welcome message was clicked or not
+let terminal = document.getElementById('terminal');
 let menuTerminal = document.querySelector('.menu-terminal');
 let menuProfile = document.querySelector('.menu-profile');
 let menuInfo = document.querySelector('.menu-info');
@@ -371,6 +372,8 @@ function showTerminal() {
 }
 
 function showProfile () {
+  terminal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
+  profileModal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
   menuProfileIsClicked = false;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -447,6 +450,8 @@ function showProfile () {
 
 // when click on any menu buttons other than profile or on close button of profile modal, launch hideProfile()
 function hideProfile () {
+  terminal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
+  profileModal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
   // hide profile modal
   profileModal.style.top = '-120%';
   // hide hiding background div so user can click on background
@@ -486,6 +491,7 @@ function hideProfile () {
 }
 
 function showInfo () {
+  terminal.setAttribute('data-visibility','true');
   menuInfoIsClicked = true;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -561,6 +567,7 @@ function showInfo () {
 }
 
 function hideInfo () {
+  terminal.setAttribute('data-visibility','true');
   menuInfoIsClicked = false;
   // hide info modal
   infoModal.style.left = '-120%';
@@ -604,6 +611,7 @@ function hideInfo () {
 longAnswerBtn.addEventListener('click', function(){
   answerModal.style.right = "-120%";
   hidingBgDiv.style.display = "none";
+  terminal.setAttribute('data-visibility','true');
 });
 
 
@@ -721,7 +729,7 @@ _______________________________
 */
 
 
-let terminal = document.querySelector('#terminal');   // Variable terminal initialisation
+//let terminal = document.querySelector('#terminal');   // Variable terminal initialisation
 let resizeBtn = document.querySelector('#maximize');  // Variable maximize initialisation
 let resizeState = false;                // State variable
 
