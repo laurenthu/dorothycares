@@ -102,7 +102,7 @@
 	</main>
 
   <!-- Profile page -->
-  <!-- <section id="profilePage">
+  <section id="profilePage">
     <div class="modal-container-2">
       <div class="modal-body-2">
 
@@ -146,7 +146,7 @@
       </div>
 
     </div>
-  </section> -->
+  </section>
 
 
   <!-- Info page -->
