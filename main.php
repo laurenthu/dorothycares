@@ -113,29 +113,29 @@
           </div>
         </div>
 
-        <form id="profile-details" class="profile-details" action="" method="">
+        <form id="profile-details" class="profile-details" action="#" method="get">
           <span class="profile-input-wrapper">
             <label for="profile-lastname">LAST NAME</label>
-            <input id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy">
+            <input name="lastName" id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy" required>
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-firstname">FIRST NAME</label>
-            <input id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares">
+            <input name="firstName" id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares">
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-language">LANGUAGE</label>
-            <input id="profile-language" class="profile-language" type="radio" checked="checked" name="ENG"><label class="english">En</label>
+            <input name="mainLanguage" id="profile-language" class="profile-language" type="radio" checked="checked" value="en"><label class="english">En</label>
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-github">GITHUB</label>
-            <input id="profile-github" class="profile-github" type="text" name="Github account" placeholder="Github">
+            <input name="github" id="profile-github" class="profile-github" type="url" name="Github account" placeholder="Github">
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-linkedin">LINKEDIN</label>
-            <input id="profile-linkedin" class="profile-linkedin" type="text" placeholder="Linkedin">
+            <input name="linkedin" id="profile-linkedin" class="profile-linkedin" type="url" placeholder="Linkedin">
           </span>
           <div class="profile-buttons">
-            <button id="profile-save-details" class="profile-save-details">Save</button>
+            <button type="submit" id="profile-save-details" class="profile-save-details">Save</button>
           </div>
         </form>
 

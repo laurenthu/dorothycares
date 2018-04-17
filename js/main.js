@@ -1,15 +1,8 @@
 /*
 ----------------------------------------------------------------------
-BERTRAND
+VARIABLES DECLARATION
 ----------------------------------------------------------------------
 */
-
-
-/*
-INTRO ANIMATIONS (ball & menu)
-_______________________________
-*/
-
 
 let dorothyBall = document.querySelector('.dorothy-ball');
 let menu = document.getElementsByClassName('ball-menu-item');
@@ -31,6 +24,21 @@ let hidingBgDiv = document.getElementById('hiding-bg-div');
 let menuProfileIsClicked = false;
 let infoModal = document.getElementById('infoPage');
 let menuInfoIsClicked = false;
+let formProfile = document.getElementById('profile-details');
+
+/*
+----------------------------------------------------------------------
+BERTRAND
+----------------------------------------------------------------------
+*/
+
+
+/*
+INTRO ANIMATIONS (ball & menu)
+_______________________________
+*/
+
+
 
 // function to show/hide menu (small balls)
 function showMenu (value) {
@@ -852,21 +860,39 @@ Laurent
 */
 
 function nl2br(str) {
-    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
+  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
 }
 
 function addFirstZero(i) {
-    if (i < 10) {
-        i = '0' + i;
-    }
-    return i;
+  if (i < 10) {
+      i = '0' + i;
+  }
+  return i;
 }
 
 function date_time(selector) {
-    let date = new Date();
-    result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
-    result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
-    document.querySelector(selector).innerHTML = result;
-    setTimeout('date_time("' + selector + '");', '1000');
-    return true;
+  let date = new Date();
+  result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
+  result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
+  document.querySelector(selector).innerHTML = result;
+  setTimeout('date_time("' + selector + '");', '1000');
+  return true;
 }
+
+formProfile.addEventListener('submit', function(e) {
+  e.preventDefault();
+  console.log('submit profile');
+  let inputs = document.querySelectorAll('input');
+
+  inputs.forEach( function(item) {
+
+    if (item.getAttribute('type') === 'text') {
+      console.log('Text:',item.value);
+    } else {
+      console.log('Other:',item.value);
+    }
+
+
+  })
+
+})

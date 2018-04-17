@@ -199,11 +199,11 @@ function writeRessourcesInfoModal(dataObject, contentBody) {
     content += '<ul class="modal-body-block-list">';
     dataObject.examples.forEach( (item) => {
       content += '<li class="modal-body-block-list-item">' + item.exampleName + ': ';
-      if (typeof item.exampleDemo != 'undefined' || item.exampleDemo != 'false') {
+      if (typeof item.exampleDemo != 'undefined' && item.exampleDemo != 'false' && item.exampleDemo.length != '') {
         content += createLink(item.exampleDemo,'Demo');
         content += ' ';
       }
-      if (typeof item.exampleRepo != 'undefined' || item.exampleRepo != 'false') {
+      if (typeof item.exampleRepo != 'undefined' && item.exampleRepo != 'false' && item.exampleRepo.length != '') {
         content += createLink(item.exampleRepo,'Repository');
       }
       content += '</li>';
