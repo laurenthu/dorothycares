@@ -23,6 +23,7 @@ let dorothyBall = document.querySelector('.dorothy-ball'),
     hidingBgDiv = document.getElementById('hiding-bg-div'),
     menuProfileIsClicked = false,
     infoModal = document.getElementById('infoPage'),
+    infoModalBtn = document.getElementById('info-modal-btn'),
     menuInfoIsClicked = false,
     formProfile = document.getElementById('profile-details'),
     messageModal = document.getElementById('messageModal'),
@@ -266,7 +267,7 @@ menuInfo.addEventListener('click', function(){
 });
 
 // When user clicks on info modal hide info modal
-infoModal.addEventListener('click', function(){
+infoModalBtn.addEventListener('click', function(){
   hideInfo();
   // create another timeline for the menu buttons [anime JS]
   let myTimeline = anime.timeline();
@@ -535,6 +536,12 @@ function hideProfile () {
 
 function showInfo () {
   terminal.setAttribute('data-visibility','true');
+  // show close button (arrow left) after modal is fully stretched
+  anime({
+    targets: '#info-modal-btn',
+    right: 0,
+    delay: 800
+  });
   menuInfoIsClicked = true;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -611,6 +618,8 @@ function showInfo () {
 
 function hideInfo () {
   terminal.setAttribute('data-visibility','true');
+  // hide close button (left arrow) again
+  infoModalBtn.style.right = '-60px';
   menuInfoIsClicked = false;
   // hide info modal
   infoModal.style.left = '-120%';

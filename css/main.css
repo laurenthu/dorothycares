@@ -419,7 +419,7 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     box-shadow: -1px 1px 120px -30px #0D1321;
-    transition: top ease 0.5s;
+    transition: top ease 0.3s;
     z-index: 12;
     -webkit-animation: bgColorAnim 300s infinite;
             animation: bgColorAnim 300s infinite;
@@ -707,8 +707,10 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
   /* -------- Info modal (about) coming from the left -------- */
   #infoPage {
     width: 40%;
+    max-width: 400px;
     /*height: 30%;*/
     position: fixed;
+    overflow: hidden;
     /*padding: 25px 0px 10px 0;*/
     padding: 2rem 1rem;
     /*top: -120%;*/
@@ -720,14 +722,35 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     box-shadow: -1px 1px 80px -30px #0D1321;
     transition: left ease 0.5s;
     z-index: 11;
-    cursor: pointer;
     -webkit-animation: bgColorAnim 300s infinite;
             animation: bgColorAnim 300s infinite;
   }
-
+  #modal-container-3 {
+    display: flex;
+    justify-content: space-between;
+  }
+  .modal-header-3 {
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-close-btn-3 {
+    position: relative;
+    right: -60px;
+  }
+  .modal-close-btn-3 i {
+    cursor: pointer;
+    font-size: 4rem;
+    color: white;
+  }
   .modal-body-info {
-    display: fixed;
-    left: 100px;
+    /*display: fixed;*/
+    /*left: 100px;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   .modal-info-title {
     font-weight: 300;
@@ -748,6 +771,13 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     font-size: 1rem;
     margin-left: 0.75rem;
   }
+  .modal-info-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+  }
   .modal-info-link {
     font-weight: 100;
     display: block;
@@ -756,14 +786,14 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     margin-right: 5px;
     margin-bottom: 0.4rem;
     text-decoration: none;
-    width: 60%;
-    position: relative;
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
+    /*width: 60%;*/
+    /*position: relative;*/
+    /*left: 50%;*/
+    /*-webkit-transform: translateX(-50%);*/
+            /*transform: translateX(-50%);*/
   }
   .modal-info-link:hover {
-    text-decoration: line-through;
+    text-decoration: underline;
   }
 
   /*.answer-template-trigger {
@@ -1160,10 +1190,6 @@ MEDIA QUERIES
       /* make title in info modal bigger */
       .modal-info-title {
         font-size: 1.5rem;
-      }
-      /* make width of links in info modal bigger */
-      .modal-info-link {
-        width: 70%;
       }
       /* hide date and time */
       .os-bar__date-time {
