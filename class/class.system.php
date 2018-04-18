@@ -16,6 +16,7 @@ class System {
 
       $statement = $this->db->prepare(
         "SELECT
+        `O`.`idOption` as `id`,
         `O`.`valueOption` as `value`,
         `O`.`nameOption` as `name`
 
@@ -30,6 +31,29 @@ class System {
 
       if($statement->rowCount() > 0) {
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function getOptionId($type) {
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `O`.`idOption` as `id` FROM `option` as `O` WHERE `O`.`valueOption` = :valueOption LIMIT 0,1");
+
+      $statement->bindParam(':valueOption', $type, PDO::PARAM_STR);
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return intval($data['id']);
       } else {
         return false;
       }
