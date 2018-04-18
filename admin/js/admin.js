@@ -69,6 +69,12 @@ function ajaxRequestCreateContent(button) { // ajax request
     dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
     dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form
     dataRequestCreateContent.send('type=' + addType + '&action=add&name=' + name + '&implantationId=' + implantationId + '&addLinkedLearners=' + addLinkedLearners); // the data we send through the POST ajax request
+  } else if (addType == 'user') {
+    let addUsers = document.querySelector('#addUsers').value;
+    let typeOfUser = document.querySelector('#userType').value;
+    dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
+    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form
+    dataRequestCreateContent.send('type=' + addType + '&action=add&addUsers=' + addUsers + '&typeOfUser=' typeOfUser); // the data we send through the POST ajax request
   }
 
 };
@@ -115,7 +121,6 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
 
 function whenDataLoadedCreateContent() { // what happens when the AJAX request is done
   let dataText = dataRequestCreateContent.responseText; // we store the text of the response
-  console.log(dataText);
   dataObject = JSON.parse(dataText); // we convert the text into an object
 };
 
@@ -192,7 +197,7 @@ function previousPage(range) { // previous page button JS
 
 function nextPage(range) { // next page button JS
   range[range.length - 1].addEventListener('click', function() {
-    for (i = 1; i < (range.length - 1); i++) {
+    for (i = (range.length - 1); i > 0; i--) {
       if (range[i].classList.contains('active') && !range[range.length - 1].classList.contains('disabled')) {
         resetPaginationClasses(range);
         range[i + 1].classList.add('active');
@@ -276,11 +281,11 @@ addStartupButton.addEventListener('click', function () { // Add a startup
   ajaxRequestDisplayContent(paginationStartup);
 });
 
-// addUserButton.addEventListener('click', function () { // Add an User
-//
-//
-//   // Refresh displays
-//   allPaginationDisplay();
-//   nextButtonDisableOrEnable(paginationUser);
-//   ajaxRequestDisplayContent(paginationUser);
-// });
+addUserButton.addEventListener('click', function () { // Add an User
+  ajaxRequestCreateContent(addUserButton);
+
+  // Refresh displays
+  allPaginationDisplay();
+  nextButtonDisableOrEnable(paginationUser);
+  ajaxRequestDisplayContent(paginationUser);
+});

@@ -5,15 +5,17 @@
   header('Access-Control-Allow-Origin: *');
   header('Content-type: application/json');
 
-function userAdding($db, $usersToAdd, $idStartup) { // function called when we add users
+function userAdding($db, $usersToAdd, $idStartup = false) { // function called when we add users
   $inputsNotAdded = []; // create an array that will contain the lines or the textarea not inserted in the user db
   $newuser = new User($db);
-  print_r($usersToAdd);
 
   foreach ($usersToAdd as $value) { // ty to add users to the db with data provided in textarea
     if (filter_var($value, FILTER_VALIDATE_EMAIL) != false) {
-      var_dump($newuser->addUser($value, $idStartup, 'learner', 'en'));
-      // print_r($value);
+      if ($idStartup != false) {
+        $newuser->addUser($value, $idStartup);
+      } else {
+        $newuser->addUser($value);
+      };
     } else {
       array_push($inputsNotAdded, $value);
     };
@@ -62,7 +64,6 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
           && isset($_POST['implantationId']) && is_int(intval($_POST['implantationId']))
           && isset($_POST['addLinkedLearners']) && is_string($_POST['addLinkedLearners'])) { // security checks
 
-
             $usersToAdd = preg_split('/\r\n|[\r\n]/', $_POST['addLinkedLearners']); // transform text area lines into elements in an array
 
             $addsta = new Startup($db);
@@ -76,10 +77,15 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
               $json['request']['message'] = 'Startup added.';
             };
 
-            userAdding($db, $usersToAdd, intval($idStartup));
+            userAdding($db, $usersToAdd, intval($idStartup)); // call the function that handles the adding of users
 
             echo json_encode($json);
             die(); // we kill the script
+        }
+      } elseif ($_POST['type'] == 'user') {
+
+        if (isset($_POST['addUsers']) && is_string($_POST['addUsers']) && isset($_POST['typeOfUser']) && is_string($_POST['typeOfUser'])) { // security checks
+          
         }
       }
     }

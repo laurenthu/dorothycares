@@ -43,6 +43,18 @@
       </div>
       <div id="implantation" class="col s12">
 
+        <ul class="pagination implantationPage" data-itemPerPage="<?php echo  $iNumberResults ?>" data-type="implantation">
+          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active" data-start="0"><a href="#!">1</a></li>
+          <?php
+          if ($iPageCount > 1) {
+            for ($i = 2, $start = $iNumberResults; $i <= $iPageCount; $i++, $start += $iNumberResults) {
+              echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
+            };
+          };
+          ?>
+          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
         <table class="responsive-table">
 
           <thead>
@@ -62,18 +74,6 @@
 
         </table>
 
-        <ul class="pagination implantationPage" data-itemPerPage="<?php echo  $iNumberResults ?>" data-type="implantation">
-          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active" data-start="0"><a href="#!">1</a></li>
-          <?php
-            if ($iPageCount > 1) {
-              for ($i = 2, $start = $iNumberResults; $i <= $iPageCount; $i++, $start += $iNumberResults) {
-                echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
-              };
-            };
-          ?>
-          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-        </ul>
         <div class="addButtonContainer" data-type="implantation">
           <a href="#implantationAddModal" id="implantationModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
         </div>
@@ -82,6 +82,18 @@
 
       <div id="startup" class="col s12">
 
+        <ul class="pagination startupPage" data-itemPerPage="<?php echo  $sNumberResults ?>" data-type="startup">
+          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active" data-start="0"><a href="#!">1</a></li>
+          <?php
+          if ($sPageCount > 1) {
+            for ($i = 2, $start = $sNumberResults; $i <= $sPageCount; $i++, $start += $sNumberResults) {
+              echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
+            };
+          };
+          ?>
+          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
         <table class="responsive-table">
 
           <thead>
@@ -96,18 +108,6 @@
 
         </table>
 
-        <ul class="pagination startupPage" data-itemPerPage="<?php echo  $sNumberResults ?>" data-type="startup">
-          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active" data-start="0"><a href="#!">1</a></li>
-          <?php
-            if ($sPageCount > 1) {
-              for ($i = 2, $start = $sNumberResults; $i <= $sPageCount; $i++, $start += $sNumberResults) {
-                echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
-              };
-            };
-          ?>
-          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-        </ul>
         <div class="addButtonContainer" data-type="startup">
           <a href="#startupAddModal" id="startupModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
         </div>
@@ -116,6 +116,18 @@
 
       <div id="utilisateur" class="col s12">
 
+        <ul class="pagination userPage" data-itemPerPage="<?php echo  $uNumberResults ?>" data-type="user">
+          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active" data-start="0"><a href="#!">1</a></li>
+          <?php
+          if ($uPageCount > 1) {
+            for ($i = 2, $start = $uNumberResults; $i <= $uPageCount; $i++, $start += $uNumberResults) {
+              echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
+            };
+          };
+          ?>
+          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
         <table class="responsive-table">
 
           <thead>
@@ -134,18 +146,6 @@
 
         </table>
 
-        <ul class="pagination userPage" data-itemPerPage="<?php echo  $uNumberResults ?>" data-type="user">
-          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active" data-start="0"><a href="#!">1</a></li>
-          <?php
-            if ($uPageCount > 1) {
-              for ($i = 2, $start = $uNumberResults; $i <= $uPageCount; $i++, $start += $uNumberResults) {
-                echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
-              };
-            };
-          ?>
-          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-        </ul>
         <div class="addButtonContainer" data-type="user">
           <a href="#userAddModal" id="userModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
         </div>
@@ -225,7 +225,7 @@
          <div class="row">
            <div class="input-field col s12">
              <textarea id="addLinkedLearners" class="validate materialize-textarea"></textarea>
-             <label for="addLinkedLearners">Learners to add (optional)</label>
+             <label for="addLinkedLearners">Learner(s) to add (optional)</label>
            </div>
          </div>
        </form>
@@ -238,11 +238,32 @@
 
  <div id="userAddModal" class="modal">
   <div class="modal-content">
-    <h4>Modal Header</h4>
-    <p>A bunch of text</p>
+    <h4>Add user(s)</h4>
+    <div class="row">
+      <form class="col s12">
+        <div class="row">
+          <div class="input-field col s8">
+            <textarea id="addUsers" class="validate materialize-textarea" required></textarea>
+            <label for="addUsers">User(s) to add</label>
+          </div>
+          <div class="input-field col s4">
+            <select id="userType">
+              <option value="" disabled selected>Choose your option</option>
+              <?php
+                $typesList = (new System($db))->getOptionList('typeUser');
+                foreach ($typesList as $value) {
+                  echo '<option value="' . $value['value'] . '">' . $value['name'] . '</option>';
+                }
+              ?>
+            </select>
+            <label>Type of the user</label>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
   <div class="modal-footer">
-    <a href="#!" id="addUser" class="modal-action modal-close waves-effect waves-green btn-flat" data-type="user">Agree</a>
+    <a href="#!" id="addUser" class="modal-action modal-close waves-effect waves-green btn-flat" data-type="user">Add</a>
   </div>
 </div>
 
