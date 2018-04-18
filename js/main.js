@@ -405,8 +405,16 @@ function showTerminal() {
 }
 
 function showProfile () {
+  // hide info modal if opened
+  hideInfo();
   terminal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
   profileModal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
+  // show close button (arrow) after modal is fully stretched
+  anime({
+    targets: '#profile-modal-btn',
+    top: 0,
+    delay: 800
+  });
   menuProfileIsClicked = false;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -485,6 +493,8 @@ function showProfile () {
 function hideProfile () {
   terminal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
   profileModal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
+  // hide close button (up arrow) again
+  profileModalBtn.style.top = '60px';
   // hide profile modal
   profileModal.style.top = '-120%';
   // hide hiding background div so user can click on background

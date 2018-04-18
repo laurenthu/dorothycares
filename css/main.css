@@ -408,6 +408,7 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     max-width: 800px;
     height: 80%; /* MIKEY */
     position: fixed;
+    overflow: hidden; /* hides close button (up arrow) for animation */
     /*padding: 25px 40px 10px 0;*/ /* TOGGLE */
     top: -120%; /* hides the profile modal */
     /*top: 0;*/ /* shows the profile modal */
@@ -479,6 +480,8 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     color: white;
   }
   .modal-header-2 .modal-close-btn-2 { /* PROFILE */
+    position: relative;
+    top: 60px; /* hide close button (up arrow) for animation */
     display: flex;
     justify-content: center;
     align-items: center;
