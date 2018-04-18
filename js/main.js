@@ -891,38 +891,57 @@ function date_time(selector) {
 }
 
 function validateEmail(email) {
-  let regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return regex.test(email);
 }
 
 function validateURL(url) {
-  let regex = new RegExp('^(https?:\\/\\/)?'+ // protocol
-  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  let regex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
   return regex.test(url);
 }
 
 function fillProfile() {
+
   let inputs = document.querySelectorAll('input');
   let selects = document.querySelectorAll('select');
+  let random = Math.round((Math.random() * 100000));
+
   const axiosAjax = axios.create({
     baseURL: '/',
     timeout: 10000, // 10 sec
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
     },
-    maxContentLength: 1000000, // 1Mo
+    maxContentLength: 500000, // 500ko
   });
 
-  axiosAjax.get('ajax/?type=getProfile')
-  .then(function (response) {
-    //hideProfile();
-    console.log(response);
+  axiosAjax.get('ajax/?type=getProfile&v=' + random)
+
+  .then( function (response) {
+
+    for (let keyLoop in response.data) { // we loop the main value
+
+      if (typeof response.data[keyLoop] == 'object' && keyLoop == 'meta') { // we check if it's an object (for meta value)
+
+        for (let keyLoopBis in response.data[keyLoop]) { // we loop the meta value
+          if (document.querySelector('input[name=' + response.data[keyLoop][keyLoopBis].key + ']') != null) { // we check if an input with the same key exists
+            document.querySelector('input[name=' + response.data[keyLoop][keyLoopBis].key + ']').value = response.data[keyLoop][keyLoopBis].value; // we display the value
+          }
+        }
+
+      } else { // else it's a main value
+
+        if (document.querySelector('input[name=' + keyLoop + ']') != null) { // we check if an input with the same key exists
+          document.querySelector('input[name=' + keyLoop + ']').value = response.data[keyLoop]; // we display the value
+        }
+
+      }
+
+    };
+
   })
-  .catch(function (error) {
+
+  .catch( function (error) {
     console.log(error);
   });
 
@@ -951,7 +970,7 @@ formProfile.addEventListener('submit', function(e) {
       item.setAttribute('data-error-message','Your entry is a bit too short')
     }
     if (item.getAttribute('type') === 'url' && item.value.length > 0) {
-      if (validateURL(item.value) == false) {
+      if (validateURL(item.value) == false && item.value != '') {
         item.classList.add('error');
         item.setAttribute('data-error-message','This url is not valid.')
       }
@@ -965,8 +984,8 @@ formProfile.addEventListener('submit', function(e) {
 
     json.type = 'updateProfile';
 
-    console.log('No error');
-    console.log(json);
+    //console.log('No error');
+    //console.log(json);
     const axiosAjax = axios.create({
       baseURL: '/',
       timeout: 10000, // 10 sec
@@ -980,7 +999,7 @@ formProfile.addEventListener('submit', function(e) {
       formAnswer: JSON.stringify(json)
     })
     .then(function (response) {
-      //hideProfile();
+      hideProfile();
       console.log(response);
     })
     .catch(function (error) {
