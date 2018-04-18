@@ -78,7 +78,7 @@
   </div>
 
   <!-- Terminal -->
-  <main class="terminal" id="terminal"> <!--Box container for header with button and input/output-->
+  <main class="terminal" id="terminal" data-visibility="true"> <!--Box container for header with button and input/output-->
     <header class="terminal-header" id="terminal-header" value="terminal">
 			<!-- <div><span class="window-name" id="window-name">Terminal</span></div>  -->
 			<div class="terminal-header-item" id="terminal-header-item">
@@ -102,41 +102,40 @@
 	</main>
 
   <!-- Profile page -->
-  <section id="profilePage">
+  <section id="profilePage" data-visibility="false">
     <div class="modal-container-2">
       <div class="modal-body-2">
 
         <div class="modal-body-title-container">
           <div class="modal-body-title-title"><h1 class="modal-body-title">PROFILE</h1></div>
           <div class="modal-body-title-icons">
-            <a href="/logout/"><i id="profile-logout" class="profile-logout fa fa-power-off tooltip" aria-hidden="true"><span class="tooltiptext">logout</span></i></a> <!-- ADDED ANCHOR TAG -->
+            <a href="/logout/"><i id="profile-logout" class="profile-logout fa fa-power-off tooltip" aria-hidden="true"><span class="tooltiptext">logout</span></i></a>
           </div>
         </div>
 
-        <form id="profile-details" class="profile-details" action="" method="">
-          <span class="profile-input-wrapper">
-            <label for="profile-lastname">LAST NAME</label>
-            <input id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy"> <!-- LAURENT: INITIALISE VALUE AS VALUE FETCHED FROM GOOGLE API -->
-          </span>
+        <form id="profile-details" class="profile-details" action="#" method="get">
           <span class="profile-input-wrapper">
             <label for="profile-firstname">FIRST NAME</label>
-            <input id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares"> <!-- LAURENT: INITIALISE VALUE AS VALUE FETCHED FROM GOOGLE API -->
+            <input name="firstName" id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-lastname">LAST NAME</label>
+            <input name="lastName" id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy" required>
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-language">LANGUAGE</label>
-            <input id="profile-language" class="profile-language" type="radio" checked="checked" name="ENG"><label class="english">En</label>
+            <input name="mainLanguage" id="profile-language" class="profile-language" type="radio" checked="checked" value="en"><label class="english">En</label>
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-github">GITHUB</label>
-            <input id="profile-github" class="profile-github" type="text" name="Github account" placeholder="Github">
+            <input name="github" id="profile-github" class="profile-github" type="url" name="Github account" placeholder="Github">
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-linkedin">LINKEDIN</label>
-            <input id="profile-linkedin" class="profile-linkedin" type="text" placeholder="Linkedin">
+            <input name="linkedin" id="profile-linkedin" class="profile-linkedin" type="url" placeholder="Linkedin">
           </span>
           <div class="profile-buttons">
-            <!-- <button id="profile-add-details" class="profile-add-details" disabled>Add</button>--> <!-- ADDED THIS BUTTON -->
-            <button id="profile-save-details" class="profile-save-details">Save</button>
+            <button type="submit" id="profile-save-details" class="profile-save-details">Save</button>
           </div>
         </form>
 

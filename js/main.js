@@ -1,15 +1,8 @@
 /*
 ----------------------------------------------------------------------
-BERTRAND
+VARIABLES DECLARATION
 ----------------------------------------------------------------------
 */
-
-
-/*
-INTRO ANIMATIONS (ball & menu)
-_______________________________
-*/
-
 
 let dorothyBall = document.querySelector('.dorothy-ball');
 let menu = document.getElementsByClassName('ball-menu-item');
@@ -17,6 +10,7 @@ let menuOpen = false; // used to tell whether menu was clicked or not (acts as s
 let message = document.querySelector('.welcome-message-style');
 let welcomeMessageContainer = document.getElementById('welcomeMessageContainer');
 let messageClicked = false; // switch for whether welcome message was clicked or not
+let terminal = document.getElementById('terminal');
 let menuTerminal = document.querySelector('.menu-terminal');
 let menuProfile = document.querySelector('.menu-profile');
 let menuInfo = document.querySelector('.menu-info');
@@ -30,6 +24,21 @@ let hidingBgDiv = document.getElementById('hiding-bg-div');
 let menuProfileIsClicked = false;
 let infoModal = document.getElementById('infoPage');
 let menuInfoIsClicked = false;
+let formProfile = document.getElementById('profile-details');
+
+/*
+----------------------------------------------------------------------
+BERTRAND
+----------------------------------------------------------------------
+*/
+
+
+/*
+INTRO ANIMATIONS (ball & menu)
+_______________________________
+*/
+
+
 
 // function to show/hide menu (small balls)
 function showMenu (value) {
@@ -371,6 +380,8 @@ function showTerminal() {
 }
 
 function showProfile () {
+  terminal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
+  profileModal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
   menuProfileIsClicked = false;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -447,6 +458,8 @@ function showProfile () {
 
 // when click on any menu buttons other than profile or on close button of profile modal, launch hideProfile()
 function hideProfile () {
+  terminal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
+  profileModal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
   // hide profile modal
   profileModal.style.top = '-120%';
   // hide hiding background div so user can click on background
@@ -486,6 +499,7 @@ function hideProfile () {
 }
 
 function showInfo () {
+  terminal.setAttribute('data-visibility','true');
   menuInfoIsClicked = true;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -561,6 +575,7 @@ function showInfo () {
 }
 
 function hideInfo () {
+  terminal.setAttribute('data-visibility','true');
   menuInfoIsClicked = false;
   // hide info modal
   infoModal.style.left = '-120%';
@@ -604,6 +619,7 @@ function hideInfo () {
 longAnswerBtn.addEventListener('click', function(){
   answerModal.style.right = "-120%";
   hidingBgDiv.style.display = "none";
+  terminal.setAttribute('data-visibility','true');
 });
 
 
@@ -721,7 +737,7 @@ _______________________________
 */
 
 
-let terminal = document.querySelector('#terminal');   // Variable terminal initialisation
+//let terminal = document.querySelector('#terminal');   // Variable terminal initialisation
 let resizeBtn = document.querySelector('#maximize');  // Variable maximize initialisation
 let resizeState = false;                // State variable
 
@@ -844,21 +860,100 @@ Laurent
 */
 
 function nl2br(str) {
-    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
+  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
 }
 
 function addFirstZero(i) {
-    if (i < 10) {
-        i = '0' + i;
-    }
-    return i;
+  if (i < 10) {
+      i = '0' + i;
+  }
+  return i;
 }
 
 function date_time(selector) {
-    let date = new Date();
-    result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
-    result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
-    document.querySelector(selector).innerHTML = result;
-    setTimeout('date_time("' + selector + '");', '1000');
-    return true;
+  let date = new Date();
+  result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
+  result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
+  document.querySelector(selector).innerHTML = result;
+  setTimeout('date_time("' + selector + '");', '1000');
+  return true;
 }
+
+function validateEmail(email) {
+  let regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(email);
+}
+
+function validateURL(url) {
+  let regex = new RegExp('^(https?:\\/\\/)?'+ // protocol
+  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return regex.test(url);
+}
+
+formProfile.addEventListener('submit', function(e) {
+
+  e.preventDefault();
+  let inputs = document.querySelectorAll('input');
+  let selects = document.querySelectorAll('select');
+  let json = {};
+  json.user = {};
+
+  inputs.forEach( function(item) {
+
+    item.classList.remove('error'); // on retire toutes les classes error
+    item.setAttribute('data-error-message','');
+
+    if (item.getAttribute('required') != null && item.value == '') {
+      item.classList.add('error');
+      item.setAttribute('data-error-message','This field is required.')
+    }
+    if (item.getAttribute('type') === 'text' && item.value.length <= 3) {
+      item.classList.add('error');
+      item.setAttribute('data-error-message','Your entry is a bit too short')
+    }
+    if (item.getAttribute('type') === 'url' && item.value.length > 0) {
+      if (validateURL(item.value) == false) {
+        item.classList.add('error');
+        item.setAttribute('data-error-message','This url is not valid.')
+      }
+    }
+
+    json.user[item.name] = item.value;
+
+  })
+
+  if (document.querySelectorAll('#profile-details .error').length == 0) {
+
+    json.type = 'updateProfile';
+
+    console.log('No error');
+    console.log(json);
+    const axiosAjax = axios.create({
+      baseURL: '/',
+      timeout: 10000, // 10 sec
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      },
+      maxContentLength: 1000000, // 1Mo
+    });
+
+    axiosAjax.post('ajax/', {
+      formAnswer: JSON.stringify(json)
+    })
+    .then(function (response) {
+      //hideProfile();
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  } else {
+    console.log('error');
+  }
+
+})
