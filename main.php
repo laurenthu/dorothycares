@@ -115,24 +115,28 @@
 
         <form id="profile-details" class="profile-details" action="#" method="get">
           <span class="profile-input-wrapper">
-            <label for="profile-firstname">FIRST NAME</label>
+            <label for="profile-firstname">First name</label>
             <input name="firstName" id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares">
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-lastname">LAST NAME</label>
+            <label for="profile-lastname">Last name</label>
             <input name="lastName" id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy" required>
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-language">LANGUAGE</label>
+            <label for="profile-language">Language</label>
             <input name="mainLanguage" id="profile-language" class="profile-language" type="radio" checked="checked" value="en"><label class="english">En</label>
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-github">GITHUB</label>
-            <input name="github" id="profile-github" class="profile-github" type="url" name="Github account" placeholder="Github">
+            <label for="profile-github">GitHub</label>
+            <input name="github" id="profile-github" class="profile-github" type="url" placeholder="GitHub link">
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-linkedin">LINKEDIN</label>
-            <input name="linkedin" id="profile-linkedin" class="profile-linkedin" type="url" placeholder="Linkedin">
+            <label for="profile-linkedin">LinkedIn</label>
+            <input name="linkedin" id="profile-linkedin" class="profile-linkedin" type="url" placeholder="LinkedIn link">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-medium">Medium</label>
+            <input name="medium" id="profile-medium" class="profile-medium" type="url" placeholder="Medium link">
           </span>
           <div class="profile-buttons">
             <button type="submit" id="profile-save-details" class="profile-save-details">Save</button>
@@ -192,8 +196,9 @@
       //print_r( $sy->getCountryList() );
       //echo formHTML::getFormSelectFromArray( $sy->getCountryList(), 'country', 'country', 'country', 'fr' );
       //var_dump($s->addStartup('test',2));
-      var_dump($_SESSION);
+      //var_dump($_SESSION);
       //echo phpversion();
+      var_dump($u->addUser('test@perdu.com'));
     ?>
   -->
 

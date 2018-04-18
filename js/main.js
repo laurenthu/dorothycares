@@ -379,9 +379,10 @@ function showTerminal() {
   });
 }
 
-function showProfile () {
+function showProfile() {
   terminal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
   profileModal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
+  fillProfile();
   menuProfileIsClicked = false;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -855,6 +856,16 @@ setup();
 
 /*
 ----------------------------------------------------------------------
+HeatMap - https://heatmap.me
+----------------------------------------------------------------------
+*/
+(function(h,e,a,t,m,p) {
+m=e.createElement(a);m.async=!0;m.src=t;
+p=e.getElementsByTagName(a)[0];p.parentNode.insertBefore(m,p);
+})(window,document,'script','https://u.heatmap.it/log.js');
+
+/*
+----------------------------------------------------------------------
 Laurent
 ----------------------------------------------------------------------
 */
@@ -893,6 +904,30 @@ function validateURL(url) {
   '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
   return regex.test(url);
 }
+
+function fillProfile() {
+  let inputs = document.querySelectorAll('input');
+  let selects = document.querySelectorAll('select');
+  const axiosAjax = axios.create({
+    baseURL: '/',
+    timeout: 10000, // 10 sec
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+    },
+    maxContentLength: 1000000, // 1Mo
+  });
+
+  axiosAjax.get('ajax/?type=getProfile')
+  .then(function (response) {
+    //hideProfile();
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+}
+
 
 formProfile.addEventListener('submit', function(e) {
 
@@ -956,4 +991,4 @@ formProfile.addEventListener('submit', function(e) {
     console.log('error');
   }
 
-})
+});
