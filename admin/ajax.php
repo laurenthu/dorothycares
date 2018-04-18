@@ -5,40 +5,95 @@
   header('Access-Control-Allow-Origin: *');
   header('Content-type: application/json');
 
+function userAdding($db, $usersToAdd) { // function called when we add users
+  $inputsNotAdded = []; // create an array that will contain the lines or the textarea not inserted in the user db
+  $newuser = new User($db);
+  print_r($usersToAdd);
+  foreach ($usersToAdd as $value) { // ty to add users to the db with data provided in textarea
+    if (filter_var($value, FILTER_VALIDATE_EMAIL) != false) {
+      $newuser->addUser($value);
+      print_r($value);
+    } else {
+      array_push($inputsNotAdded, $value);
+    };
+  };
+
+  if (count($inputsNotAdded) > 0) {
+    $json['request']['statusMails'] = 'error';
+    $json['request']['messageMails'] = count($inputsNotAdded) . ' input(s) not added : ' . $inputsNotAdded;
+  } else {
+    $json['request']['statusMails'] = 'success';
+    $json['request']['messageMails'] = 'Users added';
+  };
+};
+
 // Add, Update or Delete data from database
-if (isset($_GET['action']) && is_string($_GET['action'])) { // security checks
+if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
 
-  if ($_GET['action'] == 'add') { // determine type of action
+  if ($_POST['action'] == 'add') { // determine type of action
 
-    if (isset($_GET['type']) && is_string($_GET['type'])) { // Security checks
+    if (isset($_POST['type']) && is_string($_POST['type'])) { // Security checks
 
-      if ($_GET['type'] == 'implantation') { // determine type of data
+      if ($_POST['type'] == 'implantation') { // determine type of data
 
         if (
-          isset($_GET['name']) && is_string($_GET['name'])
-          && isset($_GET['street']) && is_string($_GET['street'])
-          && isset($_GET['postalCode']) && is_int(intval($_GET['postalCode']))
-          && isset($_GET['city']) && is_string($_GET['city'])
-          && isset($_GET['countryCode']) && is_string($_GET['countryCode'])) { // security checks
+          isset($_POST['name']) && is_string($_POST['name'])
+          && isset($_POST['street']) && is_string($_POST['street'])
+          && isset($_POST['postalCode']) && is_int(intval($_POST['postalCode']))
+          && isset($_POST['city']) && is_string($_POST['city'])
+          && isset($_POST['countryCode']) && is_string($_POST['countryCode'])) { // security checks
 
             $addimp = new Implantation($db);
-            $json['request']['status'] = 'success';
-            $json['request']['message'] = 'Data added.';
-            $addimp->addImplantation($_GET['name'], $_GET['street'], $_GET['postalCode'], $_GET['city'], $_GET['countryCode']); // adds a new implantation with the data provided
+            if ($addimp->addImplantation($_POST['name'], $_POST['street'], $_POST['postalCode'], $_POST['city'], $_POST['countryCode']) == false) { // try to add a new implantation with the data provided
+              $json['request']['status'] = 'error';
+              $json['request']['message'] = 'Impossible to create a new implantation';
+            } else {
+              $json['request']['status'] = 'success';
+              $json['request']['message'] = 'Implantation added.';
+            };
             echo json_encode($json);
             die(); // we kill the script
         }
-      } elseif ($_GET['type'] == 'startup') { // determine type of data
+      } elseif ($_POST['type'] == 'startup') { // determine type of data
 
         if (
-          isset($_GET['name']) && is_string($_GET['name'])
-          && isset($_GET['implantationId']) && is_int(intval($_GET['implantationId']))
-          && isset($_GET['addLinkedLearners']) && is_string($_GET['addLinkedLearners'])) { // security checks
+          isset($_POST['name']) && is_string($_POST['name'])
+          && isset($_POST['implantationId']) && is_int(intval($_POST['implantationId']))
+          && isset($_POST['addLinkedLearners']) && is_string($_POST['addLinkedLearners'])) { // security checks
+
+            $usersToAdd = preg_split('/\r\n|[\r\n]/', $_POST['addLinkedLearners']); // transform text area lines into elements in an array
+
+            // $inputsNotAdded = []; // create an array that will contain the lines or the textarea not inserted in the user db
 
             $addsta = new Startup($db);
-            $json['request']['status'] = 'success';
-            $json['request']['message'] = 'Data added.';
-            $addsta->addStartup($_GET['name']); // adds a new startup with the data provided
+            // $adduser = new User($db);
+
+            if ($addsta->addStartup($_POST['name']) == false) { // try to add a new startup with the data provided
+              $json['request']['status'] = 'error';
+              $json['request']['message'] = 'Impossible to create a new startup';
+            } else {
+              $json['request']['status'] = 'success';
+              $json['request']['message'] = 'Startup added.';
+            };
+
+            // foreach ($usersToAdd as $value) { // add users to the db with data provided in textarea
+            //   if (filter_var($value, FILTER_VALIDATE_EMAIL) != false) {
+            //     $adduser->addUser($value);
+            //   } else {
+            //     array_push($inputsNotAdded, $value);
+            //   };
+            // };
+            //
+            // if (count($inputsNotAdded) > 0) {
+            //   $json['request']['statusMails'] = 'error';
+            //   $json['request']['messageMails'] = count($inputsNotAdded) . ' input(s) not added : ' . $inputsNotAdded;
+            // } else {
+            //   $json['request']['statusMails'] = 'success';
+            //   $json['request']['messageMails'] = 'Users added';
+            // };
+
+            userAdding($db, $usersToAdd);
+
             echo json_encode($json);
             die(); // we kill the script
         }

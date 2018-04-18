@@ -224,8 +224,8 @@
          </div>
          <div class="row">
            <div class="input-field col s12">
-             <textarea id="addLinkedLearners" class="validate materialize-textarea"</textarea>
-             <label for="addLinkedLearners">Learners to add</label>
+             <textarea id="addLinkedLearners" class="validate materialize-textarea"></textarea>
+             <label for="addLinkedLearners">Learners to add (optional)</label>
            </div>
          </div>
        </form>
@@ -251,3 +251,8 @@
    <script src="js/admin.js"></script>
   </body>
 </html>
+
+<?php
+  $u = new User($db);
+  $u->addUser('test@gmail.com');
+ ?>

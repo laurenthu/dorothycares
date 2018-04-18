@@ -58,16 +58,19 @@ function ajaxRequestCreateContent(button) { // ajax request
     let street = document.querySelector('#streetImplantation').value;
     let postalCode = document.querySelector('#postalCodeImplantation').value;
     let city = document.querySelector('#cityImplantation').value;
-    let countryCode = document.querySelector('#countryImplantation').value; // get attribute?
-    dataRequestCreateContent.open("GET", feed + '?type=' + addType + '&action=add&name=' + name + '&street=' + street + '&postalCode=' + postalCode + '&city=' + city + '&countryCode=' + countryCode, true); // the type, the url, asynchronous true/false
+    let countryCode = document.querySelector('#countryImplantation').value;
+    dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
+    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form
+    dataRequestCreateContent.send('type=' + addType + '&action=add&name=' + name + '&street=' + street + '&postalCode=' + postalCode + '&city=' + city + '&countryCode=' + countryCode);
   } else if (addType == 'startup') {
     let name = document.querySelector('#nameStartup').value;
-    let implantationId = document.querySelector('#linkedImplantation').value; // get attribute?
+    let implantationId = document.querySelector('#linkedImplantation').value;
     let addLinkedLearners = document.querySelector('#addLinkedLearners').value;
-    dataRequestCreateContent.open("GET", feed + '?type=' + addType + '&action=add&name=' + name + '&implantationId=' + implantationId + '&addLinkedLearners=' + addLinkedLearners, true); // the type, the url, asynchronous true/false
+    dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
+    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form
+    dataRequestCreateContent.send('type=' + addType + '&action=add&name=' + name + '&implantationId=' + implantationId + '&addLinkedLearners=' + addLinkedLearners); // the data we send through the POST ajax request
   }
 
-  dataRequestCreateContent.send(null);
 };
 
 function whenDataLoadedDisplayContent() { // what happens when the AJAX request is done
@@ -112,6 +115,7 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
 
 function whenDataLoadedCreateContent() { // what happens when the AJAX request is done
   let dataText = dataRequestCreateContent.responseText; // we store the text of the response
+  console.log(dataText);
   dataObject = JSON.parse(dataText); // we convert the text into an object
 };
 
