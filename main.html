@@ -65,6 +65,14 @@
     <h1>Hey fellow becoder, <span></span></h1>
   </div>
 
+  <!-- Action message pop-up/modal (top right) -->
+  <div id="messageModal" class="messageModal">
+  	<div id="messageModalClose" class="messageModalClose">
+  		<p>Close</p>
+  	</div>
+  	<p class="messageModalText">Error test</p>
+  </div>
+
   <!-- Menu -->
   <div class="ball-menu">
     <div class="ball-menu-item menu-terminal"><i class="fa fa-terminal"></i></div>
@@ -107,7 +115,7 @@
       <div class="modal-body-2">
 
         <div class="modal-body-title-container">
-          <div class="modal-body-title-title"><h1 class="modal-body-title">PROFILE</h1></div>
+          <div class="modal-body-title-title"><h1 class="modal-body-title">Profile</h1></div>
           <div class="modal-body-title-icons">
             <a href="/logout/"><i id="profile-logout" class="profile-logout fa fa-power-off tooltip" aria-hidden="true"><span class="tooltiptext">logout</span></i></a> <!-- ADDED ANCHOR TAG -->
           </div>
@@ -115,23 +123,23 @@
 
         <form id="profile-details" class="profile-details" action="" method="">
           <span class="profile-input-wrapper">
-            <label for="profile-lastname">LAST NAME</label>
+            <label for="profile-lastname">Last name</label>
             <input id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy"> <!-- LAURENT: INITIALISE VALUE AS VALUE FETCHED FROM GOOGLE API -->
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-firstname">FIRST NAME</label>
+            <label for="profile-firstname">First name</label>
             <input id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares"> <!-- LAURENT: INITIALISE VALUE AS VALUE FETCHED FROM GOOGLE API -->
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-language">LANGUAGE</label>
+            <label for="profile-language">Language</label>
             <input id="profile-language" class="profile-language" type="radio" checked="checked" name="ENG"><label class="english">En</label>
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-github">GITHUB</label>
+            <label for="profile-github">Github</label>
             <input id="profile-github" class="profile-github" type="text" name="Github account" placeholder="Github">
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-linkedin">LINKEDIN</label>
+            <label for="profile-linkedin">Linkedin</label>
             <input id="profile-linkedin" class="profile-linkedin" type="text" placeholder="Linkedin">
           </span>
           <div class="profile-buttons">

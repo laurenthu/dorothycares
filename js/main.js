@@ -4,27 +4,29 @@ VARIABLES DECLARATION
 ----------------------------------------------------------------------
 */
 
-let dorothyBall = document.querySelector('.dorothy-ball');
-let menu = document.getElementsByClassName('ball-menu-item');
-let menuOpen = false; // used to tell whether menu was clicked or not (acts as switch)
-let message = document.querySelector('.welcome-message-style');
-let welcomeMessageContainer = document.getElementById('welcomeMessageContainer');
-let messageClicked = false; // switch for whether welcome message was clicked or not
-let terminal = document.getElementById('terminal');
-let menuTerminal = document.querySelector('.menu-terminal');
-let menuProfile = document.querySelector('.menu-profile');
-let menuInfo = document.querySelector('.menu-info');
-let menuCalendar = document.querySelector('.menu-calendar');
-let answerModal = document.getElementById('answerTemplate');
-let answerModalBody = document.querySelector('#answerTemplate .modal-body');
-let longAnswerBtn = document.getElementById('answer-modal-btn');
-let profileModal = document.getElementById('profilePage');
-let profileModalBtn = document.getElementById('profile-modal-btn');
-let hidingBgDiv = document.getElementById('hiding-bg-div');
-let menuProfileIsClicked = false;
-let infoModal = document.getElementById('infoPage');
-let menuInfoIsClicked = false;
-let formProfile = document.getElementById('profile-details');
+let dorothyBall = document.querySelector('.dorothy-ball'),
+    menu = document.getElementsByClassName('ball-menu-item'),
+    menuOpen = false, // used to tell whether menu was clicked or not (acts as switch)
+    message = document.querySelector('.welcome-message-style'),
+    welcomeMessageContainer = document.getElementById('welcomeMessageContainer'),
+    messageClicked = false, // switch for whether welcome message was clicked or not
+    terminal = document.getElementById('terminal'),
+    menuTerminal = document.querySelector('.menu-terminal'),
+    menuProfile = document.querySelector('.menu-profile'),
+    menuInfo = document.querySelector('.menu-info'),
+    menuCalendar = document.querySelector('.menu-calendar'),
+    answerModal = document.getElementById('answerTemplate'),
+    answerModalBody = document.querySelector('#answerTemplate .modal-body'),
+    longAnswerBtn = document.getElementById('answer-modal-btn'),
+    profileModal = document.getElementById('profilePage'),
+    profileModalBtn = document.getElementById('profile-modal-btn'),
+    hidingBgDiv = document.getElementById('hiding-bg-div'),
+    menuProfileIsClicked = false,
+    infoModal = document.getElementById('infoPage'),
+    menuInfoIsClicked = false,
+    formProfile = document.getElementById('profile-details'),
+    messageModal = document.getElementById('messageModal'),
+    messageModalCloseBtn = document.getElementById('messageModalClose');
 
 /*
 ----------------------------------------------------------------------
@@ -295,6 +297,29 @@ infoModal.addEventListener('click', function(){
       offset: '-=950'
     });
 });
+
+
+// function to show action message popup/modal (top right)
+function showMessageModal () {
+  messageModal.style.display = 'flex';
+  anime({
+    targets: '#messageModal',
+    top: 30,
+    opacity: 1
+  });
+}
+// when user clicks on close button of action message popup/modal (top right)
+messageModalCloseBtn.addEventListener('click', function(){
+  anime({
+    targets: '#messageModal',
+    top: -60,
+    opacity: 0,
+    complete: function(){
+      messageModal.style.display = 'none';
+      messageModal.style.top = '90px';
+    }
+  });
+})
 
 function showTerminal() {
   // set switch back to false so that we can open it with one click
