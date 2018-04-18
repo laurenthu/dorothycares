@@ -123,15 +123,12 @@ class User {
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
       $statement->execute();
 
-      if( $statement->rowCount() ) {
-        return $firstName;
-      } else {
-        return false;
-      }
+      return $firstName;
 
     } catch (PDOException $e) {
-      print "Error !: " . $e->getMessage() . "<br/>";
-      die();
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
     }
 
   }
@@ -175,15 +172,12 @@ class User {
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
       $statement->execute();
 
-      if( $statement->rowCount() ) {
-        return $lastName;
-      } else {
-        return false;
-      }
+      return $lastName;
 
     } catch (PDOException $e) {
-      print "Error !: " . $e->getMessage() . "<br/>";
-      die();
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
     }
 
   }
@@ -226,16 +220,12 @@ class User {
       $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
       $statement->execute();
-
-      if( $statement->rowCount() ) {
-        return $languageCode;
-      } else {
-        return false;
-      }
+      return $languageCode;
 
     } catch (PDOException $e) {
-      print "Error !: " . $e->getMessage() . "<br/>";
-      die();
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
     }
 
   }
@@ -1151,15 +1141,31 @@ class User {
       $statement->bindParam(':valueUserMeta', $valueUserMeta, PDO::PARAM_STR);
       $statement->execute();
 
-      if( $statement->rowCount() ) {
-        return true;
-      } else {
-        return false;
-      }
+      return $valueUserMeta;
 
     } catch (PDOException $e) {
-      print "Error !: " . $e->getMessage() . "<br/>";
-      die();
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
+  public function deleteUserMeta($idUser, $idOption) {
+
+    try {
+
+      $statement = $this->db->prepare("DELETE FROM `userMeta` WHERE `idUser` = :idUser AND `idOption` = :idOption");
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->bindParam(':idOption', $idOption, PDO::PARAM_INT);
+      $statement->execute();
+
+      return true;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
     }
 
   }
