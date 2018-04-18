@@ -5,14 +5,15 @@
   header('Access-Control-Allow-Origin: *');
   header('Content-type: application/json');
 
-function userAdding($db, $usersToAdd) { // function called when we add users
+function userAdding($db, $usersToAdd, $idStartup) { // function called when we add users
   $inputsNotAdded = []; // create an array that will contain the lines or the textarea not inserted in the user db
   $newuser = new User($db);
   print_r($usersToAdd);
+
   foreach ($usersToAdd as $value) { // ty to add users to the db with data provided in textarea
     if (filter_var($value, FILTER_VALIDATE_EMAIL) != false) {
-      $newuser->addUser($value);
-      print_r($value);
+      var_dump($newuser->addUser($value, $idStartup, 'learner', 'en'));
+      // print_r($value);
     } else {
       array_push($inputsNotAdded, $value);
     };
@@ -61,14 +62,13 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
           && isset($_POST['implantationId']) && is_int(intval($_POST['implantationId']))
           && isset($_POST['addLinkedLearners']) && is_string($_POST['addLinkedLearners'])) { // security checks
 
+
             $usersToAdd = preg_split('/\r\n|[\r\n]/', $_POST['addLinkedLearners']); // transform text area lines into elements in an array
 
-            // $inputsNotAdded = []; // create an array that will contain the lines or the textarea not inserted in the user db
-
             $addsta = new Startup($db);
-            // $adduser = new User($db);
+            $idStartup = $addsta->addStartup($_POST['name']);
 
-            if ($addsta->addStartup($_POST['name']) == false) { // try to add a new startup with the data provided
+            if ($idStartup == false) { // try to add a new startup with the data provided
               $json['request']['status'] = 'error';
               $json['request']['message'] = 'Impossible to create a new startup';
             } else {
@@ -76,23 +76,7 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
               $json['request']['message'] = 'Startup added.';
             };
 
-            // foreach ($usersToAdd as $value) { // add users to the db with data provided in textarea
-            //   if (filter_var($value, FILTER_VALIDATE_EMAIL) != false) {
-            //     $adduser->addUser($value);
-            //   } else {
-            //     array_push($inputsNotAdded, $value);
-            //   };
-            // };
-            //
-            // if (count($inputsNotAdded) > 0) {
-            //   $json['request']['statusMails'] = 'error';
-            //   $json['request']['messageMails'] = count($inputsNotAdded) . ' input(s) not added : ' . $inputsNotAdded;
-            // } else {
-            //   $json['request']['statusMails'] = 'success';
-            //   $json['request']['messageMails'] = 'Users added';
-            // };
-
-            userAdding($db, $usersToAdd);
+            userAdding($db, $usersToAdd, intval($idStartup));
 
             echo json_encode($json);
             die(); // we kill the script

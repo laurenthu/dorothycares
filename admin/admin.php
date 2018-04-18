@@ -251,8 +251,3 @@
    <script src="js/admin.js"></script>
   </body>
 </html>
-
-<?php
-  $u = new User($db);
-  $u->addUser('test@gmail.com');
- ?>
