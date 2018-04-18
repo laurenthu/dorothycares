@@ -186,7 +186,7 @@ BALL & MENU
   .ball-menu {
     width: 350px;
     height: 130px;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 50%;
     -webkit-transform: translateX(-50%);
@@ -350,6 +350,10 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     z-index: 12;
   }
 
+  .modal-body-block-table {
+    width: 100%;
+  }
+
   /* -------- Profile modal coming from the top -------- */
   #profilePage { /* PROFILE */
     /*width: 90%;*/
@@ -413,19 +417,36 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     border-bottom-left-radius: 10px;
   }
   .modal-header .modal-close-btn {
-    height: 50px;
-    width: 6px;
-    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    /*height: 50px;*/
+    /*width: 6px;*/
+    /*background-color: white;*/
     border-radius: 50px;
     cursor: pointer;
   }
+  .modal-header .modal-close-btn i {
+    font-size: 4rem;
+    color: white;
+  }
   .modal-header-2 .modal-close-btn-2 { /* PROFILE */
-    height: 6px;
-    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+    /*height: 6px;*/
+    /*width: 50px;*/
     /*background-color: #232323;*/
-    background-color: #fff;
+    /*background-color: #fff;*/
     border-radius: 50px;
     cursor: pointer;
+  }
+  .modal-header-2 .modal-close-btn-2 i {
+    font-size: 4rem;
+    color: white;
   }
 
   .modal-body {
@@ -439,7 +460,7 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
   }
   .modal-body-2 { /* PROFILE */
     position: fixed;
-    height: 100%;
+    height: 90%;
     width: 80%;
     max-width: 28rem;
     /*top: 30%;*/
@@ -642,8 +663,8 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     top: 30px;
     left: -120%;
     /*background-color: #978eff;*/
-    border-bottom-right-radius: 50px;
-    border-top-right-radius: 50px;
+    border-bottom-right-radius: 30px;
+    border-top-right-radius: 30px;
     box-shadow: -1px 1px 80px -30px #0D1321;
     transition: left ease 0.5s;
     z-index: 11;
@@ -1067,6 +1088,10 @@ MEDIA QUERIES
         width: 90%;
         height: 70%;
       }
+      /**/
+      .modal-body-2 {
+        padding: 0 20px;
+      }
       /* reduce input text font-size */
       .profile-input-wrapper input[type=text] {
         font-size: 0.8rem;
@@ -1075,12 +1100,22 @@ MEDIA QUERIES
       .profile-input-wrapper label {
         font-size: 0.8rem;
       }
-      /* make width of info modal bigger */
+      /* make width of info modal bigger and padding right/left smaller */
       #infoPage {
         width: 60%;
+        padding: 2rem 0.6rem;
+      }
+      /* make title in info modal bigger */
+      .modal-info-title {
+        font-size: 1.5rem;
+      }
+      /* make width of links in info modal bigger */
+      .modal-info-link {
+        width: 70%;
       }
       /* hide date and time */
       .os-bar__date-time {
         display: none;
       }
+      /**/
   }
