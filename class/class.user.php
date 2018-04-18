@@ -843,6 +843,84 @@ class User {
 
   }
 
+  public function updateSessionIdUser($emailUser,$sessionId) {
+    /*
+    (IN) email of the user to check
+    (OUT) true is ok, false it not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `sessionIdUser` = :sessionId WHERE `emailUser` = :emailUser");
+      $statement->bindParam(':sessionId', $sessionId, PDO::PARAM_STR);
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function getEmailUserBySessionIdUser($sessionId) {
+    /*
+    (IN) sessionId of the user to check
+    (OUT) return email if ok, false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `emailUser` as `information` FROM `user` WHERE `sessionIdUser` = :sessionId LIMIT 0,1");
+      $statement->bindParam(':sessionId', $sessionId, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function getTokenUserBySessionIdUser($sessionId) {
+    /*
+    (IN) sessionId of the user to check
+    (OUT) return token if ok, false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("SELECT `randomSalt` as `information` FROM `user` WHERE `sessionIdUser` = :sessionId LIMIT 0,1");
+      $statement->bindParam(':sessionId', $sessionId, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data['information'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   protected function getPasswordUser($emailUser) {
     /*
     (IN) email of the user to check
@@ -909,13 +987,18 @@ class User {
 
   }
 
-  public function addUser($email,$languageCode = 'en', $typeUser = 'learner') {
+  public function addUser($email,$startupId = false, $typeUser = 'learner',$languageCode = 'en') {
     /*
-    (IN) email of the user to check
+    (IN) [string] $email: of the user to check
+    (IN) [integer/boolean]: $startupId. An integer with the id of the startup or false is no startup
+    (IN) [string] $typeUser: type of user
+    (IN) [string(2)] $languageCode: the language of the user
     (OUT) return ID of the user is insertion was well done / false if not
     */
 
     try {
+
+      $this->db->beginTransaction();
 
       $statement = $this->db->prepare("INSERT INTO `user` (`idUser`,`idGoogleUser`,`randomSalt`,`passwordUser`,`emailUser`,`firstNameUser`,`lastNameUser`,`mainLanguageUser`,`typeUser`) VALUES (NULL,NULL,NULL,NULL,:email,NULL,NULL,:languageCode,:typeUser)");
       $statement->bindParam(':email', $email, PDO::PARAM_STR);
@@ -923,19 +1006,53 @@ class User {
       $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
       $statement->execute();
 
-      if( $statement->rowCount() ) {
-        return $this->db->lastInsertId();
+      $idUser = $this->db->lastInsertId();
+
+      if ($startupId != false) {
+        $statement = $this->db->prepare("INSERT INTO `userClasseRelation` (`idUserClasseRelation`,`idUser`,`idClasse`) VALUES (NULL,:idUser,:idStartup)");
+        $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $statement->bindParam(':idStartup', $startupId, PDO::PARAM_INT);
+        $statement->execute();
+      }
+
+      if( $this->db->commit() ) { // if all is ok, we validate the transaction and check the validation is good
+        return $idUser; // we return the ID od the new user
       } else {
         return false;
       }
 
     } catch (PDOException $e) {
+      $this->db->rollback();
+      $statement = null;
       print "Error !: " . $e->getMessage() . "<br/>";
       die();
     }
 
   }
 
+  public function addMultipleUser($arrayEmail,$startupId = false, $typeUser = 'learner', $languageCode = 'en') {
+    /*
+    (IN) [string] $arrayEmail: array of email addresses to add
+    (IN) [integer/boolean]: $startupId. An integer with the id of the startup or false is no startup
+    (IN) [string] $typeUser: type of user
+    (IN) [string(2)] $languageCode: the language of the user
+    (OUT) return email of the users were the insertion failed or true if everything is ok
+    */
+    $errors = [];
+
+    foreach($arrayEmail as $key => $value) {
+      if ( $this->addUser($value, $startupId, $typeUser,$languageCode) == false ) {
+        array_push($errors,$value);
+      }
+    }
+
+    if ( count($errors) == 0 ) {
+      return true;
+    } else {
+      return $errors;
+    }
+
+  }
 
 }
 

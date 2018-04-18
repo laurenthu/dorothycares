@@ -1,5 +1,6 @@
 RewriteEngine On
-#RewriteBase /
+Options -MultiViews
+RewriteBase /
 
 #########
 # HTTPS #
@@ -23,3 +24,147 @@ RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
 RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
 # Send all blocked request to homepage with 403 Forbidden error!
 RewriteRule ^(.*)$ index.php [F,L]
+
+##########
+# Routes #
+##########
+
+## DorotyCares Interface
+RewriteRule ^logout/$ logout.php [L,QSA]
+RewriteRule ^login/$ login.php [L,QSA]
+RewriteRule ^app/$ main.php [L,QSA]
+RewriteRule ^ajax/$ srv/ajax.php [L,QSA]
+RewriteRule ^policy/(.*)$ assets/static/$1 [L,QSA]
+RewriteRule ^ajax/$ srv/ajax.php [L,QSA]
+
+## API > Dialogflow session ID
+RewriteRule ^api/session/([a-zA-Z0-9]+)/$ api/session.php?id=$1 [L,QSA]
+
+## API > User
+RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/coach/$ api/user.php?emailUser=$2&tokenUser=$1&type=coachUser [L,QSA]
+RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/implantation/$ api/user.php?emailUser=$2&tokenUser=$1&type=implantationUser [L,QSA]
+RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/startup/$ api/user.php?emailUser=$2&tokenUser=$1&type=startupUser [L,QSA]
+RewriteRule ^api/user/([a-zA-Z0-9]+)/([^/]*)/information/$ api/user.php?emailUser=$2&tokenUser=$1&type=informationUser [L,QSA]
+
+## API > Implantation
+RewriteRule ^api/implantation/([a-zA-Z0-9]+)/([^/]*)/list/$ api/implantation.php?emailUser=$2&tokenUser=$1&type=implentationList [L,QSA]
+RewriteRule ^api/implantation/([a-zA-Z0-9]+)/([^/]*)/count/$ api/implantation.php?emailUser=$2&tokenUser=$1&type=implentationCount [L,QSA]
+RewriteRule ^api/implantation/([a-zA-Z0-9]+)/([^/]*)/information/([0-9]+)/$ api/implantation.php?id=$3&emailUser=$2&tokenUser=$1&type=implentationInformation [L,QSA]
+
+## API > Startup
+RewriteRule ^api/startup/([a-zA-Z0-9]+)/([^/]*)/list/$ api/startup.php?emailUser=$2&tokenUser=$1&type=startupList [L,QSA]
+RewriteRule ^api/startup/([a-zA-Z0-9]+)/([^/]*)/count/$ api/startup.php?emailUser=$2&tokenUser=$1&type=startupCount [L,QSA]
+RewriteRule ^api/startup/([a-zA-Z0-9]+)/([^/]*)/member/([0-9]+)/([a-zA-Z0-9]+)/$ api/startup.php?id=$3&typeUser=$4&emailUser=$2&tokenUser=$1&type=startupMember [L,QSA]
+RewriteRule ^api/startup/([a-zA-Z0-9]+)/([^/]*)/members/([0-9]+)/([a-zA-Z0-9]+)/$ api/startup.php?id=$3&typeUser=$4&emailUser=$2&tokenUser=$1&type=startupMember [L,QSA]
+RewriteRule ^api/startup/([a-zA-Z0-9]+)/([^/]*)/information/([0-9]+)/$ api/startup.php?id=$3&emailUser=$2&tokenUser=$1&type=startupInformation [L,QSA]
+
+###############
+# Compression #
+###############
+<IfModule mod_deflate.c>
+    ## Gzip compression by default
+    ## Compression ratio is defined by the browsert to improve compatibility
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/cache-manifest
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/vcard
+    AddOutputFilterByType DEFLATE text/vnd.rim.location.xloc
+    AddOutputFilterByType DEFLATE text/vtt
+    AddOutputFilterByType DEFLATE text/x-component
+    AddOutputFilterByType DEFLATE text/x-cross-domain-policy
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/ld+json
+    AddOutputFilterByType DEFLATE application/atom+xml
+    AddOutputFilterByType DEFLATE application/manifest+json
+    AddOutputFilterByType DEFLATE application/rdf+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/schema+json
+    AddOutputFilterByType DEFLATE application/vnd.geo+json
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/x-web-app-manifest+json
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE font/eot
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE image/bmp
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/vnd.microsoft.icon
+    AddOutputFilterByType DEFLATE image/x-icon
+</IfModule>
+
+#########
+# Cache #
+#########
+<IfModule mod_expires.c>
+    ### <A><seconds> = X secondes after the last access from the user
+    ### <M><seconds> = X seconds after the last modification of the document
+    # ExpiresActive On
+    # ExpiresByType text/css M2419200
+    # ExpiresByType text/x-component M2419200
+    # ExpiresByType application/x-javascript M2419200
+    # ExpiresByType application/javascriptMA2419200
+    # ExpiresByType text/javascript M2419200
+    # ExpiresByType text/x-js M2419200
+    # ExpiresByType text/html M3600
+    # ExpiresByType text/richtext M3600
+    # ExpiresByType image/svg+xml M3600
+    # ExpiresByType text/plain M3600
+    # ExpiresByType text/xsd M3600
+    # ExpiresByType text/xsl M3600
+    # ExpiresByType text/xml M3600
+    # ExpiresByType video/asf A2419200
+    # ExpiresByType video/avi A2419200
+    # ExpiresByType image/bmp A2419200
+    # ExpiresByType application/java A2419200
+    # ExpiresByType video/divx A2419200
+    # ExpiresByType application/msword A2419200
+    # ExpiresByType application/vnd.ms-fontobject A2419200
+    # ExpiresByType application/x-msdownload A2419200
+    # ExpiresByType image/gif A2419200
+    # ExpiresByType application/x-gzip A2419200
+    # ExpiresByType image/x-icon A2419200
+    # ExpiresByType image/jpeg A2419200
+    # ExpiresByType application/json A2419200
+    # ExpiresByType application/vnd.ms-access A2419200
+    # ExpiresByType audio/midi A2419200
+    # ExpiresByType video/quicktime A2419200
+    # ExpiresByType audio/mpeg A2419200
+    # ExpiresByType video/mp4 A2419200
+    # ExpiresByType video/mpeg A2419200
+    # ExpiresByType application/vnd.ms-project A2419200
+    # ExpiresByType application/x-font-otf A2419200
+    # ExpiresByType application/vnd.ms-opentype A2419200
+    # ExpiresByType application/vnd.oasis.opendocument.database A2419200
+    # ExpiresByType application/vnd.oasis.opendocument.chart A2419200
+    # ExpiresByType application/vnd.oasis.opendocument.formula A2419200
+    # ExpiresByType application/vnd.oasis.opendocument.graphics A2419200
+    # ExpiresByType application/vnd.oasis.opendocument.presentation A2419200
+    # ExpiresByType application/vnd.oasis.opendocument.spreadsheet A2419200
+    # ExpiresByType application/vnd.oasis.opendocument.text A2419200
+    # ExpiresByType audio/ogg A2419200
+    # ExpiresByType application/pdf A2419200
+    # ExpiresByType image/png A2419200
+    # ExpiresByType application/vnd.ms-powerpoint A2419200
+    # ExpiresByType audio/x-realaudio A2419200
+    # ExpiresByType image/svg+xml A2419200
+    # ExpiresByType application/x-shockwave-flash A2419200
+    # ExpiresByType application/x-tar A2419200
+    # ExpiresByType image/tiff A2419200
+    # ExpiresByType application/x-font-ttf A2419200
+    # ExpiresByType application/vnd.ms-opentype A2419200
+    # ExpiresByType audio/wav A2419200
+    # ExpiresByType audio/wma A2419200
+    # ExpiresByType application/vnd.ms-write A2419200
+    # ExpiresByType application/font-woff A2419200
+    # ExpiresByType application/vnd.ms-excel A2419200
+    # ExpiresByType application/zip A2419200
+</IfModule>

@@ -20,6 +20,7 @@ class Startup {
 
       $statement = $this->db->prepare(
         "SELECT
+        `C`.`idClasse` as `idStartup`,
         `C`.`nameClasse` as `nameStartup`,
         `I`.`idImplantation`,
         `I`.`nameimplantation`
@@ -211,25 +212,39 @@ class Startup {
 
   }
 
-  public function addStartup($name) {
+  public function addStartup($name, $implantationId = false) {
     /*
-    (IN) email of the user to check
+    (IN) [string] email of the user to check
+    (IN) [integer/boolean]: $implantationId. An integer with the id of the implantation or false if no implantation
     (OUT) return last id is insertion was well done / false if not
     */
 
     try {
 
+      $this->db->beginTransaction();
+
       $statement = $this->db->prepare("INSERT INTO `classe` (`idClasse`,`nameClasse`) VALUES (NULL,:name)");
       $statement->bindParam(':name', $name, PDO::PARAM_STR);
       $statement->execute();
 
-      if( $statement->rowCount() ) {
-        return $this->db->lastInsertId();
+      $idStartup = $this->db->lastInsertId();
+
+      if ($implantationId != false) {
+        $statement = $this->db->prepare("INSERT INTO `classeImplantationRelation` (`idClasseImplantationRelation`,`idClasse`,`idImplantation`) VALUES (NULL,:idStartup,:idImplantation)");
+        $statement->bindParam(':idStartup', $idStartup, PDO::PARAM_INT);
+        $statement->bindParam(':idImplantation', $implantationId, PDO::PARAM_INT);
+        $statement->execute();
+      }
+
+      if( $this->db->commit() ) { // if all is ok, we validate the transaction and check the validation is good
+        return $idStartup; // we return the ID od the new user
       } else {
         return false;
       }
 
     } catch (PDOException $e) {
+      $this->db->rollback();
+      $statement = null;
       print "Error !: " . $e->getMessage() . "<br/>";
       die();
     }
