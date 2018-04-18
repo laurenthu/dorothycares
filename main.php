@@ -116,7 +116,7 @@
         <form id="profile-details" class="profile-details" action="#" method="get">
           <span class="profile-input-wrapper">
             <label for="profile-firstname">First name</label>
-            <input name="firstName" id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares">
+            <input name="firstName" id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares" required>
           </span>
           <span class="profile-input-wrapper">
             <label for="profile-lastname">Last name</label>
@@ -137,6 +137,14 @@
           <span class="profile-input-wrapper">
             <label for="profile-medium">Medium</label>
             <input name="medium" id="profile-medium" class="profile-medium" type="url" placeholder="Medium link">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-codepen">CodePen</label>
+            <input name="codepen" id="profile-codepen" class="profile-codepen" type="url" placeholder="CodePen link">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-website">Website</label>
+            <input name="website" id="profile-website" class="profile-website" type="url" placeholder="Website link">
           </span>
           <div class="profile-buttons">
             <button type="submit" id="profile-save-details" class="profile-save-details">Save</button>
@@ -197,8 +205,6 @@
       //echo formHTML::getFormSelectFromArray( $sy->getCountryList(), 'country', 'country', 'country', 'fr' );
       //var_dump($s->addStartup('test',2));
       //var_dump($_SESSION);
-      //echo phpversion();
-      var_dump($u->addUser('test@perdu.com'));
     ?>
   -->
 
