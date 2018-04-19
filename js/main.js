@@ -41,8 +41,6 @@ INTRO ANIMATIONS (ball & menu)
 _______________________________
 */
 
-
-
 // function to show/hide menu (small balls)
 function showMenu (value) {
   for(let i = 0; i < menu.length; i++){
@@ -408,8 +406,11 @@ function showTerminal() {
 function showProfile () {
   // hide info modal if opened
   hideInfo();
-  terminal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
-  profileModal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
+  // change the status of visibility for the modal
+  terminal.setAttribute('data-visibility','false');
+  // change the status of visibility for the modal
+  profileModal.setAttribute('data-visibility','true');
+  fillProfile();
   // show close button (arrow) after modal is fully stretched
   anime({
     targets: '#profile-modal-btn',
@@ -744,62 +745,6 @@ _______________________________
 };*/
 
 
-
-
-
-
-/*
-----------------------------------------------------------------------
-MIKEY
-----------------------------------------------------------------------
-*/
-
-
-
-
-/*
-Close button Function
-_______________________________
-*/
-
-document.getElementById('close').onclick = function(){  // Select element button "close" onclick
-  // Anime.js change the value of the Y axis to create an animation
-  anime({
-    targets: 'main, terminal',
-    // The target to animate (only works with ID)
-    translateY: [
-    // Affect the Y axis
-      { value: 700, duration: 2000},
-      // Value is the position in pixel, duration is the time the animation will take in millisecond
-    ],
-  });
-};
-
-/*
-Resize State Button Function
-_______________________________
-*/
-
-
-//let terminal = document.querySelector('#terminal');   // Variable terminal initialisation
-let resizeBtn = document.querySelector('#maximize');  // Variable maximize initialisation
-let resizeState = false;                // State variable
-
-resizeBtn.addEventListener('click', function (){    // Function start on click on maximize button
-  if (resizeState == false) {             // Condition to create toggle
-    terminal.style.margin = "0 2.5vw";        // Change to new margin value
-    terminal.style.width = "95%";         // Change to new width value
-    terminal.style.top = "550px";         // Change to new top value
-    resizeState = true;               // Change the state to true
-  } else if (resizeState == true) {         // In other case if resizeState is = to true
-    terminal.style.margin = "0 22.5vw";       // Change to margin default value
-    terminal.style.width = "55%";         // Change to width default value
-    terminal.style.top = "700px";         // Change to top pixel default value
-    resizeState = false;              // Change the state to false
-  };
-})
-
-
 /*
 Particles animation
 _______________________________
@@ -924,19 +869,62 @@ function date_time(selector) {
 }
 
 function validateEmail(email) {
-  let regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return regex.test(email);
 }
 
 function validateURL(url) {
-  let regex = new RegExp('^(https?:\\/\\/)?'+ // protocol
-  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  let regex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
   return regex.test(url);
 }
+
+function fillProfile() {
+
+  let inputs = document.querySelectorAll('input');
+  let selects = document.querySelectorAll('select');
+  let random = Math.round((Math.random() * 100000));
+
+  const axiosAjax = axios.create({
+    baseURL: '/',
+    timeout: 10000, // 10 sec
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+    },
+    maxContentLength: 500000, // 500ko
+  });
+
+  axiosAjax.get('ajax/?type=getProfile&v=' + random)
+
+  .then( function (response) {
+
+    for (let keyLoop in response.data) { // we loop the main value
+
+      if (typeof response.data[keyLoop] == 'object' && keyLoop == 'meta') { // we check if it's an object (for meta value)
+
+        for (let keyLoopBis in response.data[keyLoop]) { // we loop the meta value
+          if (document.querySelector('input[name=' + response.data[keyLoop][keyLoopBis].key + ']') != null) { // we check if an input with the same key exists
+            document.querySelector('input[name=' + response.data[keyLoop][keyLoopBis].key + ']').value = response.data[keyLoop][keyLoopBis].value; // we display the value
+          }
+        }
+
+      } else { // else it's a main value
+
+        if (document.querySelector('input[name=' + keyLoop + ']') != null) { // we check if an input with the same key exists
+          document.querySelector('input[name=' + keyLoop + ']').value = response.data[keyLoop]; // we display the value
+        }
+
+      }
+
+    };
+
+  })
+
+  .catch( function (error) {
+    console.log(error);
+  });
+
+}
+
 
 formProfile.addEventListener('submit', function(e) {
 
@@ -960,7 +948,7 @@ formProfile.addEventListener('submit', function(e) {
       item.setAttribute('data-error-message','Your entry is a bit too short')
     }
     if (item.getAttribute('type') === 'url' && item.value.length > 0) {
-      if (validateURL(item.value) == false) {
+      if (validateURL(item.value) == false && item.value != '') {
         item.classList.add('error');
         item.setAttribute('data-error-message','This url is not valid.')
       }
@@ -974,8 +962,8 @@ formProfile.addEventListener('submit', function(e) {
 
     json.type = 'updateProfile';
 
-    console.log('No error');
-    console.log(json);
+    //console.log('No error');
+    //console.log(json);
     const axiosAjax = axios.create({
       baseURL: '/',
       timeout: 10000, // 10 sec
@@ -989,7 +977,7 @@ formProfile.addEventListener('submit', function(e) {
       formAnswer: JSON.stringify(json)
     })
     .then(function (response) {
-      //hideProfile();
+      hideProfile();
       console.log(response);
     })
     .catch(function (error) {
@@ -1000,4 +988,4 @@ formProfile.addEventListener('submit', function(e) {
     console.log('error');
   }
 
-})
+});

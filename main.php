@@ -40,9 +40,21 @@
     <meta name="twitter:site" content="@becodeorg">
     <meta name="twitter:image" content="https://dorothycares.io/img/printscreen.jpg">
 
+  <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WCDFFXV');</script>
+
 </head>
 
 <body id="body" data-email="<?= $_SESSION['email']; ?>" data-token="<?= $_SESSION['token'] ?>" data-dialogflow-session="<?= session_id();?>">
+
+  <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WCDFFXV"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <!--Canvas container for the particles-->
 	<canvas id="canvas"></canvas>
@@ -115,24 +127,36 @@
 
         <form id="profile-details" class="profile-details" action="#" method="get">
           <span class="profile-input-wrapper">
-            <label for="profile-firstname">FIRST NAME</label>
-            <input name="firstName" id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares">
+            <label for="profile-firstname">First name</label>
+            <input name="firstName" id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares" required>
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-lastname">LAST NAME</label>
+            <label for="profile-lastname">Last name</label>
             <input name="lastName" id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy" required>
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-language">LANGUAGE</label>
+            <label for="profile-language">Language</label>
             <input name="mainLanguage" id="profile-language" class="profile-language" type="radio" checked="checked" value="en"><label class="english">En</label>
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-github">GITHUB</label>
-            <input name="github" id="profile-github" class="profile-github" type="url" name="Github account" placeholder="Github">
+            <label for="profile-github">GitHub</label>
+            <input name="github" id="profile-github" class="profile-github" type="url" placeholder="GitHub link">
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-linkedin">LINKEDIN</label>
-            <input name="linkedin" id="profile-linkedin" class="profile-linkedin" type="url" placeholder="Linkedin">
+            <label for="profile-linkedin">LinkedIn</label>
+            <input name="linkedin" id="profile-linkedin" class="profile-linkedin" type="url" placeholder="LinkedIn link">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-medium">Medium</label>
+            <input name="medium" id="profile-medium" class="profile-medium" type="url" placeholder="Medium link">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-codepen">CodePen</label>
+            <input name="codepen" id="profile-codepen" class="profile-codepen" type="url" placeholder="CodePen link">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-website">Website</label>
+            <input name="website" id="profile-website" class="profile-website" type="url" placeholder="Website link">
           </span>
           <div class="profile-buttons">
             <button type="submit" id="profile-save-details" class="profile-save-details">Save</button>
@@ -192,8 +216,7 @@
       //print_r( $sy->getCountryList() );
       //echo formHTML::getFormSelectFromArray( $sy->getCountryList(), 'country', 'country', 'country', 'fr' );
       //var_dump($s->addStartup('test',2));
-      var_dump($_SESSION);
-      //echo phpversion();
+      //var_dump($_SESSION);
     ?>
   -->
 

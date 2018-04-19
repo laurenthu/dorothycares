@@ -72,7 +72,7 @@ class User {
 
       if($statement->rowCount()) {
         $data = $statement->fetch(PDO::FETCH_ASSOC);
-        return $data['information'];
+        return intval($data['information']);
       } else {
         return false;
       }
@@ -83,7 +83,6 @@ class User {
     }
 
   }
-
 
   public function getUserFirstName($emailUser) {
     /*
@@ -124,15 +123,12 @@ class User {
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
       $statement->execute();
 
-      if( $statement->rowCount() ) {
-        return $firstName;
-      } else {
-        return false;
-      }
+      return $firstName;
 
     } catch (PDOException $e) {
-      print "Error !: " . $e->getMessage() . "<br/>";
-      die();
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
     }
 
   }
@@ -176,15 +172,12 @@ class User {
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
       $statement->execute();
 
-      if( $statement->rowCount() ) {
-        return $lastName;
-      } else {
-        return false;
-      }
+      return $lastName;
 
     } catch (PDOException $e) {
-      print "Error !: " . $e->getMessage() . "<br/>";
-      die();
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
     }
 
   }
@@ -227,16 +220,12 @@ class User {
       $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
       $statement->execute();
-
-      if( $statement->rowCount() ) {
-        return $languageCode;
-      } else {
-        return false;
-      }
+      return $languageCode;
 
     } catch (PDOException $e) {
-      print "Error !: " . $e->getMessage() . "<br/>";
-      die();
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
     }
 
   }
@@ -515,6 +504,95 @@ class User {
     } catch (PDOException $e) {
       print "Error !: " . $e->getMessage() . "<br/>";
       die();
+    }
+
+  }
+
+  public function getUserInformationAllMeta($email) {
+
+    try {
+
+      $data = array();
+      $idUser = $this->getUserId($email);
+
+      $statement = $this->db->prepare(
+        "SELECT
+        `O`.`idOption` as `id`,
+        `O`.`keyOption` as `type`,
+	      `O`.`valueOption` as `key`,
+        `O`.`nameOption` as `name`,
+        `UM`.`valueUserMeta` as `value`
+
+         FROM `userMeta` as `UM`
+         LEFT JOIN `option` as `O` ON `O`.`idOption` = `UM`.`idOption`
+
+         WHERE `UM`.`idUser` = :idUser");
+
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->execute();
+
+      if ($statement->rowCount() > 0) {
+
+        while ( $en = $statement->fetch(PDO::FETCH_ASSOC) ) {
+          array_push($data, $en);
+        }
+
+        return $data;
+
+      } else {
+
+        return false;
+
+      }
+
+    } catch (PDOException $e) {
+
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+
+    }
+
+  }
+
+  public function getUserInformationOneMeta($email, $key) {
+
+    try {
+
+      $data = array();
+      $idUser = $this->getUserId($email);
+
+      $statement = $this->db->prepare(
+        "SELECT
+        `O`.`idOption` as `id`,
+        `O`.`keyOption` as `type`,
+	      `O`.`valueOption` as `key`,
+        `O`.`nameOption` as `name`,
+        `UM`.`valueUserMeta` as `value`
+
+         FROM `userMeta` as `UM`
+         LEFT JOIN `option` as `O` ON `O`.`idOption` = `UM`.`idOption`
+
+         WHERE `UM`.`idUser` = :idUser AND `O`.`valueOption` LIKE :key");
+
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->bindParam(':key', $key, PDO::PARAM_STR);
+      $statement->execute();
+
+      if ($statement->rowCount() > 0) {
+
+        return $statement->fetch(PDO::FETCH_ASSOC);
+
+      } else {
+
+        return false;
+
+      }
+
+    } catch (PDOException $e) {
+
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+
     }
 
   }
@@ -1000,7 +1078,7 @@ class User {
 
       $this->db->beginTransaction();
 
-      $statement = $this->db->prepare("INSERT INTO `user` (`idUser`,`idGoogleUser`,`randomSalt`,`passwordUser`,`emailUser`,`firstNameUser`,`lastNameUser`,`mainLanguageUser`,`typeUser`) VALUES (NULL,NULL,NULL,NULL,:email,NULL,NULL,:languageCode,:typeUser)");
+      $statement = $this->db->prepare("INSERT INTO `user` (`idUser`,`idGoogleUser`,`randomSalt`,`passwordUser`,`sessionIdUser`,`emailUser`,`firstNameUser`,`lastNameUser`,`mainLanguageUser`,`typeUser`) VALUES (NULL,NULL,NULL,NULL,NULL,:email,NULL,NULL,:languageCode,:typeUser)");
       $statement->bindParam(':email', $email, PDO::PARAM_STR);
       $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
       $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
@@ -1026,6 +1104,68 @@ class User {
       $statement = null;
       print "Error !: " . $e->getMessage() . "<br/>";
       die();
+    }
+
+  }
+
+  public function addUserMeta($idUser, $idOption, $valueUserMeta) {
+
+    try {
+
+      $statement = $this->db->prepare("INSERT INTO `userMeta` (`idUserMeta`,`idUser`,`idOption`,`valueUserMeta`) VALUES (NULL,:idUser,:idOption,:valueUserMeta)");
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->bindParam(':idOption', $idOption, PDO::PARAM_INT);
+      $statement->bindParam(':valueUserMeta', $valueUserMeta, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateUserMeta($idUser, $idOption, $valueUserMeta) {
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `userMeta` SET `valueUserMeta` = :valueUserMeta WHERE `idUser` = :idUser AND `idOption` = :idOption");
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->bindParam(':idOption', $idOption, PDO::PARAM_INT);
+      $statement->bindParam(':valueUserMeta', $valueUserMeta, PDO::PARAM_STR);
+      $statement->execute();
+
+      return $valueUserMeta;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
+  public function deleteUserMeta($idUser, $idOption) {
+
+    try {
+
+      $statement = $this->db->prepare("DELETE FROM `userMeta` WHERE `idUser` = :idUser AND `idOption` = :idOption");
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->bindParam(':idOption', $idOption, PDO::PARAM_INT);
+      $statement->execute();
+
+      return true;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
     }
 
   }
