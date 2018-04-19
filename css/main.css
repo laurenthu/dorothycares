@@ -584,20 +584,20 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     outline: none;
     width: 60%;
     font-family: 'Roboto Mono', monospace;
-    font-weight: 100;
-    color: lightgrey;
+    font-weight: 300;
+    color: white;
   }
   ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    color: white;
+    color: lightgrey;
   }
   ::-moz-placeholder { /* Firefox 19+ */
-    color: white;
+    color: lightgrey;
   }
   :-ms-input-placeholder { /* IE 10+ */
-    color: white;
+    color: lightgrey;
   }
   :-moz-placeholder { /* Firefox 18- */
-    color: white;
+    color: lightgrey;
   }
   .profile-language { /* PROFILE */
     margin-bottom: 2em;
