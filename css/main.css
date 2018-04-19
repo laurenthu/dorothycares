@@ -186,7 +186,7 @@ BALL & MENU
   .ball-menu {
     width: 350px;
     height: 130px;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 50%;
     -webkit-transform: translateX(-50%);
@@ -326,6 +326,52 @@ WELCOME MESSAGE
 MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
 -----------------------------------------------
 */
+  
+  /* -------- Action message pop-up/modal (top right) -------- */
+  .messageModal {
+    max-width: 300px;
+    position: absolute;
+    top: 90px;
+    right: 30px;
+    opacity: 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: -1px 1px 120px -10px white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 15;
+  }
+  .messageModalClose {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background-color: white;*/
+    -webkit-animation: bgColorAnim 300s infinite;
+            animation: bgColorAnim 300s infinite;
+    z-index: 16;
+    transition: opacity ease 0.3s;
+  }
+  .messageModalClose p {
+    cursor: pointer;
+    color: white;
+    /*color: #232323;*/
+  }
+  .messageModal:hover .messageModalClose {
+    opacity: 1;
+  }
+  .messageModalText {
+    color: #232323;
+    margin: 0;
+  }
 
   /* -------- Long answer modal coming from the right -------- */
   #answerTemplate {
@@ -350,6 +396,10 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     z-index: 12;
   }
 
+  .modal-body-block-table {
+    width: 100%;
+  }
+
   /* -------- Profile modal coming from the top -------- */
   #profilePage { /* PROFILE */
     /*width: 90%;*/
@@ -358,6 +408,7 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     max-width: 800px;
     height: 80%; /* MIKEY */
     position: fixed;
+    overflow: hidden; /* hides close button (up arrow) for animation */
     /*padding: 25px 40px 10px 0;*/ /* TOGGLE */
     top: -120%; /* hides the profile modal */
     /*top: 0;*/ /* shows the profile modal */
@@ -368,7 +419,7 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     box-shadow: -1px 1px 120px -30px #0D1321;
-    transition: top ease 0.5s;
+    transition: top ease 0.3s;
     z-index: 12;
     -webkit-animation: bgColorAnim 300s infinite;
             animation: bgColorAnim 300s infinite;
@@ -413,19 +464,38 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     border-bottom-left-radius: 10px;
   }
   .modal-header .modal-close-btn {
-    height: 50px;
-    width: 6px;
-    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    /*height: 50px;*/
+    /*width: 6px;*/
+    /*background-color: white;*/
     border-radius: 50px;
     cursor: pointer;
   }
+  .modal-header .modal-close-btn i {
+    font-size: 4rem;
+    color: white;
+  }
   .modal-header-2 .modal-close-btn-2 { /* PROFILE */
-    height: 6px;
-    width: 50px;
+    position: relative;
+    top: 60px; /* hide close button (up arrow) for animation */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+    /*height: 6px;*/
+    /*width: 50px;*/
     /*background-color: #232323;*/
-    background-color: #fff;
+    /*background-color: #fff;*/
     border-radius: 50px;
     cursor: pointer;
+  }
+  .modal-header-2 .modal-close-btn-2 i {
+    font-size: 4rem;
+    color: white;
   }
 
   .modal-body {
@@ -439,7 +509,7 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
   }
   .modal-body-2 { /* PROFILE */
     position: fixed;
-    height: 100%;
+    height: 90%;
     width: 80%;
     max-width: 28rem;
     /*top: 30%;*/
@@ -453,6 +523,7 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
   .modal-body-title {
     font-size: 2rem;
     font-weight: 300;
+    text-transform: uppercase;
   }
   .modal-body-block {
     width: 90%;
@@ -502,6 +573,7 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
   .profile-input-wrapper label {
     width: 30%;
     color: white;
+    text-transform: uppercase;
   }
   .profile-input-wrapper input[type=text],
   .profile-input-wrapper input[type=url] {
@@ -512,20 +584,20 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     outline: none;
     width: 60%;
     font-family: 'Roboto Mono', monospace;
-    font-weight: 100;
-    color: lightgrey;
+    font-weight: 300;
+    color: white;
   }
   ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    color: white;
+    color: lightgrey;
   }
   ::-moz-placeholder { /* Firefox 19+ */
-    color: white;
+    color: lightgrey;
   }
   :-ms-input-placeholder { /* IE 10+ */
-    color: white;
+    color: lightgrey;
   }
   :-moz-placeholder { /* Firefox 18- */
-    color: white;
+    color: lightgrey;
   }
   .profile-language { /* PROFILE */
     margin-bottom: 2em;
@@ -635,27 +707,50 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
   /* -------- Info modal (about) coming from the left -------- */
   #infoPage {
     width: 40%;
+    max-width: 400px;
     /*height: 30%;*/
     position: fixed;
+    overflow: hidden;
     /*padding: 25px 0px 10px 0;*/
     padding: 2rem 1rem;
     /*top: -120%;*/
     top: 30px;
     left: -120%;
     /*background-color: #978eff;*/
-    border-bottom-right-radius: 50px;
-    border-top-right-radius: 50px;
+    border-bottom-right-radius: 30px;
+    border-top-right-radius: 30px;
     box-shadow: -1px 1px 80px -30px #0D1321;
     transition: left ease 0.5s;
     z-index: 11;
-    cursor: pointer;
     -webkit-animation: bgColorAnim 300s infinite;
             animation: bgColorAnim 300s infinite;
   }
-
+  #modal-container-3 {
+    display: flex;
+    justify-content: space-between;
+  }
+  .modal-header-3 {
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-close-btn-3 {
+    position: relative;
+    right: -60px;
+  }
+  .modal-close-btn-3 i {
+    cursor: pointer;
+    font-size: 4rem;
+    color: white;
+  }
   .modal-body-info {
-    display: fixed;
-    left: 100px;
+    /*display: fixed;*/
+    /*left: 100px;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   .modal-info-title {
     font-weight: 300;
@@ -676,6 +771,13 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     font-size: 1rem;
     margin-left: 0.75rem;
   }
+  .modal-info-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+  }
   .modal-info-link {
     font-weight: 100;
     display: block;
@@ -684,14 +786,14 @@ MODALS (WINDOWS POPPING UP FROM TOP, RIGHT AND LEFT)
     margin-right: 5px;
     margin-bottom: 0.4rem;
     text-decoration: none;
-    width: 60%;
-    position: relative;
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
+    /*width: 60%;*/
+    /*position: relative;*/
+    /*left: 50%;*/
+    /*-webkit-transform: translateX(-50%);*/
+            /*transform: translateX(-50%);*/
   }
   .modal-info-link:hover {
-    text-decoration: line-through;
+    text-decoration: underline;
   }
 
   /*.answer-template-trigger {
@@ -1068,6 +1170,10 @@ MEDIA QUERIES
         width: 90%;
         height: 70%;
       }
+      /**/
+      .modal-body-2 {
+        padding: 0 20px;
+      }
       /* reduce input text font-size */
       .profile-input-wrapper input[type=text] {
         font-size: 0.8rem;
@@ -1076,12 +1182,18 @@ MEDIA QUERIES
       .profile-input-wrapper label {
         font-size: 0.8rem;
       }
-      /* make width of info modal bigger */
+      /* make width of info modal bigger and padding right/left smaller */
       #infoPage {
         width: 60%;
+        padding: 2rem 0.6rem;
+      }
+      /* make title in info modal bigger */
+      .modal-info-title {
+        font-size: 1.5rem;
       }
       /* hide date and time */
       .os-bar__date-time {
         display: none;
       }
+      /**/
   }

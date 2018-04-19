@@ -4,27 +4,30 @@ VARIABLES DECLARATION
 ----------------------------------------------------------------------
 */
 
-let dorothyBall = document.querySelector('.dorothy-ball');
-let menu = document.getElementsByClassName('ball-menu-item');
-let menuOpen = false; // used to tell whether menu was clicked or not (acts as switch)
-let message = document.querySelector('.welcome-message-style');
-let welcomeMessageContainer = document.getElementById('welcomeMessageContainer');
-let messageClicked = false; // switch for whether welcome message was clicked or not
-let terminal = document.getElementById('terminal');
-let menuTerminal = document.querySelector('.menu-terminal');
-let menuProfile = document.querySelector('.menu-profile');
-let menuInfo = document.querySelector('.menu-info');
-let menuCalendar = document.querySelector('.menu-calendar');
-let answerModal = document.getElementById('answerTemplate');
-let answerModalBody = document.querySelector('#answerTemplate .modal-body');
-let longAnswerBtn = document.getElementById('answer-modal-btn');
-let profileModal = document.getElementById('profilePage');
-let profileModalBtn = document.getElementById('profile-modal-btn');
-let hidingBgDiv = document.getElementById('hiding-bg-div');
-let menuProfileIsClicked = false;
-let infoModal = document.getElementById('infoPage');
-let menuInfoIsClicked = false;
-let formProfile = document.getElementById('profile-details');
+let dorothyBall = document.querySelector('.dorothy-ball'),
+    menu = document.getElementsByClassName('ball-menu-item'),
+    menuOpen = false, // used to tell whether menu was clicked or not (acts as switch)
+    message = document.querySelector('.welcome-message-style'),
+    welcomeMessageContainer = document.getElementById('welcomeMessageContainer'),
+    messageClicked = false, // switch for whether welcome message was clicked or not
+    terminal = document.getElementById('terminal'),
+    menuTerminal = document.querySelector('.menu-terminal'),
+    menuProfile = document.querySelector('.menu-profile'),
+    menuInfo = document.querySelector('.menu-info'),
+    menuCalendar = document.querySelector('.menu-calendar'),
+    answerModal = document.getElementById('answerTemplate'),
+    answerModalBody = document.querySelector('#answerTemplate .modal-body'),
+    longAnswerBtn = document.getElementById('answer-modal-btn'),
+    profileModal = document.getElementById('profilePage'),
+    profileModalBtn = document.getElementById('profile-modal-btn'),
+    hidingBgDiv = document.getElementById('hiding-bg-div'),
+    menuProfileIsClicked = false,
+    infoModal = document.getElementById('infoPage'),
+    infoModalBtn = document.getElementById('info-modal-btn'),
+    menuInfoIsClicked = false,
+    formProfile = document.getElementById('profile-details'),
+    messageModal = document.getElementById('messageModal'),
+    messageModalCloseBtn = document.getElementById('messageModalClose');
 
 /*
 ----------------------------------------------------------------------
@@ -37,8 +40,6 @@ BERTRAND
 INTRO ANIMATIONS (ball & menu)
 _______________________________
 */
-
-
 
 // function to show/hide menu (small balls)
 function showMenu (value) {
@@ -264,7 +265,7 @@ menuInfo.addEventListener('click', function(){
 });
 
 // When user clicks on info modal hide info modal
-infoModal.addEventListener('click', function(){
+infoModalBtn.addEventListener('click', function(){
   hideInfo();
   // create another timeline for the menu buttons [anime JS]
   let myTimeline = anime.timeline();
@@ -295,6 +296,29 @@ infoModal.addEventListener('click', function(){
       offset: '-=950'
     });
 });
+
+
+// function to show action message popup/modal (top right)
+function showMessageModal () {
+  messageModal.style.display = 'flex';
+  anime({
+    targets: '#messageModal',
+    top: 30,
+    opacity: 1
+  });
+}
+// when user clicks on close button of action message popup/modal (top right)
+messageModalCloseBtn.addEventListener('click', function(){
+  anime({
+    targets: '#messageModal',
+    top: -60,
+    opacity: 0,
+    complete: function(){
+      messageModal.style.display = 'none';
+      messageModal.style.top = '90px';
+    }
+  });
+})
 
 function showTerminal() {
   // set switch back to false so that we can open it with one click
@@ -379,10 +403,20 @@ function showTerminal() {
   });
 }
 
-function showProfile() {
-  terminal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
-  profileModal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
+function showProfile () {
+  // hide info modal if opened
+  hideInfo();
+  // change the status of visibility for the modal
+  terminal.setAttribute('data-visibility','false');
+  // change the status of visibility for the modal
+  profileModal.setAttribute('data-visibility','true');
   fillProfile();
+  // show close button (arrow) after modal is fully stretched
+  anime({
+    targets: '#profile-modal-btn',
+    top: 0,
+    delay: 800
+  });
   menuProfileIsClicked = false;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -461,6 +495,8 @@ function showProfile() {
 function hideProfile () {
   terminal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
   profileModal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
+  // hide close button (up arrow) again
+  profileModalBtn.style.top = '60px';
   // hide profile modal
   profileModal.style.top = '-120%';
   // hide hiding background div so user can click on background
@@ -501,6 +537,12 @@ function hideProfile () {
 
 function showInfo () {
   terminal.setAttribute('data-visibility','true');
+  // show close button (arrow left) after modal is fully stretched
+  anime({
+    targets: '#info-modal-btn',
+    right: 0,
+    delay: 800
+  });
   menuInfoIsClicked = true;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -577,6 +619,8 @@ function showInfo () {
 
 function hideInfo () {
   terminal.setAttribute('data-visibility','true');
+  // hide close button (left arrow) again
+  infoModalBtn.style.right = '-60px';
   menuInfoIsClicked = false;
   // hide info modal
   infoModal.style.left = '-120%';
@@ -699,62 +743,6 @@ _______________________________
         t = setTimeout(displayMessage, 3000);
     }
 };*/
-
-
-
-
-
-
-/*
-----------------------------------------------------------------------
-MIKEY
-----------------------------------------------------------------------
-*/
-
-
-
-
-/*
-Close button Function
-_______________________________
-*/
-
-document.getElementById('close').onclick = function(){  // Select element button "close" onclick
-  // Anime.js change the value of the Y axis to create an animation
-  anime({
-    targets: 'main, terminal',
-    // The target to animate (only works with ID)
-    translateY: [
-    // Affect the Y axis
-      { value: 700, duration: 2000},
-      // Value is the position in pixel, duration is the time the animation will take in millisecond
-    ],
-  });
-};
-
-/*
-Resize State Button Function
-_______________________________
-*/
-
-
-//let terminal = document.querySelector('#terminal');   // Variable terminal initialisation
-let resizeBtn = document.querySelector('#maximize');  // Variable maximize initialisation
-let resizeState = false;                // State variable
-
-resizeBtn.addEventListener('click', function (){    // Function start on click on maximize button
-  if (resizeState == false) {             // Condition to create toggle
-    terminal.style.margin = "0 2.5vw";        // Change to new margin value
-    terminal.style.width = "95%";         // Change to new width value
-    terminal.style.top = "550px";         // Change to new top value
-    resizeState = true;               // Change the state to true
-  } else if (resizeState == true) {         // In other case if resizeState is = to true
-    terminal.style.margin = "0 22.5vw";       // Change to margin default value
-    terminal.style.width = "55%";         // Change to width default value
-    terminal.style.top = "700px";         // Change to top pixel default value
-    resizeState = false;              // Change the state to false
-  };
-})
 
 
 /*

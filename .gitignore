@@ -1,13 +1,11 @@
-<<<<<<< HEAD
 srv/_config.php
+srv/_google-signin-client.php
+admin/srv/_config_admin.php
+admin/srv/_google-signin-client-admin.php
 .htaccess
 googlee7d9bc3d5475312b.html
 node_modules
-=======
-srv/_config.php
-srv/_google-signin-client.php
 .htaccess
 googlee7d9bc3d5475312b.html
 .ovhconfig
 firebase/functions/node_modules/*
->>>>>>> 5e0887b1a333bc53e6a2ca3c68a9cbb420862300

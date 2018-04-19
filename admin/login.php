@@ -1,5 +1,5 @@
 <?php
-  require_once "../srv/_config_admin.php";
+  require_once 'srv/_config_admin.php';
 
   if (isset($_SESSION['access_token'])) {
     header('Location: login.php');
