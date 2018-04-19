@@ -1,5 +1,5 @@
 <?php
-  require_once "../srv/_config_admin.php";
+  require_once 'srv/_config_admin.php';
 
   $json = [];
   header('Access-Control-Allow-Origin: *');

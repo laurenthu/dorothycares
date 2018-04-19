@@ -1,5 +1,5 @@
 <?php
-  require_once "../srv/_config_admin.php";
+  require_once 'srv/_config_admin.php';
 
   // if (!isset($_SESSION['access_token'])) {
   //   header('Location: login.php');
@@ -282,6 +282,6 @@
 
    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-   <script src="js/admin.js"></script>
+   <script src="/js/admin.js"></script>
   </body>
 </html>
