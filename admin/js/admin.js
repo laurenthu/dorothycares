@@ -72,9 +72,10 @@ function ajaxRequestCreateContent(button) { // ajax request
   } else if (addType == 'user') {
     let addUsers = document.querySelector('#addUsers').value;
     let typeOfUser = document.querySelector('#userType').value;
+    let linkedStartupId = document.querySelector('#linkedStartup').value;
     dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
     dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form
-    dataRequestCreateContent.send('type=' + addType + '&action=add&addUsers=' + addUsers + '&typeOfUser=' typeOfUser); // the data we send through the POST ajax request
+    dataRequestCreateContent.send('type=' + addType + '&action=add&addUsers=' + addUsers + '&typeOfUser=' + typeOfUser + '&linkedStartupId=' + linkedStartupId); // the data we send through the POST ajax request
   }
 
 };

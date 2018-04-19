@@ -5,13 +5,15 @@
   header('Access-Control-Allow-Origin: *');
   header('Content-type: application/json');
 
-function userAdding($db, $usersToAdd, $idStartup = false) { // function called when we add users
+function userAdding($db, $json, $usersToAdd, $idStartup = false, $typeOfUser = 'learner') { // function called when we add users
   $inputsNotAdded = []; // create an array that will contain the lines or the textarea not inserted in the user db
   $newuser = new User($db);
 
   foreach ($usersToAdd as $value) { // ty to add users to the db with data provided in textarea
     if (filter_var($value, FILTER_VALIDATE_EMAIL) != false) {
-      if ($idStartup != false) {
+      if ($typeOfUser != 'learner') {
+        $newuser->addUser($value, $idStartup, $typeOfUser);
+      } else if ($idStartup != false) {
         $newuser->addUser($value, $idStartup);
       } else {
         $newuser->addUser($value);
@@ -23,11 +25,13 @@ function userAdding($db, $usersToAdd, $idStartup = false) { // function called w
 
   if (count($inputsNotAdded) > 0) {
     $json['request']['statusMails'] = 'error';
-    $json['request']['messageMails'] = count($inputsNotAdded) . ' input(s) not added : ' . $inputsNotAdded;
+    $json['request']['messageMails'] = strval(count($inputsNotAdded)) . ' input(s) not added : ' . implode(', ', $inputsNotAdded);
   } else {
     $json['request']['statusMails'] = 'success';
     $json['request']['messageMails'] = 'Users added';
   };
+
+  return $json;
 };
 
 // Add, Update or Delete data from database
@@ -77,15 +81,27 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
               $json['request']['message'] = 'Startup added.';
             };
 
-            userAdding($db, $usersToAdd, intval($idStartup)); // call the function that handles the adding of users
+            userAdding($db, $json, $usersToAdd, intval($idStartup)); // call the function that handles the adding of users
 
             echo json_encode($json);
             die(); // we kill the script
         }
-      } elseif ($_POST['type'] == 'user') {
+      } elseif ($_POST['type'] == 'user') { // determine type of data
 
         if (isset($_POST['addUsers']) && is_string($_POST['addUsers']) && isset($_POST['typeOfUser']) && is_string($_POST['typeOfUser'])) { // security checks
-          
+
+          $usersToAdd = preg_split('/\r\n|[\r\n]/', $_POST['addUsers']); // transform text area lines into elements in an array
+          $typeOfUser = $_POST['typeOfUser'];
+          if ($_POST['linkedStartupId'] == '') {
+            $idStartup = false;
+          } else {
+            $idStartup = intval($_POST['linkedStartupId']);
+          }
+
+          $json = userAdding($db, $json, $usersToAdd, $idStartup, $typeOfUser); // call the function that handles the adding of users
+
+          echo json_encode($json);
+          die(); // we kill the script
         }
       }
     }

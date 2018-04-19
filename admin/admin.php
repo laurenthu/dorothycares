@@ -247,7 +247,7 @@
             <label for="addUsers">User(s) to add</label>
           </div>
           <div class="input-field col s4">
-            <select id="userType">
+            <select id="userType" required>
               <option value="" disabled selected>Choose your option</option>
               <?php
                 $typesList = (new System($db))->getOptionList('typeUser');
@@ -257,6 +257,19 @@
               ?>
             </select>
             <label>Type of the user</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s4">
+            <select id="linkedStartup">
+              <option value="" selected>Choose your option</option>
+              <?php
+                $startupsList = (new Startup($db))->getStartupList(0, 15000);
+                foreach ($startupsList as $value) {
+                  echo '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+                }
+              ?>
+            </select>
           </div>
         </div>
       </form>
