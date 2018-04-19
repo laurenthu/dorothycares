@@ -8,10 +8,12 @@ function toggleAnswerModal(modal,show = true) {
 
   if (show) {
     modal.style.right = "-20px";
-    hidingBgDiv.style.display = "block"
+    hidingBgDiv.style.display = "block";
+    terminal.setAttribute('data-visibility','false');
   } else {
     modal.style.right = "-120%";
     hidingBgDiv.style.display = "none";
+    terminal.setAttribute('data-visibility','true');
   }
 
 }
@@ -197,11 +199,11 @@ function writeRessourcesInfoModal(dataObject, contentBody) {
     content += '<ul class="modal-body-block-list">';
     dataObject.examples.forEach( (item) => {
       content += '<li class="modal-body-block-list-item">' + item.exampleName + ': ';
-      if (typeof item.exampleDemo !== 'undefined') {
+      if (typeof item.exampleDemo != 'undefined' && item.exampleDemo != 'false' && item.exampleDemo.length != '') {
         content += createLink(item.exampleDemo,'Demo');
         content += ' ';
       }
-      if (typeof item.exampleDemo !== 'undefined') {
+      if (typeof item.exampleRepo != 'undefined' && item.exampleRepo != 'false' && item.exampleRepo.length != '') {
         content += createLink(item.exampleRepo,'Repository');
       }
       content += '</li>';
@@ -319,18 +321,150 @@ function writeStartupMembersInfoModal(dataObject, contentBody) {
 
 }
 
+function launchDialogFlowConversation (e,accessToken,baseUrl,version,emailUser,tokenUser,sessionId) {
+
+  document.querySelector('.user-input').focus();
+  userInstruction = document.querySelector('.user-input').textContent; // we save the current value
+
+  const axiosInstance = axios.create({
+    baseURL: baseUrl + 'query?v=' + version,
+    timeout: 10000, // 10 sec
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'Bearer ' + accessToken
+    },
+    maxContentLength: 1000000, // 1Mo
+  });
+
+  if (e.key == 'Enter' && userInstruction != '') {
+      e.preventDefault();
+      document.querySelector('.user-input').setAttribute('contentEditable', false);
+      document.querySelector('.terminal-control').parentNode.removeChild(document.querySelector('.terminal-control'));
+
+      let span = document.createElement("span");
+      span.classList.add("request");
+      document.querySelectorAll('.user-request')[document.querySelectorAll('.user-request').length - 1].appendChild(span);
+      span.innerText = userInstruction;
+
+      axiosInstance.post(baseUrl + 'query?v=' + version, {
+        query: userInstruction,
+        lang: "en",
+        emailUser: emailUser,
+        tokenUser: tokenUser,
+        sessionId: sessionId
+      })
+        .then(function (response) { // if request succeeded
+
+          //console.log(response);
+          // we store the session for the context following
+          if (typeof response.data.sessionId !== 'undefined') {
+            sessionId = response.data.sessionId;
+          }
+
+          // we store the answer of Dorothy agent
+          let dorothyAnswerText = response.data.result.fulfillment.speech;
+
+          // we text if the answer is a JSON
+          if ( isJsonString(dorothyAnswerText) ) {
+
+            // we parse the JSON
+            dorothyAnswerObject = JSON.parse(dorothyAnswerText);
+
+            if (dorothyAnswerObject.api === 'no-rel') {
+
+              if (dorothyAnswerObject.type === 'ressources') {
+
+                if (dorothyAnswerObject.modal === true) {
+
+                  dorothyAnswerText = 'Check in the modal for the requested information. Hope that\'s will help you.';
+                  answerModalBody.innerHTML = '';
+                  toggleAnswerModal(answerModal,true);
+                  writeRessourcesInfoModal(dorothyAnswerObject.ressources, answerModalBody);
+
+                }
+
+              } else if (dorothyAnswerObject.type === 'toolbox') {
+
+                if (dorothyAnswerObject.modal === true) {
+
+                  dorothyAnswerText = 'Check in the modal for the requested information. Hope that\'s will help you.';
+                  answerModalBody.innerHTML = '';
+                  toggleAnswerModal(answerModal,true);
+                  //console.log(dorothyAnswerObject.toolbox);
+                  writeToolboxInfoModal(dorothyAnswerObject.toolbox, answerModalBody);
+
+                }
+
+              }
+
+            } else if (dorothyAnswerObject.api === 'rel') {
+
+              if (dorothyAnswerObject.type === 'text') {
+
+                dorothyAnswerText = formatTextFromDorothy(dorothyAnswerObject.message);
+
+              } else if (dorothyAnswerObject.type === 'list') {
+
+                if (dorothyAnswerObject.modal === true) {
+
+                  dorothyAnswerText = 'Check in the modal for the requested information. Hope that\'s will help you.';
+                  answerModalBody.innerHTML = '';
+                  toggleAnswerModal(answerModal,true);
+                  writeStartupMembersInfoModal(dorothyAnswerObject, answerModalBody);
+
+                }
+
+              }
+
+            }
+
+            addDorothyAnswerText(dorothyAnswerText,'.user-request',false);
+            addNewUserRequest('.instruction');
+
+          } else { // if Dorothy answer a text
+
+            dorothyAnswerText = formatTextFromDorothy(response.data.result.fulfillment.messages[0].speech);
+            addDorothyAnswerText(dorothyAnswerText,'.user-request',false); // we display the answer
+            addNewUserRequest('.instruction'); // we create a new entry section for the user
+
+          }
+
+          scrollDown();
+
+        })
+        .catch(function (error) { // if the request failed
+
+          addDorothyAnswerText(error,'.user-request',true); // we display the answer
+          addNewUserRequest('.instruction'); // we create a new entry section for the user
+
+        });
+
+
+
+  } else if (e.key == 'Enter' && userInstruction == '') {
+
+    e.preventDefault();
+
+  }
+
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+
+    date_time('.os-bar__date-time'); // update date/time
+
     let userInstruction; // variable temporaire
     //const accessToken = '20070064bedf4ee7b077ef1ae9ea64c0'; // agent v1 - DorothyAngular
     const accessToken = 'c3fb78b0042f42cda2d1d28c9f682aae'; // agent v2 - DorothyCares
     const baseUrl = 'https://api.dialogflow.com/v1/';
     const version = '20170712';
-    let emailUser = document.querySelector('body').getAttribute('data-email');
-    let tokenUser = document.querySelector('body').getAttribute('data-token');
+
+    const emailUser = document.querySelector('body').getAttribute('data-email');
+    const tokenUser = document.querySelector('body').getAttribute('data-token');
     let sessionId = document.querySelector('body').getAttribute('data-dialogflow-session');
+
     console.log(sessionId);
 
-    date_time('.os-bar__date-time');
     document.querySelector('.user-input').setAttribute('contentEditable', true);
     document.querySelector('.user-input').focus();
     document.querySelector('.terminal-symbol').addEventListener('click', function () {
@@ -339,129 +473,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('keydown', function (e) { // we detect keyboard entry
 
-        document.querySelector('.user-input').focus();
-        userInstruction = document.querySelector('.user-input').textContent; // we save the current value
+      let terminalVisibility = terminal.getAttribute('data-visibility'); // !! to convert string into boolean with a double negation
+      //console.log(terminalVisibility);
 
-        const axiosInstance = axios.create({
-          baseURL: baseUrl + 'query?v=' + version,
-          timeout: 10000, // 10 sec
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': 'Bearer ' + accessToken
-          },
-          maxContentLength: 1000000, // 1Mo
-        });
+      if (terminalVisibility == 'true') {
 
-        if (e.key == 'Enter' && userInstruction != '') {
-            e.preventDefault();
-            document.querySelector('.user-input').setAttribute('contentEditable', false);
-            document.querySelector('.terminal-control').parentNode.removeChild(document.querySelector('.terminal-control'));
+        launchDialogFlowConversation(e,accessToken,baseUrl,version,emailUser,tokenUser,sessionId);
 
-            let span = document.createElement("span");
-            span.classList.add("request");
-            document.querySelectorAll('.user-request')[document.querySelectorAll('.user-request').length - 1].appendChild(span);
-            span.innerText = userInstruction;
-
-            axiosInstance.post(baseUrl + 'query?v=' + version, {
-              query: userInstruction,
-              lang: "en",
-              emailUser: emailUser,
-              tokenUser: tokenUser,
-              sessionId: sessionId
-            })
-              .then(function (response) { // if request succeeded
-
-                //console.log(response);
-                // we store the session for the context following
-                if (typeof response.data.sessionId !== 'undefined') {
-                  sessionId = response.data.sessionId;
-                }
-
-                // we store the answer of Dorothy agent
-                let dorothyAnswerText = response.data.result.fulfillment.speech;
-
-                // we text if the answer is a JSON
-                if ( isJsonString(dorothyAnswerText) ) {
-
-                  // we parse the JSON
-                  dorothyAnswerObject = JSON.parse(dorothyAnswerText);
-
-                  if (dorothyAnswerObject.api === 'no-rel') {
-
-                    if (dorothyAnswerObject.type === 'ressources') {
-
-                      if (dorothyAnswerObject.modal === true) {
-
-                        dorothyAnswerText = 'Check in the modal for the requested information. Hope that\'s will help you.';
-                        answerModalBody.innerHTML = '';
-                        toggleAnswerModal(answerModal,true);
-                        writeRessourcesInfoModal(dorothyAnswerObject.ressources, answerModalBody);
-
-                      }
-
-                    } else if (dorothyAnswerObject.type === 'toolbox') {
-
-                      if (dorothyAnswerObject.modal === true) {
-
-                        dorothyAnswerText = 'Check in the modal for the requested information. Hope that\'s will help you.';
-                        answerModalBody.innerHTML = '';
-                        toggleAnswerModal(answerModal,true);
-                        console.log(dorothyAnswerObject.toolbox);
-                        writeToolboxInfoModal(dorothyAnswerObject.toolbox, answerModalBody);
-
-                      }
-
-                    }
-
-                  } else if (dorothyAnswerObject.api === 'rel') {
-
-                    if (dorothyAnswerObject.type === 'text') {
-
-                      dorothyAnswerText = formatTextFromDorothy(dorothyAnswerObject.message);
-
-                    } else if (dorothyAnswerObject.type === 'list') {
-
-                      if (dorothyAnswerObject.modal === true) {
-
-                        dorothyAnswerText = 'Check in the modal for the requested information. Hope that\'s will help you.';
-                        answerModalBody.innerHTML = '';
-                        toggleAnswerModal(answerModal,true);
-                        writeStartupMembersInfoModal(dorothyAnswerObject, answerModalBody);
-
-                      }
-
-                    }
-
-                  }
-
-                  addDorothyAnswerText(dorothyAnswerText,'.user-request',false);
-                  addNewUserRequest('.instruction');
-
-                } else { // if Dorothy answer a text
-
-                  dorothyAnswerText = formatTextFromDorothy(response.data.result.fulfillment.messages[0].speech);
-                  addDorothyAnswerText(dorothyAnswerText,'.user-request',false); // we display the answer
-                  addNewUserRequest('.instruction'); // we create a new entry section for the user
-
-                }
-
-                scrollDown();
-
-              })
-              .catch(function (error) { // if the request failed
-
-                addDorothyAnswerText(error,'.user-request',true); // we display the answer
-                addNewUserRequest('.instruction'); // we create a new entry section for the user
-
-              });
-
-
-
-        } else if (e.key == 'Enter' && userInstruction == '') {
-
-          e.preventDefault();
-
-        }
+      }
 
     })
 

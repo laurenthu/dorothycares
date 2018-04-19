@@ -35,6 +35,7 @@ RewriteRule ^login/$ login.php [L,QSA]
 RewriteRule ^app/$ main.php [L,QSA]
 RewriteRule ^ajax/$ srv/ajax.php [L,QSA]
 RewriteRule ^policy/(.*)$ assets/static/$1 [L,QSA]
+RewriteRule ^ajax/$ srv/ajax.php [L,QSA]
 
 ## API > Dialogflow session ID
 RewriteRule ^api/session/([a-zA-Z0-9]+)/$ api/session.php?id=$1 [L,QSA]
@@ -110,7 +111,7 @@ RewriteRule ^api/startup/([a-zA-Z0-9]+)/([^/]*)/information/([0-9]+)/$ api/start
     # ExpiresByType text/css M2419200
     # ExpiresByType text/x-component M2419200
     # ExpiresByType application/x-javascript M2419200
-    # ExpiresByType application/javascriptMA2419200
+    # ExpiresByType application/javascript MA2419200
     # ExpiresByType text/javascript M2419200
     # ExpiresByType text/x-js M2419200
     # ExpiresByType text/html M3600

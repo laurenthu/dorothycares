@@ -40,9 +40,21 @@
     <meta name="twitter:site" content="@becodeorg">
     <meta name="twitter:image" content="https://dorothycares.io/img/printscreen.jpg">
 
+  <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WCDFFXV');</script>
+
 </head>
 
 <body id="body" data-email="<?= $_SESSION['email']; ?>" data-token="<?= $_SESSION['token'] ?>" data-dialogflow-session="<?= session_id();?>">
+
+  <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WCDFFXV"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <!--Canvas container for the particles-->
 	<canvas id="canvas"></canvas>
@@ -65,6 +77,14 @@
     <h1>Hey fellow becoder, <span></span></h1>
   </div>
 
+  <!-- Action message pop-up/modal (top right) -->
+  <div id="messageModal" class="messageModal">
+    <div id="messageModalClose" class="messageModalClose">
+      <p>Close</p>
+    </div>
+    <p class="messageModalText">Error test</p>
+  </div>
+
   <!-- Menu -->
   <div class="ball-menu">
     <div class="ball-menu-item menu-terminal"><i class="fa fa-terminal"></i></div>
@@ -78,9 +98,8 @@
   </div>
 
   <!-- Terminal -->
-  <main class="terminal" id="terminal"> <!--Box container for header with button and input/output-->
+  <main class="terminal" id="terminal" data-visibility="true"> <!--Box container for header with button and input/output-->
     <header class="terminal-header" id="terminal-header" value="terminal">
-			<!-- <div><span class="window-name" id="window-name">Terminal</span></div>  -->
 			<div class="terminal-header-item" id="terminal-header-item">
 				<button class="terminal-header-btn maximize" id="maximize"></button>
 				<button class="terminal-header-btn close" id="close" value="close"></button>
@@ -102,7 +121,7 @@
 	</main>
 
   <!-- Profile page -->
-  <!-- <section id="profilePage">
+  <section id="profilePage" data-visibility="false">
     <div class="modal-container-2">
       <div class="modal-body-2">
 
@@ -113,40 +132,55 @@
           </div>
         </div>
 
-        <form id="profile-details" class="profile-details" action="" method="">
+        <form id="profile-details" class="profile-details" action="#" method="get">
           <span class="profile-input-wrapper">
-            <label for="profile-lastname">LAST NAME</label>
-            <input id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy">
+            <label for="profile-firstname">First name</label>
+            <input name="firstName" id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares" required>
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-firstname">FIRST NAME</label>
-            <input id="profile-firstname" class="profile-firstname" type="text" placeholder="Cares">
+            <label for="profile-lastname">Last name</label>
+            <input name="lastName" id="profile-lastname" class="profile-lastname" type="text" placeholder="Dorothy" required>
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-language">LANGUAGE</label>
-            <input id="profile-language" class="profile-language" type="radio" checked="checked" name="ENG"><label class="english">En</label>
+            <label for="profile-language">Language</label>
+            <input name="mainLanguage" id="profile-language" class="profile-language" type="radio" checked="checked" value="en"><label class="english">En</label>
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-github">GITHUB</label>
-            <input id="profile-github" class="profile-github" type="text" name="Github account" placeholder="Github">
+            <label for="profile-github">GitHub</label>
+            <input name="github" id="profile-github" class="profile-github" type="url" placeholder="GitHub link">
           </span>
           <span class="profile-input-wrapper">
-            <label for="profile-linkedin">LINKEDIN</label>
-            <input id="profile-linkedin" class="profile-linkedin" type="text" placeholder="Linkedin">
+            <label for="profile-linkedin">LinkedIn</label>
+            <input name="linkedin" id="profile-linkedin" class="profile-linkedin" type="url" placeholder="LinkedIn link">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-medium">Medium</label>
+            <input name="medium" id="profile-medium" class="profile-medium" type="url" placeholder="Medium link">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-codepen">CodePen</label>
+            <input name="codepen" id="profile-codepen" class="profile-codepen" type="url" placeholder="CodePen link">
+          </span>
+          <span class="profile-input-wrapper">
+            <label for="profile-website">Website</label>
+            <input name="website" id="profile-website" class="profile-website" type="url" placeholder="Website link">
           </span>
           <div class="profile-buttons">
-            <button id="profile-save-details" class="profile-save-details">Save</button>
+            <!-- <button id="profile-add-details" class="profile-add-details" disabled>Add</button>-->
+            <button type="submit" id="profile-save-details" class="profile-save-details">Save</button>
           </div>
         </form>
 
       </div>
 
       <div class="modal-header-2">
-        <div id="profile-modal-btn" class="modal-close-btn-2"></div>
+        <div id="profile-modal-btn" class="modal-close-btn-2">
+          <i class="fa fa-angle-up" aria-hidden="true"></i>
+        </div>
       </div>
 
     </div>
-  </section> -->
+  </section>
 
 
   <!-- Info page -->
@@ -155,9 +189,16 @@
       <div id="modal-body-info" class="modal-body-info">
         <h1 class="modal-info-title">DorothyCares<span class="version">v<?= VERSION ?></span></h1>
         <h5 class="modal-info-creators">Powered by "The Nine"</h5>
-        <a class="modal-info-link" href="https://www.becode.org/">A Becode Project</a>
-        <a class="modal-info-link" href="/policy/cookies-policy.html">Cookies-Policy</a>
-        <a class="modal-info-link" href="/policy/privacy.html">Privacy</a>
+        <div class="modal-info-links">
+        	<a class="modal-info-link" href="https://www.becode.org/">A Becode Project</a>
+        	<a class="modal-info-link" href="/policy/cookies-policy.html">Cookies-Policy</a>
+        	<a class="modal-info-link" href="/policy/privacy.html">Privacy</a>
+        </div>
+      </div>
+      <div class="modal-header-3">
+        <div id="info-modal-btn" class="modal-close-btn-3">
+          <i class="fa fa-angle-left" aria-hidden="true"></i>
+        </div>
       </div>
     </div>
   </section>
@@ -166,7 +207,9 @@
   <section id="answerTemplate">
     <div class="modal-container">
       <div class="modal-header">
-        <div id="answer-modal-btn" class="modal-close-btn"></div>
+        <div id="answer-modal-btn" class="modal-close-btn">
+          <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </div>
       </div>
       <div class="modal-body"></div>
     </div>
@@ -184,16 +227,15 @@
   <!--
   Dev var_dump
     <?php
-      $i = new Implantation($db);
-      $s = new Startup($db);
-      $u = new User($db);
-      $sy = new System($db);
+      //$i = new Implantation($db);
+      //$s = new Startup($db);
+      //$u = new User($db);
+      //$sy = new System($db);
       //print_r( $u->checkGoogleIdUser($_SESSION['email']) );
       //print_r( $sy->getCountryList() );
       //echo formHTML::getFormSelectFromArray( $sy->getCountryList(), 'country', 'country', 'country', 'fr' );
       //var_dump($s->addStartup('test',2));
-      var_dump($_SESSION);
-      //echo phpversion();
+      //var_dump($_SESSION);
     ?>
   -->
 
