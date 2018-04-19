@@ -77,6 +77,14 @@
     <h1>Hey fellow becoder, <span></span></h1>
   </div>
 
+  <!-- Action message pop-up/modal (top right) -->
+  <div id="messageModal" class="messageModal">
+    <div id="messageModalClose" class="messageModalClose">
+      <p>Close</p>
+    </div>
+    <p class="messageModalText">Error test</p>
+  </div>
+
   <!-- Menu -->
   <div class="ball-menu">
     <div class="ball-menu-item menu-terminal"><i class="fa fa-terminal"></i></div>
@@ -92,7 +100,6 @@
   <!-- Terminal -->
   <main class="terminal" id="terminal" data-visibility="true"> <!--Box container for header with button and input/output-->
     <header class="terminal-header" id="terminal-header" value="terminal">
-			<!-- <div><span class="window-name" id="window-name">Terminal</span></div>  -->
 			<div class="terminal-header-item" id="terminal-header-item">
 				<button class="terminal-header-btn maximize" id="maximize"></button>
 				<button class="terminal-header-btn close" id="close" value="close"></button>
@@ -159,6 +166,7 @@
             <input name="website" id="profile-website" class="profile-website" type="url" placeholder="Website link">
           </span>
           <div class="profile-buttons">
+            <!-- <button id="profile-add-details" class="profile-add-details" disabled>Add</button>-->
             <button type="submit" id="profile-save-details" class="profile-save-details">Save</button>
           </div>
         </form>
@@ -166,7 +174,9 @@
       </div>
 
       <div class="modal-header-2">
-        <div id="profile-modal-btn" class="modal-close-btn-2"></div>
+        <div id="profile-modal-btn" class="modal-close-btn-2">
+          <i class="fa fa-angle-up" aria-hidden="true"></i>
+        </div>
       </div>
 
     </div>
@@ -179,9 +189,16 @@
       <div id="modal-body-info" class="modal-body-info">
         <h1 class="modal-info-title">DorothyCares<span class="version">v<?= VERSION ?></span></h1>
         <h5 class="modal-info-creators">Powered by "The Nine"</h5>
-        <a class="modal-info-link" href="https://www.becode.org/">A Becode Project</a>
-        <a class="modal-info-link" href="/policy/cookies-policy.html">Cookies-Policy</a>
-        <a class="modal-info-link" href="/policy/privacy.html">Privacy</a>
+        <div class="modal-info-links">
+        	<a class="modal-info-link" href="https://www.becode.org/">A Becode Project</a>
+        	<a class="modal-info-link" href="/policy/cookies-policy.html">Cookies-Policy</a>
+        	<a class="modal-info-link" href="/policy/privacy.html">Privacy</a>
+        </div>
+      </div>
+      <div class="modal-header-3">
+        <div id="info-modal-btn" class="modal-close-btn-3">
+          <i class="fa fa-angle-left" aria-hidden="true"></i>
+        </div>
       </div>
     </div>
   </section>
@@ -190,7 +207,9 @@
   <section id="answerTemplate">
     <div class="modal-container">
       <div class="modal-header">
-        <div id="answer-modal-btn" class="modal-close-btn"></div>
+        <div id="answer-modal-btn" class="modal-close-btn">
+          <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </div>
       </div>
       <div class="modal-body"></div>
     </div>
@@ -208,10 +227,10 @@
   <!--
   Dev var_dump
     <?php
-      $i = new Implantation($db);
-      $s = new Startup($db);
-      $u = new User($db);
-      $sy = new System($db);
+      //$i = new Implantation($db);
+      //$s = new Startup($db);
+      //$u = new User($db);
+      //$sy = new System($db);
       //print_r( $u->checkGoogleIdUser($_SESSION['email']) );
       //print_r( $sy->getCountryList() );
       //echo formHTML::getFormSelectFromArray( $sy->getCountryList(), 'country', 'country', 'country', 'fr' );
