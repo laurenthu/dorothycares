@@ -79,9 +79,9 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
             } else {
               $json['request']['status'] = 'success';
               $json['request']['message'] = 'Startup added.';
+              userAdding($db, $json, $usersToAdd, intval($idStartup)); // call the function that handles the adding of users
             };
 
-            userAdding($db, $json, $usersToAdd, intval($idStartup)); // call the function that handles the adding of users
 
             echo json_encode($json);
             die(); // we kill the script
@@ -105,7 +105,72 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
         }
       }
     }
-  }
+  } else if ($_POST['action'] == 'update') { // determine type of action
+
+    if (
+      isset($_POST['type'])
+      && is_string($_POST['type'])
+      && isset($_POST['fieldName'])
+      && is_string($_POST['fieldName'])
+      && isset($_POST['id'])
+      && is_int(intval($_POST['id']))
+      && isset($_POST['newValue'])
+      && isset($_POST['initialValue'])) { // Security checks
+
+      if ($_POST['type'] == 'implantation') { // determine type of data
+
+        if ($_POST['fieldName'] == 'postalCode') {
+
+          if (is_int(intval($_POST['newValue'])) && is_int(intval($_POST['initialValue']))) { // security checks
+
+            $updateImp = new Implantation($db);
+            $updateImp->updateImplantationPostalCode($_POST['id'], intval($_POST['newValue']));
+          };
+
+        } else {
+
+          if (is_string($_POST['newValue']) && is_string($_POST['initialValue'])) { // security checks
+
+            $updateImp = new Implantation($db);
+
+            switch ($_POST['fieldName']) {
+              case 'name':
+                $updateImp->updateImplantationName($_POST['id'], $_POST['newValue']);
+                break;
+              case 'street':
+                $updateImp->updateImplantationStreet($_POST['id'], $_POST['newValue']);
+                break;
+              case 'city':
+                $updateImp->updateImplantationCity($_POST['id'], $_POST['newValue']);
+                break;
+              case 'country':
+                $updateImp->updateImplantationCountry($_POST['id'], $_POST['newValue']);
+                break;
+
+              default:
+
+                break;
+            }
+          };
+        };
+
+      } else if ($_POST['type'] == 'startup') {
+
+        if (is_string($_POST['newValue']) && is_string($_POST['initialValue'])) { // security checks
+
+          // $updateImp = new Implantation($db);
+        };
+
+      } else if ($_POST['type'] == 'user') {
+
+        if (is_string($_POST['newValue']) && is_string($_POST['initialValue'])) { // security checks
+
+          // $updateImp = new Implantation($db);
+        };
+
+      };
+    };
+  };
 }
 
 // return info from database for the display

@@ -29,6 +29,7 @@
     <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <!-- <link rel="stylesheet" href="css/materialize.min.css"> -->
     <link rel="stylesheet" href="css/admin.css">
   </head>
   <body>
@@ -282,6 +283,7 @@
 
    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+   <!-- <script type="js/materialize.min.js"></script> -->
    <script src="js/admin.js"></script>
   </body>
 </html>

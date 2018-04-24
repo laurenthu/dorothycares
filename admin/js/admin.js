@@ -43,7 +43,7 @@ function ajaxRequestDisplayContent(range) { // ajax request
   } else if (type == 'user') {
     itemPerPage = itemPerPageUser;
   }
-  dataRequestDisplayContent.onload = whenDataLoadedDisplayContent; // we assign the function to excecute when the data are loading
+  dataRequestDisplayContent.onload = whenDataLoadedDisplayContent; // we assign the function to excecute when the data are loaded
   dataRequestDisplayContent.open("GET", feed + '?start=' + start + '&itemPerPage=' + itemPerPage + '&type=' + type, true); // the type, the url, asynchronous true/false
   dataRequestDisplayContent.send(null); // we send the request
 }
@@ -51,7 +51,7 @@ function ajaxRequestDisplayContent(range) { // ajax request
 function ajaxRequestCreateContent(button) { // ajax request
   let addType = button.getAttribute('data-type');
 
-  dataRequestCreateContent.onload = whenDataLoadedCreateContent; // we assign the function to excecute when the data are loading
+  dataRequestCreateContent.onload = whenDataLoadedCreateContent; // we assign the function to excecute when the data are loaded
 
   if (addType == 'implantation') {
     let name = document.querySelector('#nameImplantation').value;
@@ -74,10 +74,20 @@ function ajaxRequestCreateContent(button) { // ajax request
     let typeOfUser = document.querySelector('#userType').value;
     let linkedStartupId = document.querySelector('#linkedStartup').value;
     dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
-    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form
+    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form or something similar
     dataRequestCreateContent.send('type=' + addType + '&action=add&addUsers=' + addUsers + '&typeOfUser=' + typeOfUser + '&linkedStartupId=' + linkedStartupId); // the data we send through the POST ajax request
   }
 
+};
+
+function ajaxRequestUpdateContent(entryId, field, newValue, initialValue) {
+  let activeTab = document.querySelector('li a.active'); // select the active tab
+  let dataType = activeTab.getAttribute('data-type'); // get the type of data
+
+  dataRequestUpdateContent.onload = whenDataLoadedUpdateContent; // we assign the function to excecute when the data are loaded
+  dataRequestUpdateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
+  dataRequestUpdateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form or something similar
+  dataRequestUpdateContent.send('type=' + dataType + '&action=update&fieldName=' + field + '&newValue=' + newValue + '&id=' + entryId); // the data we send through the POST ajax request
 };
 
 function whenDataLoadedDisplayContent() { // what happens when the AJAX request is done
@@ -90,39 +100,82 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
   if (type == 'implantation') { // generate implantation table
     dataObject['response'].forEach(function(el) {
       tableContent += '<tr>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['name'] + '</td>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['street'] + '</td>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['postalCode'] + '</td>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['city'] + '</td>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['country'] + '</td>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['codeCountry'] + '</td>';
+      tableContent += '<td data-name="name" data-id="' + el['id'] + '">'+ el['name'] + '</td>';
+      tableContent += '<td data-name="street" data-id="' + el['id'] + '">'+ el['street'] + '</td>';
+      tableContent += '<td data-name="postalCode" data-id="' + el['id'] + '">'+ el['postalCode'] + '</td>';
+      tableContent += '<td data-name="city" data-id="' + el['id'] + '">'+ el['city'] + '</td>';
+      tableContent += '<td data-name="country" data-codeCountry="' + el['codeCountry'] + '" data-id="' + el['id'] + '">'+ el['country'] + '</td>';
       tableContent += '</tr>';
     });
     tableBodyImplantation.innerHTML = tableContent;
   } else if (type == 'startup') { // generate startup table
     dataObject['response'].forEach(function(el) {
       tableContent += '<tr>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['name'] + '</td>';
+      tableContent += '<td data-name="name" data-id="' + el['id'] + '">'+ el['name'] + '</td>';
       tableContent += '</tr>';
     });
     tableBodyStartup.innerHTML = tableContent;
   } else if (type == 'user') { // generate user table
     dataObject['response'].forEach(function(el) {
       tableContent += '<tr>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['firstName'] + '</td>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['lastName'] + '</td>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['email'] + '</td>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['type'] + '</td>';
-      tableContent += '<td data-id="' + el['id'] + '">'+ el['mainLanguage'] + '</td>';
+      tableContent += '<td data-name="firstName" data-id="' + el['id'] + '">'+ el['firstName'] + '</td>';
+      tableContent += '<td data-name="lastName" data-id="' + el['id'] + '">'+ el['lastName'] + '</td>';
+      tableContent += '<td data-name="email" data-id="' + el['id'] + '">'+ el['email'] + '</td>';
+      tableContent += '<td data-name="type" data-id="' + el['id'] + '">'+ el['type'] + '</td>';
+      tableContent += '<td data-name="mainLanguage" data-id="' + el['id'] + '">'+ el['mainLanguage'] + '</td>';
       tableContent += '</tr>';
     });
     tableBodyUser.innerHTML = tableContent;
   }
+
+  let tableCells = document.querySelectorAll('table tbody tr td'); // select all table cells
+  makeContentEditableOrNot(tableCells); // call the function that handles content edition on the fly
 };
 
 function whenDataLoadedCreateContent() { // what happens when the AJAX request is done
   let dataText = dataRequestCreateContent.responseText; // we store the text of the response
   dataObject = JSON.parse(dataText); // we convert the text into an object
+
+  if (dataObject['request']['status'] != 'error') { // if an error occured
+    let activeTab = document.querySelector('li a.active'); // select the active tab
+    let dataType = activeTab.getAttribute('data-type'); // get the type of data
+
+    // Refresh displays
+    allPaginationDisplay();
+    if (dataType == 'implantation') {
+      nextButtonDisableOrEnable(paginationImplantation);
+      ajaxRequestDisplayContent(paginationImplantation);
+    } else if (dataType == 'startup') {
+      nextButtonDisableOrEnable(paginationStartup);
+      ajaxRequestDisplayContent(paginationStartup);
+    } else if (dataType == 'user') {
+      nextButtonDisableOrEnable(paginationUser);
+      ajaxRequestDisplayContent(paginationUser);
+    };
+  };
+};
+
+function whenDataLoadedUpdateContent() { // what happens when the AJAX request is done
+  let dataText = dataRequestUpdateContent.responseText; // we store the text of the response
+  dataObject = JSON.parse(dataText); // we convert the text into an object
+
+  if (dataObject['request']['status'] != 'error') { // if an error occured
+    let activeTab = document.querySelector('li a.active'); // select the active tab
+    let dataType = activeTab.getAttribute('data-type'); // get the type of data
+
+    // Refresh displays
+    allPaginationDisplay();
+    if (dataType == 'implantation') {
+      nextButtonDisableOrEnable(paginationImplantation);
+      ajaxRequestDisplayContent(paginationImplantation);
+    } else if (dataType == 'startup') {
+      nextButtonDisableOrEnable(paginationStartup);
+      ajaxRequestDisplayContent(paginationStartup);
+    } else if (dataType == 'user') {
+      nextButtonDisableOrEnable(paginationUser);
+      ajaxRequestDisplayContent(paginationUser);
+    };
+  };
 };
 
 // Materialize
@@ -266,27 +319,59 @@ userTab.addEventListener('click', function() { // display users on tab click
 
 addImplantationButton.addEventListener('click', function () { // Add an implantation
   ajaxRequestCreateContent(addImplantationButton);
-
-  // Refresh displays
-  allPaginationDisplay();
-  nextButtonDisableOrEnable(paginationImplantation);
-  ajaxRequestDisplayContent(paginationImplantation);
 });
 
 addStartupButton.addEventListener('click', function () { // Add a startup
   ajaxRequestCreateContent(addStartupButton);
-
-  // Refresh displays
-  allPaginationDisplay();
-  nextButtonDisableOrEnable(paginationStartup);
-  ajaxRequestDisplayContent(paginationStartup);
 });
 
 addUserButton.addEventListener('click', function () { // Add an User
   ajaxRequestCreateContent(addUserButton);
-
-  // Refresh displays
-  allPaginationDisplay();
-  nextButtonDisableOrEnable(paginationUser);
-  ajaxRequestDisplayContent(paginationUser);
 });
+
+function makeContentEditableOrNot(content) { // handle the edition of values
+
+  let editableCell;
+  let initialValue;
+  let newValue;
+  let field;
+  let entryId;
+
+  content.forEach(function(el) {
+    el.addEventListener('dblclick', function() { // make the content of the cell editable and focus it
+
+      this.setAttribute('contenteditable', true); // make the cell editable
+      this.focus(); // focus it
+      editableCell = this; // save the cell in a variable
+      field = editableCell.getAttribute('data-name'); // get the name of the field updated
+      if (field == 'country') {
+        initialValue = this.getAttribute('data-codeCountry');
+      } else {
+        initialValue = this.innerText; // save the initial value of the cell in a variable
+      };
+    });
+  });
+
+  document.addEventListener('keypress', function(e) {
+    if (e.key == 'Enter' && document.activeElement == editableCell) { // if enter is pressed
+      if (field == 'country') {
+        newValue = editableCell.getAttribute('data-codeCountry');
+      } else {
+        newValue = editableCell.innerText; // get the new value
+      };
+      entryId = editableCell.getAttribute('data-id');
+      editableCell.removeAttribute('contenteditable'); // remove the editable status of the cell
+    };
+
+    if (newValue != initialValue) { // if the new value is different from the initial one
+      ajaxRequestUpdateContent(entryId, field, newValue, initialValue); // send an ajax request with the new value
+    };
+  });
+
+  document.addEventListener('click', function(e) {
+    if (e.target != editableCell && editableCell != undefined) { // if we click somewhere else
+      editableCell.innerText = initialValue; // restore the initial value of the cell
+      editableCell.removeAttribute('contenteditable'); // remove the editable status of the cell
+    };
+  });
+};

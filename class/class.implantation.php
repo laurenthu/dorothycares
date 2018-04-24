@@ -107,6 +107,126 @@ class Implantation {
 
   }
 
+  public function updateImplantationName($id,$value) {
+    /*
+    (IN) [INTEGER] id of the implantation to update
+    (IN) [STRING] new value for the update
+    (OUT) value if value was well updated / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `implantation` SET `nameimplantation` = :value WHERE `idImplantation` = :id");
+      $statement->bindParam(':value', $value, PDO::PARAM_STR);
+      $statement->bindParam(':id', $id, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $name;
+
+    } catch (PDOException $e) {
+
+      return false;
+
+    }
+
+  }
+
+  public function updateImplantationStreet($id,$value) {
+    /*
+    (IN) [INTEGER]id of the implantation to update
+    (IN) [STRING] new value for the update
+    (OUT) value if value was well updated / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `implantation` SET `streetimplantation` = :value WHERE `idImplantation` = :id");
+      $statement->bindParam(':value', $value, PDO::PARAM_STR);
+      $statement->bindParam(':id', $id, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $name;
+
+    } catch (PDOException $e) {
+
+      return false;
+
+    }
+
+  }
+
+  public function updateImplantationPostalCode($id,$value) {
+    /*
+    (IN) [INTEGER] id of the implantation to update
+    (IN) [INTEGER] new value for the update
+    (OUT) value if value was well updated / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `implantation` SET `postalCodeimplantation` = :value WHERE `idImplantation` = :id");
+      $statement->bindParam(':value', $value, PDO::PARAM_INT);
+      $statement->bindParam(':id', $id, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $name;
+
+    } catch (PDOException $e) {
+
+      return false;
+
+    }
+
+  }
+
+  public function updateImplantationCity($id,$value) {
+    /*
+    (IN) [INTEGER] id of the implantation to update
+    (IN) [STRING] new value for the update
+    (OUT) value if value was well updated / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `implantation` SET `cityimplantation` = :value WHERE `idImplantation` = :id");
+      $statement->bindParam(':value', $value, PDO::PARAM_STR);
+      $statement->bindParam(':id', $id, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $name;
+
+    } catch (PDOException $e) {
+
+      return false;
+
+    }
+
+  }
+
+  public function updateImplantationCountry($id,$value) {
+    /*
+    (IN) [INTEGER] id of the implantation to update
+    (IN) [STRING] new value for the update
+    (OUT) value if value was well updated / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `implantation` SET `countryCodeimplantation` = :value WHERE `idImplantation` = :id");
+      $statement->bindParam(':value', $value, PDO::PARAM_STR);
+      $statement->bindParam(':id', $id, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $name;
+
+    } catch (PDOException $e) {
+
+      return false;
+
+    }
+
+  }
+
   public function addImplantation($name,$street = NULL, $postalCode = NULL, $city = NULL, $countryCode = NULL) {
     /*
     (IN) email of the user to check

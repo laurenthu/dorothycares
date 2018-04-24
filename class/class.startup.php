@@ -75,6 +75,30 @@ class Startup {
 
   }
 
+  public function updateStartupName($id,$value) {
+    /*
+    (IN) [INTEGER] id of the implantation to update
+    (IN) [STRING] new value for the update
+    (OUT) value if value was well updated / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `classe` SET `nameClasse` = :value WHERE `idClasse` = :id");
+      $statement->bindParam(':value', $value, PDO::PARAM_STR);
+      $statement->bindParam(':id', $id, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $name;
+
+    } catch (PDOException $e) {
+
+      return false;
+
+    }
+
+  }
+
   public function getStartupCount() {
     /*
     (OUT) int with number of startup / 0 if no startup was found
