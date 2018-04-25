@@ -9,3 +9,7 @@
   right: 7vw;
   bottom: 10vh;
 }
+
+select {
+  display: table-cell;
+}

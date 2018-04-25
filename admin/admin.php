@@ -65,7 +65,6 @@
               <th>Postal Code</th>
               <th>City</th>
               <th>Country</th>
-              <th>Country Code</th>
             </tr>
           </thead>
 

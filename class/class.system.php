@@ -121,6 +121,70 @@ class System {
 
   }
 
+  public function getCountryName($value) {
+
+    try {
+
+      $statement = $this->db->prepare(
+        "SELECT
+        `C`.`codeCountry` as `value`,
+        `C`.`nameCountryEnglish` as `name`
+
+        FROM `country` as `C`
+
+        WHERE `C`.`codeCountry` = :value
+
+        LIMIT 0,1");
+
+      $statement->bindParam(':value', $value, PDO::PARAM_STR);
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $data['name'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function getCountryCode($value) {
+
+    try {
+
+      $statement = $this->db->prepare(
+        "SELECT
+        `C`.`codeCountry` as `value`,
+        `C`.`nameCountryEnglish` as `name`
+
+        FROM `country` as `C`
+
+        WHERE `C`.`nameCountryEnglish` LIKE :value
+
+        LIMIT 0,1");
+
+      $statement->bindParam(':value', $value, PDO::PARAM_STR);
+      $statement->execute();
+
+      if($statement->rowCount() > 0) {
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $data['name'];
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
 }
 
 ?>

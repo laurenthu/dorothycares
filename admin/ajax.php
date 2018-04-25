@@ -115,55 +115,92 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
       && isset($_POST['id'])
       && is_int(intval($_POST['id']))
       && isset($_POST['newValue'])
-      && isset($_POST['initialValue'])) { // Security checks
+    ) { // Security checks
 
       if ($_POST['type'] == 'implantation') { // determine type of data
 
         if ($_POST['fieldName'] == 'postalCode') {
 
-          if (is_int(intval($_POST['newValue'])) && is_int(intval($_POST['initialValue']))) { // security checks
+          if (is_int(intval($_POST['newValue']))) { // security checks
 
             $updateImp = new Implantation($db);
-            $updateImp->updateImplantationPostalCode($_POST['id'], intval($_POST['newValue']));
+            if ($updateImp->updateImplantationPostalCode($_POST['id'], intval($_POST['newValue'])) == false) {
+              $json['request']['status'] = 'error';
+              $json['request']['message'] = 'Impossible to update';
+            } else {
+              $json['request']['status'] = 'success';
+              $json['request']['message'] = 'Updated.';
+            };
+
+            echo json_encode($json);
+            die(); // we kill the script
           };
 
         } else {
 
-          if (is_string($_POST['newValue']) && is_string($_POST['initialValue'])) { // security checks
+          if (is_string($_POST['newValue'])) { // security checks
 
             $updateImp = new Implantation($db);
 
             switch ($_POST['fieldName']) {
               case 'name':
-                $updateImp->updateImplantationName($_POST['id'], $_POST['newValue']);
+                if($updateImp->updateImplantationName($_POST['id'], $_POST['newValue']) == false) {
+                  $json['request']['status'] = 'error';
+                  $json['request']['message'] = 'Impossible to update';
+                } else {
+                  $json['request']['status'] = 'success';
+                  $json['request']['message'] = 'Updated.';
+                };
                 break;
               case 'street':
-                $updateImp->updateImplantationStreet($_POST['id'], $_POST['newValue']);
+                if($updateImp->updateImplantationStreet($_POST['id'], $_POST['newValue']) == false) {
+                  $json['request']['status'] = 'error';
+                  $json['request']['message'] = 'Impossible to update';
+                } else {
+                  $json['request']['status'] = 'success';
+                  $json['request']['message'] = 'Updated.';
+                };
                 break;
               case 'city':
-                $updateImp->updateImplantationCity($_POST['id'], $_POST['newValue']);
+                if($updateImp->updateImplantationCity($_POST['id'], $_POST['newValue']) == false) {
+                  $json['request']['status'] = 'error';
+                  $json['request']['message'] = 'Impossible to update';
+                } else {
+                  $json['request']['status'] = 'success';
+                  $json['request']['message'] = 'Updated.';
+                };
                 break;
               case 'country':
-                $updateImp->updateImplantationCountry($_POST['id'], $_POST['newValue']);
+                if($updateImp->updateImplantationCountry($_POST['id'], $_POST['newValue']) == false) {
+                  $json['request']['status'] = 'error';
+                  $json['request']['message'] = 'Impossible to update';
+                } else {
+                  $json['request']['status'] = 'success';
+                  $json['request']['message'] = 'Updated.';
+                };
                 break;
 
               default:
-
+                $json['request']['status'] = 'error';
+                $json['request']['message'] = 'Unknown error';
                 break;
-            }
+            };
+
+            echo json_encode($json);
+            die(); // we kill the script
           };
         };
 
       } else if ($_POST['type'] == 'startup') {
 
-        if (is_string($_POST['newValue']) && is_string($_POST['initialValue'])) { // security checks
+        if (is_string($_POST['newValue'])) { // security checks
 
           // $updateImp = new Implantation($db);
         };
 
       } else if ($_POST['type'] == 'user') {
 
-        if (is_string($_POST['newValue']) && is_string($_POST['initialValue'])) { // security checks
+        if (is_string($_POST['newValue'])) { // security checks
 
           // $updateImp = new Implantation($db);
         };
@@ -231,5 +268,16 @@ if (isset($_GET['type']) && is_string($_GET['type'])) { // Security checks
     }
   }
 }
+
+// Get options
+if (isset($_GET['optionList']) && is_string($_GET['optionList'])) { // security checks
+  if ($_GET['optionList'] == 'country') {
+
+    $optList = new System($db);
+    $json['response'] = $optList->getCountryList();
+    echo json_encode($json);
+    die(); // we kill the script
+  };
+};
 
 ?>
