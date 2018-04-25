@@ -121,7 +121,7 @@ class Implantation {
       $statement->bindParam(':id', $id, PDO::PARAM_INT);
       $statement->execute();
 
-      return $name;
+      return $value;
 
     } catch (PDOException $e) {
 
@@ -145,7 +145,7 @@ class Implantation {
       $statement->bindParam(':id', $id, PDO::PARAM_INT);
       $statement->execute();
 
-      return $name;
+      return $value;
 
     } catch (PDOException $e) {
 
@@ -169,7 +169,7 @@ class Implantation {
       $statement->bindParam(':id', $id, PDO::PARAM_INT);
       $statement->execute();
 
-      return $name;
+      return $value;
 
     } catch (PDOException $e) {
 
@@ -193,7 +193,7 @@ class Implantation {
       $statement->bindParam(':id', $id, PDO::PARAM_INT);
       $statement->execute();
 
-      return $name;
+      return $value;
 
     } catch (PDOException $e) {
 
@@ -217,7 +217,7 @@ class Implantation {
       $statement->bindParam(':id', $id, PDO::PARAM_INT);
       $statement->execute();
 
-      return $name;
+      return $value;
 
     } catch (PDOException $e) {
 
