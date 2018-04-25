@@ -140,7 +140,7 @@ class System {
       $statement->execute();
 
       if($statement->rowCount() > 0) {
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC)
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $data['name'];
       } else {
         return false;
@@ -172,7 +172,7 @@ class System {
       $statement->execute();
 
       if($statement->rowCount() > 0) {
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC)
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $data['name'];
       } else {
         return false;
