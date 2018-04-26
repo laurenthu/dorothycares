@@ -10,6 +10,7 @@
   bottom: 10vh;
 }
 
-select {
+.tempSelect {
   display: table-cell;
+  height: inherit;
 }

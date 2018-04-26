@@ -195,14 +195,25 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
 
         if (is_string($_POST['newValue'])) { // security checks
 
-          // $updateImp = new Implantation($db);
+          $updateSta = new Startup($db);
+          if($updateSta->updateStartupName($_POST['id'], $_POST['newValue']) == false) {
+            $json['request']['status'] = 'error';
+            $json['request']['message'] = 'Impossible to update';
+          } else {
+            $json['request']['status'] = 'success';
+            $json['request']['message'] = 'Updated.';
+          };
+
+          echo json_encode($json);
+          die(); // we kill the script
+
         };
 
       } else if ($_POST['type'] == 'user') {
 
         if (is_string($_POST['newValue'])) { // security checks
 
-          // $updateImp = new Implantation($db);
+          // $updateUser = new User($db);
         };
 
       };
@@ -272,12 +283,15 @@ if (isset($_GET['type']) && is_string($_GET['type'])) { // Security checks
 // Get options
 if (isset($_GET['optionList']) && is_string($_GET['optionList'])) { // security checks
   if ($_GET['optionList'] == 'country') {
-
     $optList = new System($db);
     $json['response'] = $optList->getCountryList();
-    echo json_encode($json);
-    die(); // we kill the script
+  } else if ($_GET['optionList'] == 'userType') {
+    $optList = new System($db);
+    $json['response'] = $optList->getOptionList('typeUser');
   };
+  echo json_encode($json);
+  die(); // we kill the script
 };
+
 
 ?>

@@ -43,6 +43,12 @@ function ajaxRequestGetCountryOptions() { // ajax request
   dataRequestGetCountryOptions.send(null); // we send the request
 }
 
+function ajaxRequestGetUserTypeOptions() { // ajax request
+  dataRequestGetUserTypeOptions.onload = whenDataLoadedGetUserTypeOptions; // we assign the function to excecute when the data are loaded
+  dataRequestGetUserTypeOptions.open("GET", feed + '?optionList=userType', false); // the type, the url, asynchronous true/false
+  dataRequestGetUserTypeOptions.send(null); // we send the request
+};
+
 function ajaxRequestDisplayContent(range) { // ajax request
   type = range[0].parentElement.getAttribute('data-type');
   start = startResults(range);
@@ -106,6 +112,12 @@ function whenDataLoadedGetCountryOptions() { // what happens when the AJAX reque
   optionsSelection = dataObject;
 };
 
+function whenDataLoadedGetUserTypeOptions() { // what happens when the AJAX request is done
+  dataText = dataRequestGetUserTypeOptions.responseText; // we store the text of the response
+  dataObject = JSON.parse(dataText); // we convert the text into an object
+  optionsSelection = dataObject;
+};
+
 function whenDataLoadedDisplayContent() { // what happens when the AJAX request is done
   dataText = dataRequestDisplayContent.responseText; // we store the text of the response
   dataObject = JSON.parse(dataText); // we convert the text into an object
@@ -137,8 +149,8 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
       tableContent += '<td data-name="firstName" data-id="' + el['id'] + '">' + el['firstName'] + '</td>';
       tableContent += '<td data-name="lastName" data-id="' + el['id'] + '">' + el['lastName'] + '</td>';
       tableContent += '<td data-name="email" data-id="' + el['id'] + '">' + el['email'] + '</td>';
-      tableContent += '<td data-name="type" data-id="' + el['id'] + '">' + el['type'] + '</td>';
-      tableContent += '<td data-name="mainLanguage" data-id="' + el['id'] + '">' + el['mainLanguage'] + '</td>';
+      tableContent += '<td class="input-field" data-name="userType" data-id="' + el['id'] + '">' + el['type'] + '</td>';
+      tableContent += '<td class="input-field" data-name="mainLanguage" data-mainLanguageCode="' + el['mainLanguageCode'] + '" data-id="' + el['id'] + '">' + el['mainLanguage'] + '</td>';
       tableContent += '</tr>';
     });
     tableBodyUser.innerHTML = tableContent;
@@ -365,7 +377,7 @@ function makeContentEditableOrNot(content) { // handle the edition of values
         let countrySelect = '';
         ajaxRequestGetCountryOptions(); // send an ajax request to get the country options in the db
 
-        countrySelect += '<select id="countrySelect">'; // create select
+        countrySelect += '<select id="countrySelect" class="tempSelect">'; // create select
         optionsSelection['response'].forEach(function(el) {
           if (initialValue == el['name']) {
             countrySelect += '<option value="' + el['value'] + '" selected>' + el['name'] + '</option>';
@@ -378,18 +390,49 @@ function makeContentEditableOrNot(content) { // handle the edition of values
 
         let selectElement = document.querySelector('#countrySelect'); // select the select :kappa:
         selectElement.addEventListener('change', function() { // add event listener
-          let newAttribute = this.value; // get the new value
-          newValue = document.querySelector("option[value=" + this.value + "]").innerText;
-          entryId = editableCell.getAttribute('data-id');
+          let newAttribute = this.value;
+          newValue = document.querySelector("option[value=" + this.value + "]").innerText; // get the new value
+          entryId = editableCell.getAttribute('data-id'); // get the id of the data
           if (newAttribute != initialAttribute) { // if the new value is different from the initial one
             ajaxRequestUpdateContent(entryId, field, newAttribute); // send an ajax request with the new value
             dataObject = JSON.parse(dataText);
 
-            if (dataObject['request']['status'] != 'error') {
-              editableCell.innerText = newValue;
+            if (dataObject['request']['status'] != 'error') { // if there's no error
+              editableCell.innerText = newValue; // set the new value in the display
               editableCell.setAttribute('data-codeCountry', newAttribute);
-            } else {
+            } else { // reset the display to the initial value
               editableCell.innerText = initialValue;
+            };
+          };
+        });
+
+      } else if (field == 'userType') {
+        let userTypeSelect = '';
+        ajaxRequestGetUserTypeOptions(); // send an ajax request to get the userType options in the db
+
+        userTypeSelect += '<select id="userTypeSelect" class="tempSelect">'; // create select
+        optionsSelection['response'].forEach(function(el) {
+          if (initialValue == el['value']) {
+            userTypeSelect += '<option value="' + el['value'] + '" selected>' + el['value'] + '</option>';
+          } else {
+            userTypeSelect += '<option value="' + el['value'] + '">' + el['value'] + '</option>';
+          };
+        });
+        userTypeSelect += '</select>';
+        this.innerHTML = userTypeSelect;
+
+        let selectElement = document.querySelector('#userTypeSelect'); // select the select :kappa:
+        selectElement.addEventListener('change', function() { // add event listener
+          newValue = document.querySelector("option[value=" + this.value + "]").innerText; // get the new value
+          entryId = editableCell.getAttribute('data-id'); // get the id of the data
+          if (newValue != initialValue) { // if the new value is different from the initial one
+            ajaxRequestUpdateContent(entryId, field, newValue); // send an ajax request with the new value
+            dataObject = JSON.parse(dataText);
+
+            if (dataObject['request']['status'] != 'error') { // if there's no error
+              editableCell.innerText = newValue; // set the new value in the display
+            } else {
+              editableCell.innerText = initialValue; // reset the display to the initial value
             };
           };
         });
@@ -404,16 +447,16 @@ function makeContentEditableOrNot(content) { // handle the edition of values
   document.addEventListener('keypress', function(e) {
     if (e.key == 'Enter' && document.activeElement == editableCell) { // if enter is pressed
       newValue = editableCell.innerText; // get the new value
-      entryId = editableCell.getAttribute('data-id');
+      entryId = editableCell.getAttribute('data-id'); // get the id of the data
       editableCell.removeAttribute('contenteditable'); // remove the editable status of the cell
       if (newValue != initialValue) { // if the new value is different from the initial one
         ajaxRequestUpdateContent(entryId, field, newValue); // send an ajax request with the new value
         dataObject = JSON.parse(dataText);
 
-        if (dataObject['request']['status'] != 'error') {
-          editableCell.innerText = newValue;
+        if (dataObject['request']['status'] != 'error') { // if there's no error
+          editableCell.innerText = newValue; // set the new value in the display
         } else {
-          editableCell.innerText = initialValue;
+          editableCell.innerText = initialValue; // reset the display to the initial value
         };
       };
     };
@@ -421,12 +464,12 @@ function makeContentEditableOrNot(content) { // handle the edition of values
 
   document.addEventListener('click', function(e) {
     if (e.target != editableCell && editableCell != undefined) { // if we click somewhere else
-      if (editableCell.hasAttribute('contenteditable')) {
-        editableCell.innerText = initialValue; // restore the initial value of the cell
+      editableCell.innerText = initialValue; // restore the initial value of the cell
+      if (editableCell.hasAttribute('contenteditable')) { // remove the content editable status
         editableCell.removeAttribute('contenteditable'); // remove the editable status of the cell
-      } else {
-        editableCell.innerText = initialValue;
-        editableCell.setAttribute('data-countryCode', initialAttribute);
+      } else if (document.querySelector('#countrySelect') != null) { // if it's a country select
+          editableCell.setAttribute('data-countryCode', initialAttribute); // reset the attribute to it's original value          
+        }
       };
     };
   });
