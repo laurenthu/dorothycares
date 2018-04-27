@@ -133,6 +133,29 @@ class User {
 
   }
 
+  public function updateUserFirstNameById($idUser,$firstName) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `firstNameUser` = :firstName WHERE `idUser` = :idUser");
+      $statement->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $firstName;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
   public function getUserLastName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
@@ -182,6 +205,29 @@ class User {
 
   }
 
+  public function updateUserLastNameById($idUser,$lastName) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `lastNameUser` = :lastName WHERE `idUser` = :idUser");
+      $statement->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $lastName;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
   public function getUserMainLanguageCode($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
@@ -219,6 +265,28 @@ class User {
       $statement = $this->db->prepare("UPDATE `user` SET `mainLanguageUser` = :languageCode WHERE `emailUser` = :emailUser");
       $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+      return $languageCode;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
+  public function updateUserMainLanguageCodeById($idUser,$languageCode) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `mainLanguageUser` = :languageCode WHERE `idUser` = :idUser");
+      $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
       $statement->execute();
       return $languageCode;
 
@@ -297,6 +365,32 @@ class User {
       $statement = $this->db->prepare("UPDATE `user` SET `typeUser` = :typeUser WHERE `emailUser` = :emailUser");
       $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $typeUser;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateUserTypeById($idUser,$typeUser) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `typeUser` = :typeUser WHERE `idUser` = :idUser");
+      $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
       $statement->execute();
 
       if( $statement->rowCount() ) {
