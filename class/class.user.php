@@ -382,7 +382,7 @@ class User {
 
   public function updateUserTypeById($idUser,$typeUser) {
     /*
-    (IN) email of the user to check and the value to update
+    (IN) id of the user to check and the value to update
     (OUT) value if value was well stored / false if was not stored
     */
 
@@ -390,6 +390,33 @@ class User {
 
       $statement = $this->db->prepare("UPDATE `user` SET `typeUser` = :typeUser WHERE `idUser` = :idUser");
       $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $typeUser;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateUserEmailById($idUser,$emailUser) {
+    /*
+    (IN) id of the user to check and the value to update
+    (IN) new email of the user
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `emailUser` = :emailUser WHERE `idUser` = :idUser");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
       $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
       $statement->execute();
 
