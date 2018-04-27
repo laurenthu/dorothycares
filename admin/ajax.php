@@ -183,7 +183,6 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
               default:
                 $json['request']['status'] = 'error';
                 $json['request']['message'] = 'Unknown error';
-                break;
             };
 
             echo json_encode($json);
@@ -213,9 +212,55 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
 
         if (is_string($_POST['newValue'])) { // security checks
 
-          // $updateUser = new User($db);
-        };
+          $updateUser = new User($db);
 
+          switch($_POST['fieldName']) {
+            case 'firstName':
+              if ($updateUser->updateUserFirstNameById($_POST['id'], $_POST['newValue']) == false) {
+                $json['request']['status'] = 'error';
+                $json['request']['message'] = 'Impossible to update';
+              } else {
+                $json['request']['status'] = 'success';
+                $json['request']['message'] = 'Updated.';
+              };
+              break;
+            case 'lastName':
+              if ($updateUser->updateUserLastNameById($_POST['id'], $_POST['newValue']) == false) {
+                $json['request']['status'] = 'error';
+                $json['request']['message'] = 'Impossible to update';
+              } else {
+                $json['request']['status'] = 'success';
+                $json['request']['message'] = 'Updated.';
+              };
+              break;
+            case 'userType':
+              if ($updateUser->updateUserTypeById($_POST['id'], $_POST['newValue']) == false) {
+                $json['request']['status'] = 'error';
+                $json['request']['message'] = 'Impossible to update';
+              } else {
+                $json['request']['status'] = 'success';
+                $json['request']['message'] = 'Updated.';
+              };
+              break;
+            case 'mainLanguage':
+              if ($updateUser->updateUserMainLanguageCodeById($_POST['id'], $_POST['newValue']) == false) {
+                $json['request']['status'] = 'error';
+                $json['request']['message'] = 'Impossible to update';
+              } else {
+                $json['request']['status'] = 'success';
+                $json['request']['message'] = 'Updated.';
+              };
+              break;
+
+            default:
+              $json['request']['status'] = 'error';
+              $json['request']['message'] = 'Unknown error';
+          }
+
+          echo json_encode($json);
+          die(); // we kill the script
+
+        };
       };
     };
   };
@@ -288,6 +333,9 @@ if (isset($_GET['optionList']) && is_string($_GET['optionList'])) { // security 
   } else if ($_GET['optionList'] == 'userType') {
     $optList = new System($db);
     $json['response'] = $optList->getOptionList('typeUser');
+  } else if ($_GET['optionList'] == 'language') {
+    $optList = new System($db);
+    $json['response'] = $optList->getLanguageList();
   };
   echo json_encode($json);
   die(); // we kill the script
