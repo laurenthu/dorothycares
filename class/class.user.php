@@ -1315,6 +1315,52 @@ class User {
 
   }
 
+  public function deleteUser($idUser) {
+    /*
+    (IN) id of the implantation to delete
+    (OUT) an array wuth the results.
+    */
+
+    $answer = array();
+    $idUser = intval($idUser); // to be sure that is a integer (if it's valid data)
+
+    try {
+
+        $this->db->beginTransaction(); // we start a transaction
+
+        // we can destroy the relation with the startup
+        $statement = $this->db->prepare("DELETE FROM `userClasseRelation` WHERE `idUser` = :idUser");
+        $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $statement->execute();
+
+        // we delete the user
+        $statement = $this->db->prepare("DELETE FROM `user` WHERE `idUser` = :idUser");
+        $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $statement->execute();
+
+        $this->db->commit(); // we confirm the transaction
+
+        if( $this->db->commit() ) { // if everything is okay
+          $answer['status'] == 'success';
+          $answer['message'] = 'The user was well deleted.';
+        } else {
+          $answer['status'] == 'error';
+          $answer['message'] = 'Sorry, an error occurred while deleting the user';
+        }
+
+      return $answer;
+
+    } catch (PDOException $e) {
+
+      $this->db->rollback(); // we cancel the transaction
+      $answer['status'] = 'error';
+      $answer['message'] = 'Error !: ' . $e->getMessage();
+      return $answer;
+
+    }
+
+  }
+
 }
 
 ?>
