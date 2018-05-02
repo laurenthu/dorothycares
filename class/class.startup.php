@@ -276,6 +276,64 @@ class Startup {
 
   }
 
+  public function deleteStartup($idStartup) {
+    /*
+    (IN) id of the implantation to delete
+    (OUT) an array wuth the results.
+    */
+
+    $answer = array();
+    $idStartup = intval($idStartup); // to be sure that is a integer (if it's valid data)
+
+    try {
+
+      // we check if there is still users attached to this startup
+      $statement = $this->db->prepare("SELECT `idUserClasseRelation` FROM `userClasseRelation` WHERE `idClasse` = :idStartup");
+      $statement->bindParam(':idStartup', $idStartup, PDO::PARAM_INT);
+      $statement->execute();
+
+      if( $statement->rowCount() > 0 ) {
+
+        $answer['status'] == 'error';
+        $answer['message'] = 'Sorry, there are still some users attached to this startup. So, you can\'t delete it.';
+
+      } else {
+
+        $this->db->beginTransaction(); // we start a transaction
+
+        // if we could delete it, we can destroy the relation with the implantation
+        $statement = $this->db->prepare("DELETE FROM `classeImplantationRelation` WHERE `idClasse` = :idStartup");
+        $statement->bindParam(':idStartup', $idStartup, PDO::PARAM_INT);
+        $statement->execute();
+
+        // we delete the startup
+        $statement = $this->db->prepare("DELETE FROM `classe` WHERE `idClasse` = :idStartup");
+        $statement->bindParam(':idStartup', $idStartup, PDO::PARAM_INT);
+        $statement->execute();
+
+        if( $statement->rowCount() == 0 ) {
+          $this->db->rollback(); // we cancel the transaction
+          $answer['status'] == 'error';
+          $answer['message'] = 'Sorry, an error occurred while deleting the startup';
+        } else {
+          $this->db->commit(); // we confirm the transaction
+          $answer['status'] == 'success';
+          $answer['message'] = 'The startup was well deleted.';
+        }
+      }
+
+      return $answer;
+
+    } catch (PDOException $e) {
+
+      $answer['status'] = 'error';
+      $answer['message'] = 'Error !: ' . $e->getMessage();
+      return $answer;
+      
+    }
+
+  }
+
 
 }
 
