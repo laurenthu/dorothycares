@@ -71,7 +71,7 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
             $usersToAdd = preg_split('/\r\n|[\r\n]/', $_POST['addLinkedLearners']); // transform text area lines into elements in an array
 
             $addsta = new Startup($db);
-            $idStartup = $addsta->addStartup($_POST['name']);
+            $idStartup = $addsta->addStartup($_POST['name'], $_POST['implantationId']);
 
             if ($idStartup == false) { // try to add a new startup with the data provided
               $json['request']['status'] = 'error';

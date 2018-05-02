@@ -1,7 +1,7 @@
 <?php
   require_once 'srv/_config_admin.php';
 
-  // if (!isset($_SESSION['access_token'])) {
+  // if (!isset($_SESSION['access_token'])) { // security check
   //   header('Location: login.php');
   //   exit();
   // } else {
@@ -34,6 +34,7 @@
   </head>
   <body>
 
+    <!-- Tabs Menu -->
     <div class="row">
       <div class="col s12">
         <ul class="tabs">
@@ -42,8 +43,11 @@
           <li id="userTab" class="tab col s3"><a href="#utilisateur" data-type="user">User</a></li>
         </ul>
       </div>
+
+      <!-- Implantation Tab -->
       <div id="implantation" class="col s12">
 
+        <!-- Pagination -->
         <ul class="pagination implantationPage" data-itemPerPage="<?php echo  $iNumberResults ?>" data-type="implantation">
           <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
           <li class="active" data-start="0"><a href="#!">1</a></li>
@@ -56,6 +60,8 @@
           ?>
           <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
+
+        <!-- Implantation Table -->
         <table class="responsive-table">
 
           <thead>
@@ -69,19 +75,22 @@
           </thead>
 
           <tbody id="implantationTable">
-            <!-- Table created with ajax request -->
+            <!-- Table body created with ajax request -->
           </tbody>
 
         </table>
 
+        <!-- Add button -->
         <div class="addButtonContainer" data-type="implantation">
           <a href="#implantationAddModal" id="implantationModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
         </div>
 
       </div>
 
+      <!-- Startup Tab -->
       <div id="startup" class="col s12">
 
+        <!-- Pagination -->
         <ul class="pagination startupPage" data-itemPerPage="<?php echo  $sNumberResults ?>" data-type="startup">
           <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
           <li class="active" data-start="0"><a href="#!">1</a></li>
@@ -94,6 +103,8 @@
           ?>
           <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
+
+        <!-- Startup Table -->
         <table class="responsive-table">
 
           <thead>
@@ -103,19 +114,22 @@
           </thead>
 
           <tbody id="startupTable">
-            <!-- Table created with ajax request -->
+            <!-- Table body created with ajax request -->
           </tbody>
 
         </table>
 
+        <!-- Add button -->
         <div class="addButtonContainer" data-type="startup">
           <a href="#startupAddModal" id="startupModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
         </div>
 
       </div>
 
+      <!-- User Tab -->
       <div id="utilisateur" class="col s12">
 
+        <!-- Pagination -->
         <ul class="pagination userPage" data-itemPerPage="<?php echo  $uNumberResults ?>" data-type="user">
           <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
           <li class="active" data-start="0"><a href="#!">1</a></li>
@@ -128,6 +142,8 @@
           ?>
           <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
         </ul>
+
+        <!-- User Table -->
         <table class="responsive-table">
 
           <thead>
@@ -141,11 +157,12 @@
           </thead>
 
           <tbody id="userTable">
-            <!-- Table created with ajax request -->
+            <!-- Table body created with ajax request -->
           </tbody>
 
         </table>
 
+        <!-- Add button -->
         <div class="addButtonContainer" data-type="user">
           <a href="#userAddModal" id="userModalButton" class="btn-floating btn-large waves-effect waves-light red modal-trigger"><i class="material-icons">add</i></a>
         </div>
@@ -154,6 +171,7 @@
 
    </div>
 
+   <!-- Modals opened by the buttons for adding data -->
    <div id="implantationAddModal" class="modal">
     <div class="modal-content">
       <h4>Add an implantation</h4>

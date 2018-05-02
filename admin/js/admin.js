@@ -45,10 +45,22 @@ function ajaxRequestGetCountryOptions() { // ajax request
   dataRequestGetCountryOptions.send(null); // we send the request
 }
 
+function whenDataLoadedGetCountryOptions() { // what happens when the AJAX request is done
+  dataText = dataRequestGetCountryOptions.responseText; // we store the text of the response
+  dataObject = JSON.parse(dataText); // we convert the text into an object
+  optionsSelection = dataObject; // we save the object containing the options in a variable
+};
+
 function ajaxRequestGetUserTypeOptions() { // ajax request
   dataRequestGetUserTypeOptions.onload = whenDataLoadedGetUserTypeOptions; // we assign the function to excecute when the data are loaded
   dataRequestGetUserTypeOptions.open("GET", feed + '?optionList=userType', false); // the type, the url, asynchronous true/false
   dataRequestGetUserTypeOptions.send(null); // we send the request
+};
+
+function whenDataLoadedGetUserTypeOptions() { // what happens when the AJAX request is done
+  dataText = dataRequestGetUserTypeOptions.responseText; // we store the text of the response
+  dataObject = JSON.parse(dataText); // we convert the text into an object
+  optionsSelection = dataObject; // we save the object containing the options in a variable
 };
 
 function ajaxRequestGetLanguageOptions() { // ajax request
@@ -57,10 +69,16 @@ function ajaxRequestGetLanguageOptions() { // ajax request
   dataRequestGetLanguageOptions.send(null); // we send the request
 };
 
+function whenDataLoadedGetLanguageOptions() { // what happens when the AJAX request is done
+  dataText = dataRequestGetLanguageOptions.responseText; // we store the text of the response
+  dataObject = JSON.parse(dataText); // we convert the text into an object
+  optionsSelection = dataObject; // we save the object containing the options in a variable
+};
+
 function ajaxRequestDisplayContent(range) { // ajax request
-  type = range[0].parentElement.getAttribute('data-type');
-  start = startResults(range);
-  if (type == 'implantation') {
+  type = range[0].parentElement.getAttribute('data-type'); // type of data we want to display
+  start = startResults(range); // define from which position the results are displayed (for example : from 11nth position)
+  if (type == 'implantation') { // number of elements displayed per page depending in the type
     itemPerPage = itemPerPageImplantation;
   } else if (type == 'startup') {
     itemPerPage = itemPerPageStartup;
@@ -72,72 +90,12 @@ function ajaxRequestDisplayContent(range) { // ajax request
   dataRequestDisplayContent.send(null); // we send the request
 }
 
-function ajaxRequestCreateContent(button) { // ajax request
-  let addType = button.getAttribute('data-type');
-
-  dataRequestCreateContent.onload = whenDataLoadedCreateContent; // we assign the function to excecute when the data are loaded
-
-  if (addType == 'implantation') {
-    let name = document.querySelector('#nameImplantation').value;
-    let street = document.querySelector('#streetImplantation').value;
-    let postalCode = document.querySelector('#postalCodeImplantation').value;
-    let city = document.querySelector('#cityImplantation').value;
-    let countryCode = document.querySelector('#countryImplantation').value;
-    dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
-    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form
-    dataRequestCreateContent.send('type=' + addType + '&action=add&name=' + name + '&street=' + street + '&postalCode=' + postalCode + '&city=' + city + '&countryCode=' + countryCode);
-  } else if (addType == 'startup') {
-    let name = document.querySelector('#nameStartup').value;
-    let implantationId = document.querySelector('#linkedImplantation').value;
-    let addLinkedLearners = document.querySelector('#addLinkedLearners').value;
-    dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
-    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form
-    dataRequestCreateContent.send('type=' + addType + '&action=add&name=' + name + '&implantationId=' + implantationId + '&addLinkedLearners=' + addLinkedLearners); // the data we send through the POST ajax request
-  } else if (addType == 'user') {
-    let addUsers = document.querySelector('#addUsers').value;
-    let typeOfUser = document.querySelector('#userType').value;
-    let linkedStartupId = document.querySelector('#linkedStartup').value;
-    dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
-    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form or something similar
-    dataRequestCreateContent.send('type=' + addType + '&action=add&addUsers=' + addUsers + '&typeOfUser=' + typeOfUser + '&linkedStartupId=' + linkedStartupId); // the data we send through the POST ajax request
-  }
-
-};
-
-function ajaxRequestUpdateContent(entryId, field, newValue) {
-  let activeTab = document.querySelector('li a.active'); // select the active tab
-  let dataType = activeTab.getAttribute('data-type'); // get the type of data
-
-  dataRequestUpdateContent.onload = whenDataLoadedUpdateContent; // we assign the function to excecute when the data are loaded
-  dataRequestUpdateContent.open("POST", feed, false); // the type, the url, asynchronous true/false
-  dataRequestUpdateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form or something similar
-  dataRequestUpdateContent.send('type=' + dataType + '&action=update&fieldName=' + field + '&newValue=' + newValue + '&id=' + entryId); // the data we send through the POST ajax request
-};
-
-function whenDataLoadedGetCountryOptions() { // what happens when the AJAX request is done
-  dataText = dataRequestGetCountryOptions.responseText; // we store the text of the response
-  dataObject = JSON.parse(dataText); // we convert the text into an object
-  optionsSelection = dataObject;
-};
-
-function whenDataLoadedGetUserTypeOptions() { // what happens when the AJAX request is done
-  dataText = dataRequestGetUserTypeOptions.responseText; // we store the text of the response
-  dataObject = JSON.parse(dataText); // we convert the text into an object
-  optionsSelection = dataObject;
-};
-
-function whenDataLoadedGetLanguageOptions() {
-  dataText = dataRequestGetLanguageOptions.responseText; // we store the text of the response
-  dataObject = JSON.parse(dataText); // we convert the text into an object
-  optionsSelection = dataObject;
-};
-
 function whenDataLoadedDisplayContent() { // what happens when the AJAX request is done
   dataText = dataRequestDisplayContent.responseText; // we store the text of the response
   dataObject = JSON.parse(dataText); // we convert the text into an object
 
-  let type = tabType();
-  let tableContent = '';
+  let type = tabType(); // determine the type of data we want to display
+  let tableContent = ''; // create a variable that will contain the contet of the table
 
   if (dataObject['request']['status'] != 'error') { // if no error occured
 
@@ -151,14 +109,14 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
         tableContent += '<td class="input-field" data-name="country" data-codeCountry="' + el['codeCountry'] + '" data-id="' + el['id'] + '">' + el['country'] + '</td>';
         tableContent += '</tr>';
       });
-      tableBodyImplantation.innerHTML = tableContent;
+      tableBodyImplantation.innerHTML = tableContent; // write the content where we want to display it
     } else if (type == 'startup') { // generate startup table
       dataObject['response'].forEach(function(el) {
         tableContent += '<tr>';
         tableContent += '<td data-name="name" data-id="' + el['id'] + '">' + el['name'] + '</td>';
         tableContent += '</tr>';
       });
-      tableBodyStartup.innerHTML = tableContent;
+      tableBodyStartup.innerHTML = tableContent; // write the content where we want to display it
     } else if (type == 'user') { // generate user table
       dataObject['response'].forEach(function(el) {
         tableContent += '<tr>';
@@ -169,12 +127,47 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
         tableContent += '<td class="input-field" data-name="mainLanguage" data-mainLanguageCode="' + el['mainLanguageCode'] + '" data-id="' + el['id'] + '">' + el['mainLanguage'] + '</td>';
         tableContent += '</tr>';
       });
-      tableBodyUser.innerHTML = tableContent;
+      tableBodyUser.innerHTML = tableContent; // write the content where we want to display it
+
+
     }
 
     let tableCells = document.querySelectorAll('table tbody tr td'); // select all table cells
     makeContentEditableOrNot(tableCells); // call the function that handles content edition on the fly
   };
+};
+
+function ajaxRequestCreateContent(button) { // ajax request
+  let addType = button.getAttribute('data-type'); // determine the type of data which is added
+
+  dataRequestCreateContent.onload = whenDataLoadedCreateContent; // we assign the function to excecute when the data are loaded
+
+  // determine values to add depending on the type
+  if (addType == 'implantation') {
+    let name = document.querySelector('#nameImplantation').value;
+    let street = document.querySelector('#streetImplantation').value;
+    let postalCode = document.querySelector('#postalCodeImplantation').value;
+    let city = document.querySelector('#cityImplantation').value;
+    let countryCode = document.querySelector('#countryImplantation').value;
+    dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
+    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form or something similar
+    dataRequestCreateContent.send('type=' + addType + '&action=add&name=' + name + '&street=' + street + '&postalCode=' + postalCode + '&city=' + city + '&countryCode=' + countryCode); // the data we send through the POST ajax request
+  } else if (addType == 'startup') {
+    let name = document.querySelector('#nameStartup').value;
+    let implantationId = document.querySelector('#linkedImplantation').value;
+    let addLinkedLearners = document.querySelector('#addLinkedLearners').value;
+    dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
+    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form or something similar
+    dataRequestCreateContent.send('type=' + addType + '&action=add&name=' + name + '&implantationId=' + implantationId + '&addLinkedLearners=' + addLinkedLearners); // the data we send through the POST ajax request
+  } else if (addType == 'user') {
+    let addUsers = document.querySelector('#addUsers').value;
+    let typeOfUser = document.querySelector('#userType').value;
+    let linkedStartupId = document.querySelector('#linkedStartup').value;
+    dataRequestCreateContent.open("POST", feed, true); // the type, the url, asynchronous true/false
+    dataRequestCreateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form or something similar
+    dataRequestCreateContent.send('type=' + addType + '&action=add&addUsers=' + addUsers + '&typeOfUser=' + typeOfUser + '&linkedStartupId=' + linkedStartupId); // the data we send through the POST ajax request
+  }
+
 };
 
 function whenDataLoadedCreateContent() { // what happens when the AJAX request is done
@@ -200,6 +193,16 @@ function whenDataLoadedCreateContent() { // what happens when the AJAX request i
   };
 };
 
+function ajaxRequestUpdateContent(entryId, field, newValue) { // ajax request
+  let activeTab = document.querySelector('li a.active'); // select the active tab
+  let dataType = activeTab.getAttribute('data-type'); // get the type of data
+
+  dataRequestUpdateContent.onload = whenDataLoadedUpdateContent; // we assign the function to excecute when the data are loaded
+  dataRequestUpdateContent.open("POST", feed, false); // the type, the url, asynchronous true/false
+  dataRequestUpdateContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form or something similar
+  dataRequestUpdateContent.send('type=' + dataType + '&action=update&fieldName=' + field + '&newValue=' + newValue + '&id=' + entryId); // the data we send through the POST ajax request
+};
+
 function whenDataLoadedUpdateContent() { // what happens when the AJAX request is done
   dataText = dataRequestUpdateContent.responseText; // we store the text of the response
   dataObject = JSON.parse(dataText); // we convert the text into an object
@@ -220,7 +223,7 @@ let paginationImplantation = document.querySelectorAll('.implantationPage li'); 
 let paginationStartup = document.querySelectorAll('.startupPage li'); // select startup pagination elements
 let paginationUser = document.querySelectorAll('.userPage li'); // select user pagination elements
 
-function previousButtonDisableOrEnable(range) { // handles previous button usability
+function previousButtonDisableOrEnable(range) { // handle previous button usability
   if (range[1].classList.contains('active')) {
     range[0].classList.add('disabled');
     range[0].classList.remove('waves-effect');
@@ -230,7 +233,7 @@ function previousButtonDisableOrEnable(range) { // handles previous button usabi
   };
 };
 
-function nextButtonDisableOrEnable(range) { // handles next button usability
+function nextButtonDisableOrEnable(range) { // handle next button usability
   if (range[range.length - 2].classList.contains('active')) {
     range[range.length - 1].classList.add('disabled');
     range[range.length - 1].classList.remove('waves-effect');
@@ -245,8 +248,7 @@ function resetPaginationClasses(range) { // reset classes attributions before sw
   range[i].classList.add('waves-effect');
 };
 
-
-function paginationNumbers(range) { // page numbers JS
+function paginationNumbers(range) { // handle the pagination when you click on page numbers
   for (i = 1; i < (range.length - 1); i++) {
     range[i].addEventListener('click', function() {
       for (i = 1; i < (range.length - 1); i++) {
@@ -256,12 +258,12 @@ function paginationNumbers(range) { // page numbers JS
       this.classList.remove('waves-effect');
       previousButtonDisableOrEnable(range);
       nextButtonDisableOrEnable(range);
-      ajaxRequestDisplayContent(range);
+      ajaxRequestDisplayContent(range); // refresh display
     });
   };
 };
 
-function previousPage(range) { // previous page button JS
+function previousPage(range) { // handle what happens when you use the "previous" button
   range[0].addEventListener('click', function() {
     for (i = 1; i < (range.length - 1); i++) {
       if (range[i].classList.contains('active') && !range[0].classList.contains('disabled')) {
@@ -272,11 +274,11 @@ function previousPage(range) { // previous page button JS
       previousButtonDisableOrEnable(range);
       nextButtonDisableOrEnable(range);
     };
-    ajaxRequestDisplayContent(range);
+    ajaxRequestDisplayContent(range); // refresh display
   });
 };
 
-function nextPage(range) { // next page button JS
+function nextPage(range) { // // handle what happens when you use the "next" button
   range[range.length - 1].addEventListener('click', function() {
     for (i = (range.length - 1); i > 0; i--) {
       if (range[i].classList.contains('active') && !range[range.length - 1].classList.contains('disabled')) {
@@ -287,7 +289,7 @@ function nextPage(range) { // next page button JS
       nextButtonDisableOrEnable(range);
       previousButtonDisableOrEnable(range);
     };
-    ajaxRequestDisplayContent(range);
+    ajaxRequestDisplayContent(range); // refresh display
   });
 };
 
@@ -307,21 +309,19 @@ function tabType() { // determine the type of content
   };
 };
 
-function paginationDisplay(range) { // Global JS for the pagination
+function paginationDisplay(range) { // Global pagination of a type
   paginationNumbers(range);
   previousPage(range);
   nextPage(range);
 };
 
-function allPaginationDisplay() {
+function allPaginationDisplay() { // Global pagination for all types
   paginationDisplay(paginationImplantation); // Call the function with list elements (defined earlier) as parameter
   paginationDisplay(paginationStartup); // Call the function with list elements (defined earlier) as parameter
   paginationDisplay(paginationUser); // Call the function with list elements (defined earlier) as parameter
 }
 
-allPaginationDisplay();
-
-
+allPaginationDisplay(); // we call the function
 
 // Event Listeners
 window.addEventListener('load', function() { // implantations displayed on load
@@ -358,19 +358,21 @@ addUserButton.addEventListener('click', function() { // Add an User
 
 function makeContentEditableOrNot(content) { // handle the edition of values
 
-  let editableCell;
-  let initialValue;
-  let initialAttribute;
-  let newValue;
-  let field;
-  let entryId;
+  let editableCell; // define a variable which will contain the cell edited
+  let initialValue; // define a variable which will contain the initial value of the cell
+  let initialAttribute; // define a variable which will contain the initial attribute value linked to the cell
+  let newValue; // define a variable which will contain the new value of the cell
+  let field; // define a variable which will contain the name of the field edited
+  let entryId; // define a variable which will contain the id of the entry edited
+  let selectElement = null; // define a variable which will contain the select created for options related editions
 
-  content.forEach(function(el) {
-    el.addEventListener('dblclick', function() { // make the content of the cell editable and focus it
+  content.forEach(function(el) { // on each cell
+    el.addEventListener('dblclick', function() { // make the content of the cell editable and focus it on double click
       editableCell = this; // save the cell in a variable
       initialValue = this.innerText; // save the initial value of the cell in a variable
-      field = this.getAttribute('data-name'); // get the name of the field updated
+      field = this.getAttribute('data-name'); // get the name of the field which will be updated
 
+      // for specific fields with options
       if (field == 'country') {
         initialAttribute = this.getAttribute('data-codeCountry'); // get the initial value of the attribute
         let countrySelect = ''; // create an empty element
@@ -387,18 +389,19 @@ function makeContentEditableOrNot(content) { // handle the edition of values
         countrySelect += '</select>';
         this.innerHTML = countrySelect; // put the select in the cell
 
-        let selectElement = document.querySelector('#countrySelect'); // select the select :kappa:
+        selectElement = document.querySelector('#countrySelect'); // select the select :kappa:
         selectElement.addEventListener('change', function() { // add event listener
           let newAttribute = this.value; // get the new value of the attribute
           newValue = document.querySelector("option[value=" + this.value + "]").innerText; // get the new value
           entryId = editableCell.getAttribute('data-id'); // get the id of the data
           if (newAttribute != initialAttribute) { // if the new value is different from the initial one
-            ajaxRequestUpdateContent(entryId, field, newAttribute); // send an ajax request with the new value
-            dataObject = JSON.parse(dataText);
+            ajaxRequestUpdateContent(entryId, field, newAttribute); // send an ajax request to update the db with the new value
+            dataObject = JSON.parse(dataText); // we convert the text into an object
 
             if (dataObject['request']['status'] != 'error') { // if there's no error
               editableCell.innerText = newValue; // set the new value in the display
               editableCell.setAttribute('data-codeCountry', newAttribute); // set the new value of the attribute
+              selectElement = document.querySelector('#countrySelect'); // recalculate the existence of the select
             } else { // reset the display to the initial value
               editableCell.innerText = initialValue; // reset the display to the initial value
             };
@@ -420,16 +423,17 @@ function makeContentEditableOrNot(content) { // handle the edition of values
         userTypeSelect += '</select>';
         this.innerHTML = userTypeSelect; // put the select in the cell
 
-        let selectElement = document.querySelector('#userTypeSelect'); // select the select :kappa:
+        selectElement = document.querySelector('#userTypeSelect'); // select the select :kappa:
         selectElement.addEventListener('change', function() { // add event listener
           newValue = document.querySelector("option[value=" + this.value + "]").innerText; // get the new value
           entryId = editableCell.getAttribute('data-id'); // get the id of the data
           if (newValue != initialValue) { // if the new value is different from the initial one
-            ajaxRequestUpdateContent(entryId, field, newValue); // send an ajax request with the new value
-            dataObject = JSON.parse(dataText);
+            ajaxRequestUpdateContent(entryId, field, newValue); // send an ajax request to update the db with the new value
+            dataObject = JSON.parse(dataText); // we convert the text into an object
 
             if (dataObject['request']['status'] != 'error') { // if there's no error
               editableCell.innerText = newValue; // set the new value in the display
+              selectElement = document.querySelector('#userTypeSelect'); // recalculate the existence of the select
             } else {
               editableCell.innerText = initialValue; // reset the display to the initial value
             };
@@ -453,20 +457,19 @@ function makeContentEditableOrNot(content) { // handle the edition of values
         languageSelect += '</select>';
         this.innerHTML = languageSelect; // put the select in the cell
 
-        let selectElement = document.querySelector('#languageSelect'); // select the select :kappa:
+        selectElement = document.querySelector('#languageSelect'); // select the select :kappa:
         selectElement.addEventListener('change', function() { // add event listener
           let newAttribute = this.value; // get the new value of the attribute
-          console.log(newAttribute);
           newValue = document.querySelector("option[value=" + this.value + "]").innerText; // get the new value
           entryId = editableCell.getAttribute('data-id'); // get the id of the data
           if (newAttribute != initialAttribute) { // if the new value is different from the initial one
-            ajaxRequestUpdateContent(entryId, field, newAttribute); // send an ajax request with the new value
-            dataObject = JSON.parse(dataText);
-            console.log(dataObject);
+            ajaxRequestUpdateContent(entryId, field, newAttribute); // send an ajax request to update the db with the new value
+            dataObject = JSON.parse(dataText); // we convert the text into an object
 
             if (dataObject['request']['status'] != 'error') { // if there's no error
               editableCell.innerText = newValue; // set the new value in the display
               editableCell.setAttribute('data-mainLanguageCode', newAttribute); // set the new value of the attribute
+              selectElement = document.querySelector('#languageSelect'); // recalculate the existence of the select
             } else { // reset the display to the initial value
               editableCell.innerText = initialValue; // reset the display to the initial value
             };
@@ -486,7 +489,7 @@ function makeContentEditableOrNot(content) { // handle the edition of values
       entryId = editableCell.getAttribute('data-id'); // get the id of the data
       editableCell.removeAttribute('contenteditable'); // remove the editable status of the cell
       if (newValue != initialValue) { // if the new value is different from the initial one
-        ajaxRequestUpdateContent(entryId, field, newValue); // send an ajax request with the new value
+        ajaxRequestUpdateContent(entryId, field, newValue); // send an ajax request to update the db with the new value
         dataObject = JSON.parse(dataText);
 
         if (dataObject['request']['status'] != 'error') { // if there's no error
@@ -500,8 +503,10 @@ function makeContentEditableOrNot(content) { // handle the edition of values
 
   document.addEventListener('click', function(e) {
     if (e.target != editableCell && editableCell != null && editableCell.hasAttribute('contenteditable')) { // if we click somewhere else than the cell which we are working on / if it exists / if it has the contenteditable attribute
-        editableCell.innerText = initialValue; // restore the initial value of the cell
-        editableCell.removeAttribute('contenteditable'); // remove the editable status of the cell
+      editableCell.innerText = initialValue; // restore the initial value of the cell
+      editableCell.removeAttribute('contenteditable'); // remove the editable status of the cell
+    } else if (e.target != editableCell && editableCell != null && selectElement != null) { // if we click somewhere else than the cell which we are working on / if it exists / if the select element exists
+      editableCell.innerText = initialValue; // restore the initial value of the cell
     };
   });
 };
