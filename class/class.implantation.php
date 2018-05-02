@@ -256,6 +256,47 @@ class Implantation {
 
   }
 
+  public function deleteImplantation($idImplantation) {
+    /*
+    (IN) id of the implantation to delete
+    (OUT) an array wuth the results.
+    */
+
+    $answer = array();
+    $idImplantation = intval($idImplantation); // to be sure that is a integer (if it's valid data)
+
+    try {
+
+      // we check if there is still a startup attached to this implantation
+      $statement = $this->db->prepare("SELECT `idClasseImplantationRelation` FROM `classeImplantationRelation` WHERE `idImplantation` = :idImplantation");
+      $statement->bindParam(':idImplantation', $idImplantation, PDO::PARAM_INT);
+      $statement->execute();
+
+      if( $statement->rowCount() > 0 ) {
+        $answer['status'] == 'error';
+        $answer['message'] = 'Sorry, there are still some startups attached to this implantation. So, you can\'t delete it.';
+      } else {
+        $statement = $this->db->prepare("DELETE FROM `implantation` WHERE `idImplantation` = :idImplantation");
+        $statement->bindParam(':idImplantation', $idImplantation, PDO::PARAM_INT);
+        $statement->execute();
+        if( $statement->rowCount() == 0 ) {
+          $answer['status'] == 'error';
+          $answer['message'] = 'Sorry, an error occurred while deleting the implantation';
+        } else {
+          $answer['status'] == 'success';
+          $answer['message'] = 'The implantation was well deleted';
+        }
+      }
+
+      return $answer;
+    } catch (PDOException $e) {
+      $answer['status'] = 'error';
+      $answer['message'] = 'Error !: ' . $e->getMessage();
+      return $answer;
+    }
+
+  }
+
 }
 
 ?>
