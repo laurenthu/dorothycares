@@ -236,7 +236,7 @@ class Startup {
 
   }
 
-  public function addStartup($name, $implantationId = false) {
+  public function addStartup($name, $idImplantation = false) {
     /*
     (IN) [string] email of the user to check
     (IN) [integer/boolean]: $implantationId. An integer with the id of the implantation or false if no implantation
@@ -251,12 +251,13 @@ class Startup {
       $statement->bindParam(':name', $name, PDO::PARAM_STR);
       $statement->execute();
 
-      $idStartup = $this->db->lastInsertId();
+      $idStartup = intval($this->db->lastInsertId());
+      $idImplantation = intval($idImplantation);
 
       if ($implantationId != false) {
         $statement = $this->db->prepare("INSERT INTO `classeImplantationRelation` (`idClasseImplantationRelation`,`idClasse`,`idImplantation`) VALUES (NULL,:idStartup,:idImplantation)");
         $statement->bindParam(':idStartup', $idStartup, PDO::PARAM_INT);
-        $statement->bindParam(':idImplantation', $implantationId, PDO::PARAM_INT);
+        $statement->bindParam(':idImplantation', $idImplantation, PDO::PARAM_INT);
         $statement->execute();
       }
 
