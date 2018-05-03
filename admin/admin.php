@@ -1,5 +1,6 @@
 <?php
   require_once 'srv/_config_admin.php';
+  echo $_SESSION['jwt'];
 
   // if (!isset($_SESSION['access_token'])) { // security check
   //   header('Location: login.php');

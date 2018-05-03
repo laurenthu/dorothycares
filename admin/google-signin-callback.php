@@ -23,7 +23,21 @@
 
   $userTest = new User($db);
 
+
+
   if ( $userTest->hasAdminRights($userData['email']) ) { // if user can access
+    use ../GoogleAPI/vendor/firebase/php-jwt/src/JWT.php;
+    $jwtInstance = new JWT();
+    $payload = [
+      "email"=> $_SESSION['email'],
+      "sub"=> "dorothycares",
+      "sid"=> session_id(),
+      "admin"=>true
+    ];
+    $secretkey = base64_encode(random_bytes(32));
+    $jwt = $jwtInstance->encode($payload, $secretkey);
+    $_SESSION['jwt'] = $jwt;
+
     header('Location: admin.php');
     exit();
   } else {
