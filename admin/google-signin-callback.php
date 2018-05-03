@@ -26,7 +26,7 @@
 
 
   if ( $userTest->hasAdminRights($userData['email']) ) { // if user can access
-    use ../GoogleAPI/vendor/firebase/php-jwt/src/JWT.php;
+    include '../GoogleAPI/vendor/firebase/php-jwt/src/JWT.php';
     $jwtInstance = new JWT();
     $payload = [
       "email"=> $_SESSION['email'],
