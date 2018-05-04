@@ -152,9 +152,15 @@ function writeRessourcesInfoModal(dataObject, contentBody) {
     content += '<h3 class="modal-body-block-title">Documentation</h3>';
     content += '<div class="modal-body-block-content">';
     content += '<ul class="modal-body-block-list">';
-    content += '<li class="modal-body-block-list-item"><span>Official:</span> ' + createLink(dataObject.documentation[0].official) + '</li>';
-    content += '<li class="modal-body-block-list-item"><span>Useful:</span> ' + createLink(dataObject.documentation[0].useful) + '</li>';
-    content += '<li class="modal-body-block-list-item"><span>Get started:</span> ' + createLink(dataObject.documentation[0].getstarted) + '</li>';
+    if (dataObject.documentation[0].official != '') {
+      content += '<li class="modal-body-block-list-item"><span>Official:</span> ' + createLink(dataObject.documentation[0].official) + '</li>';
+    }
+    if (dataObject.documentation[0].useful != '') {
+      content += '<li class="modal-body-block-list-item"><span>Useful:</span> ' + createLink(dataObject.documentation[0].useful) + '</li>';
+    }
+    if (dataObject.documentation[0].getstarted != '') {
+      content += '<li class="modal-body-block-list-item"><span>Get started:</span> ' + createLink(dataObject.documentation[0].getstarted) + '</li>';
+    }
     content += '</ul>';
     content += '</div>';
     content += '</div>';
