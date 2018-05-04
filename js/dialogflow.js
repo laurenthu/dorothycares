@@ -127,19 +127,19 @@ function writeRessourcesInfoModal(dataObject, contentBody) {
     content += '<h3 class="modal-body-block-title">Installation</h3>';
     content += '<div class="modal-body-block-content">';
     content += '<ul class="modal-body-block-list">';
-    if (dataObject.installation[0].official !== '') {
+    if (dataObject.installation[0].official != '') {
       content += '<li class="modal-body-block-list-item"><span>Official:</span> ' + createLink(dataObject.installation[0].official) + '</li>';
     }
-    if (dataObject.installation[0].Windows !== '') {
+    if (dataObject.installation[0].Windows != '') {
       content += '<li class="modal-body-block-list-item"><span>Windows:</span> ' + createLink(dataObject.installation[0].Windows) + '</li>';
     }
-    if (dataObject.installation[0].Mac !== '') {
+    if (dataObject.installation[0].Mac != '') {
       content += '<li class="modal-body-block-list-item"><span>Mac:</span> ' + createLink(dataObject.installation[0].Mac) + '</li>';
     }
-    if (dataObject.installation[0].Ubuntu !== '') {
+    if (dataObject.installation[0].Ubuntu != '') {
       content += '<li class="modal-body-block-list-item"><span>Ubuntu:</span> ' + createLink(dataObject.installation[0].Ubuntu) + '</li>';
     }
-    if (dataObject.installation[0].other !== '') {
+    if (dataObject.installation[0].other != '') {
       content += '<li class="modal-body-block-list-item"><span>Other:</span> ' + createLink(dataObject.installation[0].other) + '</li>';
     }
     content += '</ul>';
