@@ -32,12 +32,12 @@ let addUserButton = document.querySelector('#addUser');
 
 // AJAX requests
 let feed = 'ajax.php';
-let dataRequestDisplayContent = new XMLHttpRequest();
-let dataRequestCreateContent = new XMLHttpRequest();
-let dataRequestUpdateContent = new XMLHttpRequest();
-let dataRequestGetCountryOptions = new XMLHttpRequest();
-let dataRequestGetUserTypeOptions = new XMLHttpRequest();
-let dataRequestGetLanguageOptions = new XMLHttpRequest();
+let dataRequestDisplayContent = new XMLHttpRequest(); // open ajax request to display content
+let dataRequestCreateContent = new XMLHttpRequest(); // open ajax request to create content
+let dataRequestUpdateContent = new XMLHttpRequest(); // open ajax request to update content
+let dataRequestGetCountryOptions = new XMLHttpRequest(); // open ajax request to get country options
+let dataRequestGetUserTypeOptions = new XMLHttpRequest(); // open ajax request to get user types
+let dataRequestGetLanguageOptions = new XMLHttpRequest(); // open ajax request to get langage options
 
 function ajaxRequestGetCountryOptions() { // ajax request
   dataRequestGetCountryOptions.onload = whenDataLoadedGetCountryOptions; // we assign the function to excecute when the data are loaded

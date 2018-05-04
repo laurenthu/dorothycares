@@ -31,12 +31,9 @@
     $payload = [
       "email"=> $_SESSION['email'],
       "sub"=> "dorothycares",
-      "sid"=> session_id(),
       "admin"=>true
     ];
-    $secretkey = base64_encode(random_bytes(32));
-    $jwt = $jwtInstance->encode($payload, $secretkey);
-    $_SESSION['jwt'] = $jwt;
+    $_SESSION['jwt'] = $jwtInstance->encode($payload, SECRET_KEY);
 
     header('Location: admin.php');
     exit();

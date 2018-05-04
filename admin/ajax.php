@@ -342,5 +342,13 @@ if (isset($_GET['optionList']) && is_string($_GET['optionList'])) { // security 
   die(); // we kill the script
 };
 
+// Get json web token
+if (isset($_GET['dataToGet']) && is_string($_GET['dataToGet'])) { // security checks
+  $json['request']['status'] = 'success';
+  $json['request']['message'] = 'Congrats. You have all the requested information.';
+  $json['response']['jwt'] = $_SESSION['jwt'];
+  echo json_encode($json);
+};
+
 
 ?>
