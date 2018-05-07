@@ -101,7 +101,7 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
 
     if (type == 'implantation') { // generate implantation table
       dataObject['response'].forEach(function(el) {
-        tableContent += '<tr>';
+        tableContent += '<tr class="tooltipped" data-tooltip="Double click to edit">';
         tableContent += '<td data-name="name" data-id="' + el['id'] + '">' + el['name'] + '</td>';
         tableContent += '<td data-name="street" data-id="' + el['id'] + '">' + el['street'] + '</td>';
         tableContent += '<td data-name="postalCode" data-id="' + el['id'] + '">' + el['postalCode'] + '</td>';
@@ -112,14 +112,14 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
       tableBodyImplantation.innerHTML = tableContent; // write the content where we want to display it
     } else if (type == 'startup') { // generate startup table
       dataObject['response'].forEach(function(el) {
-        tableContent += '<tr>';
+        tableContent += '<tr class="tooltipped" data-tooltip="Double click to edit">';
         tableContent += '<td data-name="name" data-id="' + el['id'] + '">' + el['name'] + '</td>';
         tableContent += '</tr>';
       });
       tableBodyStartup.innerHTML = tableContent; // write the content where we want to display it
     } else if (type == 'user') { // generate user table
       dataObject['response'].forEach(function(el) {
-        tableContent += '<tr>';
+        tableContent += '<tr class="tooltipped" data-tooltip="Double click to edit">';
         tableContent += '<td data-name="firstName" data-id="' + el['id'] + '">' + ((el['firstName'] == null)?'(empty)':el['firstName']) + '</td>';
         tableContent += '<td data-name="lastName" data-id="' + el['id'] + '">' + ((el['lastName'] == null)?'(empty)':el['lastName']) + '</td>';
         tableContent += '<td data-name="email" data-id="' + el['id'] + '">' + el['email'] + '</td>';
@@ -134,6 +134,7 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
 
     let tableCells = document.querySelectorAll('table tbody tr td'); // select all table cells
     makeContentEditableOrNot(tableCells); // call the function that handles content edition on the fly
+    createTooltips();
   };
 };
 
@@ -184,6 +185,7 @@ function whenDataLoadedCreateContent() { // what happens when the AJAX request i
       nextButtonDisableOrEnable(paginationImplantation);
       ajaxRequestDisplayContent(paginationImplantation);
     } else if (dataType == 'startup') {
+      console.log('hello');
       nextButtonDisableOrEnable(paginationStartup);
       ajaxRequestDisplayContent(paginationStartup);
     } else if (dataType == 'user') {
@@ -217,6 +219,12 @@ var instanceModals = M.Modal.init(modals); // Materialize modals
 
 let selects = document.querySelectorAll('select'); // select selects
 var instanceSelects = M.FormSelect.init(selects); // Materialize selects
+
+function createTooltips() {
+  let trs = document.querySelectorAll('tr.tooltipped');
+  var instanceTooltips = M.Tooltip.init(trs, {"position":"top", "inDuration":0,"outDuration":0,"exitDelay":0,"enterDelay":0});
+};
+
 
 // Pagination
 let paginationImplantation = document.querySelectorAll('.implantationPage li'); // select implantation pagination elements

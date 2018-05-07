@@ -346,8 +346,9 @@ if (isset($_GET['optionList']) && is_string($_GET['optionList'])) { // security 
 if (isset($_GET['dataToGet']) && is_string($_GET['dataToGet'])) { // security checks
   $json['request']['status'] = 'success';
   $json['request']['message'] = 'Congrats. You have all the requested information.';
-  $json['response']['jwt'] = $_SESSION['jwt'];
+  $json['response']['jwt'] = $_SESSION['jwt']; // store the jwt in a session variable
   echo json_encode($json);
+  die(); // we kill the script
 };
 
 

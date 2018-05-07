@@ -254,7 +254,7 @@ class Startup {
       $idStartup = intval($this->db->lastInsertId());
       $idImplantation = intval($idImplantation);
 
-      if ($implantationId != false) {
+      if ($idImplantation != false) {
         $statement = $this->db->prepare("INSERT INTO `classeImplantationRelation` (`idClasseImplantationRelation`,`idClasse`,`idImplantation`) VALUES (NULL,:idStartup,:idImplantation)");
         $statement->bindParam(':idStartup', $idStartup, PDO::PARAM_INT);
         $statement->bindParam(':idImplantation', $idImplantation, PDO::PARAM_INT);
@@ -329,7 +329,7 @@ class Startup {
       $answer['status'] = 'error';
       $answer['message'] = 'Error !: ' . $e->getMessage();
       return $answer;
-      
+
     }
 
   }

@@ -30,7 +30,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <!-- <link rel="stylesheet" href="css/materialize.min.css"> -->
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/admin-management.css">
   </head>
   <body>
 
@@ -52,8 +52,8 @@
           <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
           <li class="active" data-start="0"><a href="#!">1</a></li>
           <?php
-          if ($iPageCount > 1) {
-            for ($i = 2, $start = $iNumberResults; $i <= $iPageCount; $i++, $start += $iNumberResults) {
+          if ($iPageCount > 1) { // if there are more than 1 page of results to display
+            for ($i = 2, $start = $iNumberResults; $i <= $iPageCount; $i++, $start += $iNumberResults) { // create the pagination elements for the pages
               echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
             };
           };
@@ -95,8 +95,8 @@
           <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
           <li class="active" data-start="0"><a href="#!">1</a></li>
           <?php
-          if ($sPageCount > 1) {
-            for ($i = 2, $start = $sNumberResults; $i <= $sPageCount; $i++, $start += $sNumberResults) {
+          if ($sPageCount > 1) { // if there are more than 1 page of results to display
+            for ($i = 2, $start = $sNumberResults; $i <= $sPageCount; $i++, $start += $sNumberResults) { // create the pagination elements for the pages
               echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
             };
           };
@@ -134,8 +134,8 @@
           <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
           <li class="active" data-start="0"><a href="#!">1</a></li>
           <?php
-          if ($uPageCount > 1) {
-            for ($i = 2, $start = $uNumberResults; $i <= $uPageCount; $i++, $start += $uNumberResults) {
+          if ($uPageCount > 1) { // if there are more than 1 page of results to display
+            for ($i = 2, $start = $uNumberResults; $i <= $uPageCount; $i++, $start += $uNumberResults) { // create the pagination elements for the pages
               echo '<li class="waves-effect" data-start="' . $start . '"><a href="#!">' . $i . '</a></li>';
             };
           };
@@ -200,8 +200,8 @@
               <select id="countryImplantation" required>
                 <option value="" disabled selected>Choose your option</option>
                 <?php
-                  $countryList = (new System($db))->getCountryList();
-                  foreach ($countryList as $value) {
+                  $countryList = (new System($db))->getCountryList(); // get the options from the database
+                  foreach ($countryList as $value) { // create the options for the select
                     echo '<option value="' . $value['value'] . '">' . $value['name'] . '</option>';
                   }
                 ?>
@@ -231,8 +231,8 @@
              <select id="linkedImplantation" required>
                <option value="" disabled selected>Choose your option</option>
                <?php
-                 $implantationList = (new Implantation($db))->getImplantationList();
-                 foreach ($implantationList as $value) {
+                 $implantationList = (new Implantation($db))->getImplantationList(); // get the options from the database
+                 foreach ($implantationList as $value) { // create the options for the select
                    echo '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
                  }
                ?>
@@ -268,8 +268,8 @@
             <select id="userType" required>
               <option value="" disabled selected>Choose your option</option>
               <?php
-                $typesList = (new System($db))->getOptionList('typeUser');
-                foreach ($typesList as $value) {
+                $typesList = (new System($db))->getOptionList('typeUser'); // get the options from the database
+                foreach ($typesList as $value) { // create the options for the select
                   echo '<option value="' . $value['value'] . '">' . $value['name'] . '</option>';
                 }
               ?>
@@ -282,8 +282,8 @@
             <select id="linkedStartup">
               <option value="" selected>Choose your option</option>
               <?php
-                $startupsList = (new Startup($db))->getStartupList(0, 15000);
-                foreach ($startupsList as $value) {
+                $startupsList = (new Startup($db))->getStartupList(0, 15000); // get the options from the database
+                foreach ($startupsList as $value) { // create the options for the select
                   echo '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
                 }
               ?>
@@ -300,6 +300,6 @@
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
    <!-- <script type="js/materialize.min.js"></script> -->
-   <script src="js/admin.js"></script>
+   <script src="js/admin-management.js"></script>
   </body>
 </html>
