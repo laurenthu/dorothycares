@@ -18,7 +18,7 @@ function whenDataLoadedGetJWT() { // what happens when the AJAX request is done
   dataText = dataRequestGetJWT.responseText; // we store the text of the response
   dataObject = JSON.parse(dataText); // we convert the text into an object
 
-  return dataObject['response']['jwt']; // return the json web token
+  jwt = dataObject['response']['jwt']; // return the json web token
 };
 
 function ajaxRequestDisplayResources() { // ajax request
@@ -31,7 +31,6 @@ function ajaxRequestDisplayResources() { // ajax request
 function whenDataLoadedDisplayResources() { // what happens when the AJAX request is done
   dataText = dataRequestDisplayResources.responseText; // we store the text of the response
   dataObject = JSON.parse(dataText); // we convert the text into an object
-  console.log(dataObject);
 
   if (dataObject['message'] != 'undefined') {
     dataObject['ressources'].forEach(function(el) {
@@ -44,6 +43,6 @@ function whenDataLoadedDisplayResources() { // what happens when the AJAX reques
 
 // Event Listeners
 window.addEventListener('load', function() { // implantations displayed on load
-  jwt = ajaxRequestGetJWT(); // save the json web token in the variable we created for it
+  ajaxRequestGetJWT(); // save the json web token in the variable we created for it
   ajaxRequestDisplayResources();
 });

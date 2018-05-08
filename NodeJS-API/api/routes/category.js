@@ -5,19 +5,19 @@ const router = express.Router();
 const CategoryController = require ('../controllers/category');
 
 // Handle incoming GET requests to /category
-router.get("/", CategoryController.get_all_category);
+router.get("/", checkAuth,  CategoryController.get_all_category);
 // Handle incoming GET requests to /category/:categoryId
 // router.get("/:categoryId", CategoryController.get_category);
 
 // Handle incoming GET requests to /category/:categoryName
-router.get("/:categoryName", CategoryController.get_categoryName);
+router.get("/:categoryName", checkAuth, CategoryController.get_categoryName);
 // Handle POST requests to /category
-router.post("/", CategoryController.create_category);
+router.post("/", checkAuth, CategoryController.create_category);
 
 // Handle PATCH requests to /category/:categoryName
-router.patch("/:categoryName", CategoryController.update_category);
+router.patch("/:categoryName", checkAuth, CategoryController.update_category);
 
 // Handle DELETE requests to /category/:categoryName
-router.delete("/:categoryName", CategoryController.delete_category);
+router.delete("/:categoryName", checkAuth, CategoryController.delete_category);
 
 module.exports = router;
