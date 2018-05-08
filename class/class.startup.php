@@ -278,7 +278,7 @@ class Startup {
 
   public function deleteStartup($idStartup) {
     /*
-    (IN) id of the implantation to delete
+    (IN) [INT] id of the implantation to delete
     (OUT) an array wuth the results.
     */
 
