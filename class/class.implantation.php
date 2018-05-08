@@ -73,6 +73,13 @@ class Implantation {
   }
 
   public function getImplantationList($start = 0, $number = 25, $orderBy = 'nameimplantation', $orderDir = 'ASC') {
+    /*
+    (IN) [INT] $start: start number (for pagination)
+    (IN) [INT] $number; how many items (for pagination)
+    (IN) [STRING] $orderBy: name of the column for the order
+    (IN) [STRING] $orderDir: order ASC or DESC 
+    (OUT) array with information / false if no implantation was found
+    */
 
     try {
 
