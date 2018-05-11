@@ -77,8 +77,8 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
     console.log('give toolbox v1.3');
     let codingToolbox = app.getArgument(SIDE_TECH_ARGUMENT);
     // make the request to our api to have the informations
-    console.log('https://dorothycares.herokuapp.com/toolbox/'+codingToolbox);
-    https.get('https://dorothycares.herokuapp.com/toolbox/'+codingToolbox, (res) => {
+    console.log('https://dorothycares.herokuapp.com/toolbox/' + codingToolbox);
+    https.get('https://dorothycares.herokuapp.com/toolbox/' + codingToolbox, (res) => {
       // declaring the body
       let body = '';
       // checking the status of the request
@@ -147,10 +147,12 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
             body.type = 'text';
             console.log('on res body second', body);
             for (let i = 0; i < body.response.length; i++) {
-              myResArr[i] = body.response[i].firstName + ' <' + body.response[i].email + '>';
+              myResArr[i] = body.response[i].firstName + ' (' + body.response[i].email + ')';
               console.log('my res arr', myResArr[i]);
             }
-            app.ask('Your coaches are ' + myResArr.join(" and ") + '.');
+            body.message = 'Your coaches are ' + myResArr.join(" and ") + '.';
+            body = JSON.stringify(body);
+            app.ask(body);
 
           });
         });
@@ -161,16 +163,48 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
     });
   }
 
+  function likes(names) {
+    // TODO
+    if (names.length == 0) {
+      return "no one likes this";
+    } else if (names.length == 1) {
+      return names[0] + " likes this";
+    } else if (names.length == 2) {
+      let mergedNames;
+      for (let i = 0; i < names.length; i++) {
+        mergedNames = names.join(" and ");
+      }
+      return mergedNames + ' like this';
+    } else if (names.length == 3) {
+      let mergedFirstTwoNames;
+      let mergedSecondPart;
+      for (let i = 0; i <= (names.length - 1); i++) {
+        mergedFirstTwoNames = names[0] + ', ' + names[1];
+        mergedSecondPart = mergedFirstTwoNames + ' and ' + names[2] + ' like this';
+      }
+      return mergedSecondPart;
+    } else if (names.length >= 4) {
+      let mergedFirstTwoNames;
+      let mergedSecondPart;
+      for (let i = 0; i <= (names.length - 1); i++) {
+         mergedFirstTwoNames = names[0] + ', ' + names[1];
+         mergedSecondPart = mergedFirstTwoNames + ' and ' + (names.length - 2) + ' others like this';
+      }
+      return mergedSecondPart;      
+    }
+  }
+
   function giveImplantation(app) {
     // Keeping track of the version of the function that will be deployed
-    console.log('give implantation v2.2');
+    console.log('give implantation v2.3');
     let email;
     let token;
-    let implantation;  
-    let street;  
+    let implantation;
+    let street;
     let postalCode;
     let city;
     let country;
+    let streetParsed;
     // make the request to our api to have the informations
     let sessionId = request.body.sessionId;
     console.log('sessionId:', sessionId);
@@ -208,8 +242,18 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
             postalCode = body.response.postalCode;
             city = body.response.city;
             country = body.response.country;
+            streetParsed = street.replace(new RegExp("\\ ", "g"), '+')
+            body.richCard = {
+              simpleText: "Here is the location",
+              title: implantation,
+              desc: street + ', ' + postalCode + ' ' + city + ', ' + country + '.',
+              image: 'https://maps.googleapis.com/maps/api/staticmap?center=' + streetParsed + '+' + postalCode + '+' + city + '+' + country + '/&zoom=18&size=640x400&maptype=roadmap&markers=color:red&key=AIzaSyCaCQRBawKiMebhZgp1abJW2prg8QrwwEs',
+              url: 'https://www.google.be/maps/place/' + streetParsed + ',+' + postalCode + '+' + city + '/'
+            }
+            body.message = 'Your are at ' + implantation + '. Here is the address: ' + street + ', ' + postalCode + ' ' + city + ', ' + country + '.';
+            body = JSON.stringify(body);
             console.log('on res body second', body);
-            app.ask('Your are at ' + implantation + '. Here is the address: ' + street + ', ' + postalCode + ' ' + city + ', ' + country +'.');
+            app.ask(body);
 
           });
         });
@@ -262,7 +306,9 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
             startUp = body.response.nameStartup;
             startUpGit = body.response.meta[0].value;
             console.log('on res body second', body);
-            app.ask('Your are in ' + startUp + '. Here is the GitHub: ' + startUpGit + '.');
+            body.message = 'Your are in ' + startUp + '. Here is the GitHub: ' + startUpGit + '.';
+            body = JSON.stringify(body);
+            app.ask(body);
 
           });
         });
@@ -322,7 +368,7 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
               res.on('end', () => {
                 body = JSON.parse(body);
                 body.api = 'rel';
-                body.modal = 'true';
+                body.modal = true;
                 body.type = 'list';
                 body = JSON.stringify(body);
                 console.log('on res body third', body);

@@ -1,21 +1,26 @@
+// 1.1 Importing all the needed modules.
 const express = require("express");
 const app = express();
-const path = require("path")
+const path = require("path");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const passport = require('passport');
 const mongoose = require("mongoose");
 
+// 1.2 Importing the routes that will be used.
 const ressourcesRoutes = require("./api/routes/ressources");
 const toolboxRoutes = require("./api/routes/toolbox");
 
+// 2. Connecting to MongoDB on mLab
 mongoose.Promise = global.Promise;
-const DBName = 'dorothycares'
+const DBName = 'dorothycares';
 mongoose.connect(`mongodb://DorothyCares:TheN!neSold!ers@ds239309.mlab.com:39309/${DBName}`)
         .then(() => console.log(`Connected to MongoDB on DB ${DBName}`))
         .catch((err) => console.log(`Database error: ${err}`));
 
+
+// 3. Initializing the needed middlewares.
 app.use(morgan("dev"));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -24,7 +29,7 @@ app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
+// 3.1 Setting up the CORS parameters that allows you to configure the web API's security.
 app.use(cors());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -39,20 +44,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes which should handle requests
+// 4. Declaring the routes that should handle requests
 app.use("/ressources", ressourcesRoutes);
 app.use("/toolbox", toolboxRoutes);
 
-// Index Route
+// 5. Index Route
 app.get('/', (req, res) => {
   res.send('Invalid Endpoint');
 });
 
+// 6. Non-existing routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/html'));
-})
+});
 
-//Error Handling
+// 6. Error Handling
 app.use((req, res, next) => {
   const error = new Error("Not found");
   error.status = 404;
@@ -68,4 +74,5 @@ app.use((error, req, res, next) => {
   });
 });
 
+// 7. Exporting the app module that will be imported in the server.js file
 module.exports = app;
