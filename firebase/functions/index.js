@@ -77,8 +77,8 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
     console.log('give toolbox v1.3');
     let codingToolbox = app.getArgument(SIDE_TECH_ARGUMENT);
     // make the request to our api to have the informations
-    console.log('https://dorothycares.herokuapp.com/toolbox/'+codingToolbox);
-    https.get('https://dorothycares.herokuapp.com/toolbox/'+codingToolbox, (res) => {
+    console.log('https://dorothycares.herokuapp.com/toolbox/' + codingToolbox);
+    https.get('https://dorothycares.herokuapp.com/toolbox/' + codingToolbox, (res) => {
       // declaring the body
       let body = '';
       // checking the status of the request
@@ -163,13 +163,44 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
     });
   }
 
+  function likes(names) {
+    // TODO
+    if (names.length == 0) {
+      return "no one likes this";
+    } else if (names.length == 1) {
+      return names[0] + " likes this";
+    } else if (names.length == 2) {
+      let mergedNames;
+      for (let i = 0; i < names.length; i++) {
+        mergedNames = names.join(" and ");
+      }
+      return mergedNames + ' like this';
+    } else if (names.length == 3) {
+      let mergedFirstTwoNames;
+      let mergedSecondPart;
+      for (let i = 0; i <= (names.length - 1); i++) {
+        mergedFirstTwoNames = names[0] + ', ' + names[1];
+        mergedSecondPart = mergedFirstTwoNames + ' and ' + names[2] + ' like this';
+      }
+      return mergedSecondPart;
+    } else if (names.length >= 4) {
+      let mergedFirstTwoNames;
+      let mergedSecondPart;
+      for (let i = 0; i <= (names.length - 1); i++) {
+         mergedFirstTwoNames = names[0] + ', ' + names[1];
+         mergedSecondPart = mergedFirstTwoNames + ' and ' + (names.length - 2) + ' others like this';
+      }
+      return mergedSecondPart;      
+    }
+  }
+
   function giveImplantation(app) {
     // Keeping track of the version of the function that will be deployed
     console.log('give implantation v2.3');
     let email;
     let token;
-    let implantation;  
-    let street;  
+    let implantation;
+    let street;
     let postalCode;
     let city;
     let country;
@@ -211,15 +242,15 @@ exports.dorothyCares = functions.https.onRequest((request, response) => {
             postalCode = body.response.postalCode;
             city = body.response.city;
             country = body.response.country;
-            streetParsed = street.replace(new RegExp("\\ ","g"),'+')
+            streetParsed = street.replace(new RegExp("\\ ", "g"), '+')
             body.richCard = {
               simpleText: "Here is the location",
               title: implantation,
-              desc: street + ', ' + postalCode + ' ' + city + ', ' + country +'.',
-              image: 'https://maps.googleapis.com/maps/api/staticmap?center='+streetParsed+'+'+postalCode+'+'+city+'+'+country+'/&zoom=18&size=640x400&maptype=roadmap&markers=color:red&key=AIzaSyCaCQRBawKiMebhZgp1abJW2prg8QrwwEs',
-              url: 'https://www.google.be/maps/place/'+streetParsed+',+'+postalCode+'+'+city+'/'
+              desc: street + ', ' + postalCode + ' ' + city + ', ' + country + '.',
+              image: 'https://maps.googleapis.com/maps/api/staticmap?center=' + streetParsed + '+' + postalCode + '+' + city + '+' + country + '/&zoom=18&size=640x400&maptype=roadmap&markers=color:red&key=AIzaSyCaCQRBawKiMebhZgp1abJW2prg8QrwwEs',
+              url: 'https://www.google.be/maps/place/' + streetParsed + ',+' + postalCode + '+' + city + '/'
             }
-            body.message = 'Your are at ' + implantation + '. Here is the address: ' + street + ', ' + postalCode + ' ' + city + ', ' + country +'.';
+            body.message = 'Your are at ' + implantation + '. Here is the address: ' + street + ', ' + postalCode + ' ' + city + ', ' + country + '.';
             body = JSON.stringify(body);
             console.log('on res body second', body);
             app.ask(body);
