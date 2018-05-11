@@ -19,6 +19,10 @@ Develop companion with an emotional approach for learners:
 * [Alexandre Ntougas](https://github.com/alexandrentougas)
 * [Bertrand Honner](https://github.com/SuperchillB)
 * [Serge Maïkere](https://github.com/SergeMaikere)
+* [Aron Dadi](https://github.com/aronddadi)
+* [Zhang Tsinxias](https://github.com/Tsinxias)
+* [Farid Hammouten](https://github.com/Farid212)
+* [Dayvid Astua](https://github.com/DayvidAstua)
 
 ### Special thanks to
 

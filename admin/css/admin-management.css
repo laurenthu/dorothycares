@@ -9,3 +9,8 @@
   right: 7vw;
   bottom: 10vh;
 }
+
+.tempSelect {
+  display: table-cell;
+  height: inherit;
+}

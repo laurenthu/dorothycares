@@ -133,6 +133,30 @@ class User {
 
   }
 
+  public function updateUserFirstNameById($idUser,$firstName) {
+    /*
+    (IN) [INT] idUser: id of the user
+    (IN) [STRING] firstName: new value of the data
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `firstNameUser` = :firstName WHERE `idUser` = :idUser");
+      $statement->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $firstName;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
   public function getUserLastName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
@@ -161,7 +185,8 @@ class User {
 
   public function updateUserLastName($emailUser,$lastName) {
     /*
-    (IN) email of the user to check and the value to update
+    (IN) [INT] emailUser: id of the user
+    (IN) [STRING] lastName: new value of the data
     (OUT) value if value was well stored / false if was not stored
     */
 
@@ -170,6 +195,30 @@ class User {
       $statement = $this->db->prepare("UPDATE `user` SET `lastNameUser` = :lastName WHERE `emailUser` = :emailUser");
       $statement->bindParam(':lastName', $lastName, PDO::PARAM_STR);
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      return $lastName;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
+  public function updateUserLastNameById($idUser,$lastName) {
+    /*
+    (IN) [INT] idUser: id of the user
+    (IN) [STRING] lastName: new value of the data
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `lastNameUser` = :lastName WHERE `idUser` = :idUser");
+      $statement->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
       $statement->execute();
 
       return $lastName;
@@ -210,7 +259,8 @@ class User {
 
   public function updateUserMainLanguageCode($emailUser,$languageCode) {
     /*
-    (IN) email of the user to check and the value to update
+    (IN) [INT] emailUser: email of the user
+    (IN) [STRING] languageCode: new value of the data
     (OUT) value if value was well stored / false if was not stored
     */
 
@@ -219,6 +269,29 @@ class User {
       $statement = $this->db->prepare("UPDATE `user` SET `mainLanguageUser` = :languageCode WHERE `emailUser` = :emailUser");
       $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+      return $languageCode;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
+  public function updateUserMainLanguageCodeById($idUser,$languageCode) {
+    /*
+    (IN) [INT] idUser: id of the user
+    (IN) [STRING] languageCode: new value of the data
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `mainLanguageUser` = :languageCode WHERE `idUser` = :idUser");
+      $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
       $statement->execute();
       return $languageCode;
 
@@ -288,7 +361,8 @@ class User {
 
   public function updateUserType($emailUser,$typeUser) {
     /*
-    (IN) email of the user to check and the value to update
+    (IN) [INT] emailUser: email of the user
+    (IN) [STRING] typeUser: new value of the data
     (OUT) value if value was well stored / false if was not stored
     */
 
@@ -312,9 +386,63 @@ class User {
 
   }
 
+  public function updateUserTypeById($idUser,$typeUser) {
+    /*
+    (IN) [INT] idUser: id of the user
+    (IN) [STRING] typeUser: new value of the data
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `typeUser` = :typeUser WHERE `idUser` = :idUser");
+      $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $typeUser;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateUserEmailById($idUser,$emailUser) {
+    /*
+    (IN) id of the user to check and the value to update
+    (IN) new email of the user
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `emailUser` = :emailUser WHERE `idUser` = :idUser");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $typeUser;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
   public function getUserStartupName($emailUser) {
     /*
-    (IN) $emailUser: email of the user for which we want to collect the data
+    (IN) [STRING] $emailUser: email of the user for which we want to collect the data
     (OUT) string if a data is found, false if no user was found
     */
 
@@ -345,7 +473,7 @@ class User {
 
   public function getUserStartupId($emailUser) {
     /*
-    (IN) $emailUser: email of the user for which we want to collect the data
+    (IN) [STRING] $emailUser: email of the user for which we want to collect the data
     (OUT) integer if a data is found, false if no user was found
     */
 
@@ -375,7 +503,7 @@ class User {
 
   public function getUserImplantationName($emailUser) {
     /*
-    (IN) $emailUser: email of the user for which we want to collect the data
+    (IN) [STRING] $emailUser: email of the user for which we want to collect the data
     (OUT) string if a data is found, false if no user was found
     */
 
@@ -408,7 +536,7 @@ class User {
 
   public function getUserImplantationId($emailUser) {
     /*
-    (IN) $emailUser: email of the user for which we want to collect the data
+    (IN) [STRING] $emailUser: email of the user for which we want to collect the data
     (OUT) integer if a data is found, false if no user was found
     */
 
@@ -439,6 +567,10 @@ class User {
   }
 
   public function getUserInformation($emailUser) {
+    /*
+    (IN) [STRING] emailUser: the email of the user
+    (OUT) an array with the data / false if not
+    */
 
     try {
 
@@ -509,6 +641,10 @@ class User {
   }
 
   public function getUserInformationAllMeta($email) {
+    /*
+    (IN) [STRING] email: the email of the user
+    (OUT) an array with the data / false if not
+    */
 
     try {
 
@@ -555,6 +691,11 @@ class User {
   }
 
   public function getUserInformationOneMeta($email, $key) {
+    /*
+    (IN) [STRING] email: the email of the user
+    (IN) [STRING] key: the key of the meta we want to collect
+    (OUT) the data / false if not
+    */
 
     try {
 
@@ -622,8 +763,11 @@ class User {
 
   public function getUserList($start = 0, $number = 25, $typeUser = 'all', $orderBy = 'firstNameUser', $orderDir = 'ASC') {
     /*
-    (IN) var for the SELECT
-    (OUT) array with information / false if no user was found
+    (IN) [INT] $start: start number (for pagination)
+    (IN) [INT] $number; how many items (for pagination)
+    (IN) [STRING] $orderBy: name of the column for the order
+    (IN) [STRING] $orderDir: order ASC or DESC
+    (OUT) array with information / false if no implantation was found
     */
 
     try {
@@ -751,6 +895,10 @@ class User {
   }
 
   protected function generationRandomPassword($length = 25) {
+    /*
+    (IN) [INT] $length: length of the password
+    (OUT) return a random password
+    */
     $signs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     $pass = array(); //remember to declare $pass as an array
     $signsLength = strlen($signs) - 1; //put the length -1 in cache
@@ -871,7 +1019,8 @@ class User {
 
   protected function generateUserPassword($emailUser , $randomSalt = NULL) {
     /*
-    (IN) email of the user to check
+    (IN) [STRING] email of the user to check
+    (IN) [STRING] randomSalt to geenrate password
     (OUT) password if password was well generated / false if was not generated
     */
 
@@ -882,8 +1031,6 @@ class User {
     }
 
     $password = password_hash($emailUser.$googleId.$randomSalt, PASSWORD_DEFAULT);
-
-
 
     if( $password != false ) {
       return $password;
@@ -923,7 +1070,8 @@ class User {
 
   public function updateSessionIdUser($emailUser,$sessionId) {
     /*
-    (IN) email of the user to check
+    (IN) [STRING] email of the user
+    (IN) [STRING] sessionId of the user
     (OUT) true is ok, false it not
     */
 
@@ -949,7 +1097,7 @@ class User {
 
   public function getEmailUserBySessionIdUser($sessionId) {
     /*
-    (IN) sessionId of the user to check
+    (IN) [STRING] sessionId of the user to check
     (OUT) return email if ok, false if not
     */
 
@@ -975,7 +1123,7 @@ class User {
 
   public function getTokenUserBySessionIdUser($sessionId) {
     /*
-    (IN) sessionId of the user to check
+    (IN) [STRING] sessionId of the user to check
     (OUT) return token if ok, false if not
     */
 
@@ -1001,7 +1149,7 @@ class User {
 
   protected function getPasswordUser($emailUser) {
     /*
-    (IN) email of the user to check
+    (IN) [STRING] email of the user to check
     (OUT) true return passwordUser / false if was not found
     */
 
@@ -1027,8 +1175,8 @@ class User {
 
   public function checkPassworduser($emailUser,$randomSalt) {
     /*
-    (IN) email of the user to check
-    (IN) $ramdonSalt of the user to check
+    (IN) [STRING] email of the user to check
+    (IN) [STRING] ramdonSalt of the user to check
     (OUT)return true is password match / false if not
     */
     $hashOriginal = $this->getPasswordUser($emailUser);
@@ -1041,7 +1189,7 @@ class User {
 
   public function addUserLog($emailUser) {
     /*
-    (IN) email of the user to check
+    (IN) [STRING] email of the user to check
     (OUT) return true is insertion was well done / false if not
     */
 
@@ -1070,7 +1218,7 @@ class User {
     (IN) [string] $email: of the user to check
     (IN) [integer/boolean]: $startupId. An integer with the id of the startup or false is no startup
     (IN) [string] $typeUser: type of user
-    (IN) [string(2)] $languageCode: the language of the user
+    (IN) [string] $languageCode: the language of the user
     (OUT) return ID of the user is insertion was well done / false if not
     */
 
@@ -1109,6 +1257,12 @@ class User {
   }
 
   public function addUserMeta($idUser, $idOption, $valueUserMeta) {
+    /*
+    (IN) [integer] idUSer: id of the user to check
+    (IN) [integer] idOption id of the option
+    (IN) [string] valueUserMeta: the value to store
+    (OUT) true if ok / false if not
+    */
 
     try {
 
@@ -1132,6 +1286,12 @@ class User {
   }
 
   public function updateUserMeta($idUser, $idOption, $valueUserMeta) {
+    /*
+    (IN) [integer] idUSer: id of the user to check
+    (IN) [integer] idOption id of the option
+    (IN) [string] valueUserMeta: the value to update
+    (OUT) string with the value if ok / false if not
+    */
 
     try {
 
@@ -1152,6 +1312,11 @@ class User {
   }
 
   public function deleteUserMeta($idUser, $idOption) {
+    /*
+    (IN) [integer] idUSer: id of the user to check
+    (IN) [integer] idOption id of the option
+    (OUT) true if ok / false if not
+    */
 
     try {
 
@@ -1190,6 +1355,52 @@ class User {
       return true;
     } else {
       return $errors;
+    }
+
+  }
+
+  public function deleteUser($idUser) {
+    /*
+    (IN) id of the implantation to delete
+    (OUT) an array wuth the results.
+    */
+
+    $answer = array();
+    $idUser = intval($idUser); // to be sure that is a integer (if it's valid data)
+
+    try {
+
+        $this->db->beginTransaction(); // we start a transaction
+
+        // we can destroy the relation with the startup
+        $statement = $this->db->prepare("DELETE FROM `userClasseRelation` WHERE `idUser` = :idUser");
+        $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $statement->execute();
+
+        // we delete the user
+        $statement = $this->db->prepare("DELETE FROM `user` WHERE `idUser` = :idUser");
+        $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $statement->execute();
+
+        $this->db->commit(); // we confirm the transaction
+
+        if( $this->db->commit() ) { // if everything is okay
+          $answer['status'] == 'success';
+          $answer['message'] = 'The user was well deleted.';
+        } else {
+          $answer['status'] == 'error';
+          $answer['message'] = 'Sorry, an error occurred while deleting the user';
+        }
+
+      return $answer;
+
+    } catch (PDOException $e) {
+
+      $this->db->rollback(); // we cancel the transaction
+      $answer['status'] = 'error';
+      $answer['message'] = 'Error !: ' . $e->getMessage();
+      return $answer;
+
     }
 
   }

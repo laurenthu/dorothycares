@@ -18,10 +18,6 @@ exports.get_all_toolbox = (req, res, next) => {
             category: doc.category,            
             usecase: doc.usecase,
             tools: doc.tools
-            // request: {
-            //   type: "GET",
-            //   url: "https://dorothycares.herokuapp.com/toolbox/" + doc._id
-            // }
           };
         })
       });
@@ -105,10 +101,6 @@ exports.create_toolbox = (req, res, next) => {
           category: result.category,
           usecase: result.usecase,
           tools: result.tools
-          // request: {
-          //   type: 'GET',
-          //   url: "https://dorothycares.herokuapp.com/toolbox/" + result._id
-          // }
         }
       });
     })
@@ -133,10 +125,6 @@ exports.update_toolbox = (req, res, next) => {
     .then(result => {
       res.status(200).json({
         message: 'Toolbox updated'
-        // request: {
-        //   type: 'GET',
-        //   url: 'https://dorothycares.herokuapp.com/toolbox/' + id
-        // }
       });
     })
     .catch(err => {
@@ -157,14 +145,6 @@ exports.delete_toolbox = (req, res, next) => {
     .then(result => {
       res.status(200).json({
         message: 'Toolbox deleted'
-        // request: {
-        //   type: 'POST',
-        //   url: 'https://dorothycares.herokuapp.com/toolbox/',
-        //   body: {
-        //     name: 'String',
-        //     price: 'Number'
-        //   }
-        // }
       });
     })
     .catch(err => {

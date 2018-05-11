@@ -127,19 +127,19 @@ function writeRessourcesInfoModal(dataObject, contentBody) {
     content += '<h3 class="modal-body-block-title">Installation</h3>';
     content += '<div class="modal-body-block-content">';
     content += '<ul class="modal-body-block-list">';
-    if (dataObject.installation[0].official !== '') {
+    if (dataObject.installation[0].official != '') {
       content += '<li class="modal-body-block-list-item"><span>Official:</span> ' + createLink(dataObject.installation[0].official) + '</li>';
     }
-    if (dataObject.installation[0].Windows !== '') {
+    if (dataObject.installation[0].Windows != '') {
       content += '<li class="modal-body-block-list-item"><span>Windows:</span> ' + createLink(dataObject.installation[0].Windows) + '</li>';
     }
-    if (dataObject.installation[0].Mac !== '') {
+    if (dataObject.installation[0].Mac != '') {
       content += '<li class="modal-body-block-list-item"><span>Mac:</span> ' + createLink(dataObject.installation[0].Mac) + '</li>';
     }
-    if (dataObject.installation[0].Ubuntu !== '') {
+    if (dataObject.installation[0].Ubuntu != '') {
       content += '<li class="modal-body-block-list-item"><span>Ubuntu:</span> ' + createLink(dataObject.installation[0].Ubuntu) + '</li>';
     }
-    if (dataObject.installation[0].other !== '') {
+    if (dataObject.installation[0].other != '') {
       content += '<li class="modal-body-block-list-item"><span>Other:</span> ' + createLink(dataObject.installation[0].other) + '</li>';
     }
     content += '</ul>';
@@ -152,9 +152,15 @@ function writeRessourcesInfoModal(dataObject, contentBody) {
     content += '<h3 class="modal-body-block-title">Documentation</h3>';
     content += '<div class="modal-body-block-content">';
     content += '<ul class="modal-body-block-list">';
-    content += '<li class="modal-body-block-list-item"><span>Official:</span> ' + createLink(dataObject.documentation[0].official) + '</li>';
-    content += '<li class="modal-body-block-list-item"><span>Useful:</span> ' + createLink(dataObject.documentation[0].useful) + '</li>';
-    content += '<li class="modal-body-block-list-item"><span>Get started:</span> ' + createLink(dataObject.documentation[0].getstarted) + '</li>';
+    if (dataObject.documentation[0].official != '') {
+      content += '<li class="modal-body-block-list-item"><span>Official:</span> ' + createLink(dataObject.documentation[0].official) + '</li>';
+    }
+    if (dataObject.documentation[0].useful != '') {
+      content += '<li class="modal-body-block-list-item"><span>Useful:</span> ' + createLink(dataObject.documentation[0].useful) + '</li>';
+    }
+    if (dataObject.documentation[0].getstarted != '') {
+      content += '<li class="modal-body-block-list-item"><span>Get started:</span> ' + createLink(dataObject.documentation[0].getstarted) + '</li>';
+    }
     content += '</ul>';
     content += '</div>';
     content += '</div>';

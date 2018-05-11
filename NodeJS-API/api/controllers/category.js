@@ -15,10 +15,6 @@ exports.get_all_category = (req, res, next) => {
             name: doc.name,
             ressources: doc.ressources,
             toolbox: doc.toolbox
-            // request: {
-            //   type: "GET",
-            //   url: "https://dorothycares.herokuapp.com/category/" + doc._id
-            // }
           };
         })
       });
@@ -70,10 +66,6 @@ exports.get_categoryName = (req, res, next) => {
       }
       res.status(200).json({
         category: category
-        // request: {
-        //   type: "GET",
-        //   url: "https://dorothycares.herokuapp.com/category/"
-        // }
       });
     })
     .catch(err => {
@@ -101,10 +93,6 @@ exports.create_category = (req, res, next) => {
           name: result.name,
           ressources: result.ressources,
           toolbox: result.toolbox
-          // request: {
-          //   type: 'GET',
-          //   url: "https://dorothycares.herokuapp.com/category/" + result._id
-          // }
         }
       });
     })
@@ -129,10 +117,6 @@ exports.update_category = (req, res, next) => {
     .then(result => {
       res.status(200).json({
         message: 'Category updated'
-        // request: {
-        //   type: 'GET',
-        //   url: 'https://dorothycares.herokuapp.com/category/' + id
-        // }
       });
     })
     .catch(err => {
@@ -153,14 +137,6 @@ exports.delete_category = (req, res, next) => {
     .then(result => {
       res.status(200).json({
         message: 'Category deleted'
-        // request: {
-        //   type: 'POST',
-        //   url: 'https://dorothycares.herokuapp.com/category/',
-        //   body: {
-        //     name: 'String',
-        //     price: 'Number'
-        //   }
-        // }
       });
     })
     .catch(err => {
