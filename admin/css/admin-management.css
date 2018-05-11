@@ -1,0 +1,16 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.addButtonContainer {
+  display: inline-block;
+  position: fixed;
+  right: 7vw;
+  bottom: 10vh;
+}
+
+.tempSelect {
+  display: table-cell;
+  height: inherit;
+}

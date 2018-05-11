@@ -1,5 +1,36 @@
 /*
 ----------------------------------------------------------------------
+VARIABLES DECLARATION
+----------------------------------------------------------------------
+*/
+
+let dorothyBall = document.querySelector('.dorothy-ball'),
+    menu = document.getElementsByClassName('ball-menu-item'),
+    menuOpen = false, // used to tell whether menu was clicked or not (acts as switch)
+    message = document.querySelector('.welcome-message-style'),
+    welcomeMessageContainer = document.getElementById('welcomeMessageContainer'),
+    messageClicked = false, // switch for whether welcome message was clicked or not
+    terminal = document.getElementById('terminal'),
+    menuTerminal = document.querySelector('.menu-terminal'),
+    menuProfile = document.querySelector('.menu-profile'),
+    menuInfo = document.querySelector('.menu-info'),
+    menuCalendar = document.querySelector('.menu-calendar'),
+    answerModal = document.getElementById('answerTemplate'),
+    answerModalBody = document.querySelector('#answerTemplate .modal-body'),
+    longAnswerBtn = document.getElementById('answer-modal-btn'),
+    profileModal = document.getElementById('profilePage'),
+    profileModalBtn = document.getElementById('profile-modal-btn'),
+    hidingBgDiv = document.getElementById('hiding-bg-div'),
+    menuProfileIsClicked = false,
+    infoModal = document.getElementById('infoPage'),
+    infoModalBtn = document.getElementById('info-modal-btn'),
+    menuInfoIsClicked = false,
+    formProfile = document.getElementById('profile-details'),
+    messageModal = document.getElementById('messageModal'),
+    messageModalCloseBtn = document.getElementById('messageModalClose');
+
+/*
+----------------------------------------------------------------------
 BERTRAND
 ----------------------------------------------------------------------
 */
@@ -9,27 +40,6 @@ BERTRAND
 INTRO ANIMATIONS (ball & menu)
 _______________________________
 */
-
-
-let dorothyBall = document.querySelector('.dorothy-ball');
-let menu = document.getElementsByClassName('ball-menu-item');
-let menuOpen = false; // used to tell whether menu was clicked or not (acts as switch)
-let message = document.querySelector('.welcome-message-style');
-let welcomeMessageContainer = document.getElementById('welcomeMessageContainer');
-let messageClicked = false; // switch for whether welcome message was clicked or not
-let menuTerminal = document.querySelector('.menu-terminal');
-let menuProfile = document.querySelector('.menu-profile');
-let menuInfo = document.querySelector('.menu-info');
-let menuCalendar = document.querySelector('.menu-calendar');
-let answerModal = document.getElementById('answerTemplate');
-let answerModalBody = document.querySelector('#answerTemplate .modal-body');
-let longAnswerBtn = document.getElementById('answer-modal-btn');
-let profileModal = document.getElementById('profilePage');
-let profileModalBtn = document.getElementById('profile-modal-btn');
-let hidingBgDiv = document.getElementById('hiding-bg-div');
-let menuProfileIsClicked = false;
-let infoModal = document.getElementById('infoPage');
-let menuInfoIsClicked = false;
 
 // function to show/hide menu (small balls)
 function showMenu (value) {
@@ -255,7 +265,7 @@ menuInfo.addEventListener('click', function(){
 });
 
 // When user clicks on info modal hide info modal
-infoModal.addEventListener('click', function(){
+infoModalBtn.addEventListener('click', function(){
   hideInfo();
   // create another timeline for the menu buttons [anime JS]
   let myTimeline = anime.timeline();
@@ -286,6 +296,29 @@ infoModal.addEventListener('click', function(){
       offset: '-=950'
     });
 });
+
+
+// function to show action message popup/modal (top right)
+function showMessageModal () {
+  messageModal.style.display = 'flex';
+  anime({
+    targets: '#messageModal',
+    top: 30,
+    opacity: 1
+  });
+}
+// when user clicks on close button of action message popup/modal (top right)
+messageModalCloseBtn.addEventListener('click', function(){
+  anime({
+    targets: '#messageModal',
+    top: -60,
+    opacity: 0,
+    complete: function(){
+      messageModal.style.display = 'none';
+      messageModal.style.top = '90px';
+    }
+  });
+})
 
 function showTerminal() {
   // set switch back to false so that we can open it with one click
@@ -371,6 +404,19 @@ function showTerminal() {
 }
 
 function showProfile () {
+  // hide info modal if opened
+  hideInfo();
+  // change the status of visibility for the modal
+  terminal.setAttribute('data-visibility','false');
+  // change the status of visibility for the modal
+  profileModal.setAttribute('data-visibility','true');
+  fillProfile();
+  // show close button (arrow) after modal is fully stretched
+  anime({
+    targets: '#profile-modal-btn',
+    top: 0,
+    delay: 800
+  });
   menuProfileIsClicked = false;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -447,6 +493,10 @@ function showProfile () {
 
 // when click on any menu buttons other than profile or on close button of profile modal, launch hideProfile()
 function hideProfile () {
+  terminal.setAttribute('data-visibility','true'); // change the status of visibility for the modal
+  profileModal.setAttribute('data-visibility','false'); // change the status of visibility for the modal
+  // hide close button (up arrow) again
+  profileModalBtn.style.top = '60px';
   // hide profile modal
   profileModal.style.top = '-120%';
   // hide hiding background div so user can click on background
@@ -486,6 +536,13 @@ function hideProfile () {
 }
 
 function showInfo () {
+  terminal.setAttribute('data-visibility','true');
+  // show close button (arrow left) after modal is fully stretched
+  anime({
+    targets: '#info-modal-btn',
+    right: 0,
+    delay: 800
+  });
   menuInfoIsClicked = true;
   // set switch back to false so that we can open it with one click
   menuOpen = false;
@@ -561,6 +618,9 @@ function showInfo () {
 }
 
 function hideInfo () {
+  terminal.setAttribute('data-visibility','true');
+  // hide close button (left arrow) again
+  infoModalBtn.style.right = '-60px';
   menuInfoIsClicked = false;
   // hide info modal
   infoModal.style.left = '-120%';
@@ -604,6 +664,7 @@ function hideInfo () {
 longAnswerBtn.addEventListener('click', function(){
   answerModal.style.right = "-120%";
   hidingBgDiv.style.display = "none";
+  terminal.setAttribute('data-visibility','true');
 });
 
 
@@ -613,7 +674,7 @@ TERMINAL SCROLL BAR: scroll down automatically when scroll bar appears
 _______________________________
 */
 
-let scrollContainer = document.getElementById("terminal-content");
+let scrollContainer = document.querySelector('.terminal-content');
 
 function scrollDown() {
   // when user presses 'enter' scrollbar scrolls down automatically
@@ -682,62 +743,6 @@ _______________________________
         t = setTimeout(displayMessage, 3000);
     }
 };*/
-
-
-
-
-
-
-/*
-----------------------------------------------------------------------
-MIKEY
-----------------------------------------------------------------------
-*/
-
-
-
-
-/*
-Close button Function
-_______________________________
-*/
-
-document.getElementById('close').onclick = function(){  // Select element button "close" onclick
-  // Anime.js change the value of the Y axis to create an animation
-  anime({
-    targets: 'main, terminal',
-    // The target to animate (only works with ID)
-    translateY: [
-    // Affect the Y axis
-      { value: 700, duration: 2000},
-      // Value is the position in pixel, duration is the time the animation will take in millisecond
-    ],
-  });
-};
-
-/*
-Resize State Button Function
-_______________________________
-*/
-
-
-let terminal = document.querySelector('#terminal');   // Variable terminal initialisation
-let resizeBtn = document.querySelector('#maximize');  // Variable maximize initialisation
-let resizeState = false;                // State variable
-
-resizeBtn.addEventListener('click', function (){    // Function start on click on maximize button
-  if (resizeState == false) {             // Condition to create toggle
-    terminal.style.margin = "0 2.5vw";        // Change to new margin value
-    terminal.style.width = "95%";         // Change to new width value
-    terminal.style.top = "550px";         // Change to new top value
-    resizeState = true;               // Change the state to true
-  } else if (resizeState == true) {         // In other case if resizeState is = to true
-    terminal.style.margin = "0 22.5vw";       // Change to margin default value
-    terminal.style.width = "55%";         // Change to width default value
-    terminal.style.top = "700px";         // Change to top pixel default value
-    resizeState = false;              // Change the state to false
-  };
-})
 
 
 /*
@@ -844,21 +849,161 @@ Laurent
 */
 
 function nl2br(str) {
-    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
+  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
 }
 
 function addFirstZero(i) {
-    if (i < 10) {
-        i = '0' + i;
-    }
-    return i;
+  if (i < 10) {
+      i = '0' + i;
+  }
+  return i;
 }
 
 function date_time(selector) {
-    let date = new Date();
-    result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
-    result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
-    document.querySelector(selector).innerHTML = result;
-    setTimeout('date_time("' + selector + '");', '1000');
-    return true;
+  let date = new Date();
+  result = addFirstZero(date.getHours()) + ':' + addFirstZero(date.getMinutes()) + ':' + addFirstZero(date.getSeconds()) + '<br>';
+  result += addFirstZero(date.getDate()) + '/' + addFirstZero(date.getMonth() + 1) + '/' + date.getFullYear();
+  document.querySelector(selector).innerHTML = result;
+  setTimeout('date_time("' + selector + '");', '1000');
+  return true;
+}
+
+function validateEmail(email) {
+  let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(email);
+}
+
+function validateURL(url) {
+  let regex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/
+  return regex.test(url);
+}
+
+function fillProfile() {
+
+  let inputs = document.querySelectorAll('input');
+  let selects = document.querySelectorAll('select');
+  let random = Math.round((Math.random() * 100000));
+
+  const axiosAjax = axios.create({
+    baseURL: '/',
+    timeout: 10000, // 10 sec
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+    },
+    maxContentLength: 500000, // 500ko
+  });
+
+  axiosAjax.get('ajax/?type=getProfile&v=' + random)
+
+  .then( function (response) {
+
+    for (let keyLoop in response.data) { // we loop the main value
+
+      if (typeof response.data[keyLoop] == 'object' && keyLoop == 'meta') { // we check if it's an object (for meta value)
+
+        for (let keyLoopBis in response.data[keyLoop]) { // we loop the meta value
+          if (document.querySelector('input[name=' + response.data[keyLoop][keyLoopBis].key + ']') != null) { // we check if an input with the same key exists
+            document.querySelector('input[name=' + response.data[keyLoop][keyLoopBis].key + ']').value = response.data[keyLoop][keyLoopBis].value; // we display the value
+          }
+        }
+
+      } else { // else it's a main value
+
+        if (document.querySelector('input[name=' + keyLoop + ']') != null) { // we check if an input with the same key exists
+          document.querySelector('input[name=' + keyLoop + ']').value = response.data[keyLoop]; // we display the value
+        }
+
+      }
+
+    };
+
+  })
+
+  .catch( function (error) {
+    console.log(error);
+  });
+
+}
+
+
+formProfile.addEventListener('submit', function(e) {
+
+  e.preventDefault();
+  let inputs = document.querySelectorAll('input');
+  let selects = document.querySelectorAll('select');
+  let json = {};
+  json.user = {};
+
+  inputs.forEach( function(item) {
+
+    item.classList.remove('error'); // on retire toutes les classes error
+    item.setAttribute('data-error-message','');
+
+    if (item.getAttribute('required') != null && item.value == '') {
+      item.classList.add('error');
+      item.setAttribute('data-error-message','This field is required.')
+    }
+    if (item.getAttribute('type') === 'text' && item.value.length <= 3) {
+      item.classList.add('error');
+      item.setAttribute('data-error-message','Your entry is a bit too short')
+    }
+    if (item.getAttribute('type') === 'url' && item.value.length > 0) {
+      if (validateURL(item.value) == false && item.value != '') {
+        item.classList.add('error');
+        item.setAttribute('data-error-message','This url is not valid.')
+      }
+    }
+
+    json.user[item.name] = item.value;
+
+  })
+
+  if (document.querySelectorAll('#profile-details .error').length == 0) {
+
+    json.type = 'updateProfile';
+
+    //console.log('No error');
+    //console.log(json);
+    const axiosAjax = axios.create({
+      baseURL: '/',
+      timeout: 10000, // 10 sec
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      },
+      maxContentLength: 1000000, // 1Mo
+    });
+
+    axiosAjax.post('ajax/', {
+      formAnswer: JSON.stringify(json)
+    })
+    .then(function (response) {
+      hideProfile();
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  } else {
+    console.log('error');
+  }
+
+});
+
+/*
+----------------------------------------------------------------------
+Service workers
+----------------------------------------------------------------------
+*/
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/service.workers.js', { scope : '/' }).then(function(registration) {
+      // Registration was successful
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, function(err) {
+      // registration failed :(
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
 }

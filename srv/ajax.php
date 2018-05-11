@@ -1,62 +1,108 @@
 <?php
 
-  // we start a session
-  session_start();
-
   // we insert the config file
   include('_config.php');
 
-  // we store the value
-  $userInstruction = trim(strtolower($_POST['instruction'])); // we store the value send the user
+  $u = new User($db);
 
-  // we the current date (now!)
-  $nowTimer = new DateTime();
-  $randomSeconds = rand(3,10);
+  //echo $_POST['query'];
+  //json_decode($json)
+  $jsonData = json_decode(trim(file_get_contents('php://input')), true);
+  $jsonData = json_decode($jsonData['formAnswer']);
+  //var_dump($jsonData);
 
 
-  if(!isset($_SESSION['token'])) {  // we check if the token is present (and so if he arrive from index.php)
-    echo 'Your security token has expired. To secure the line again, you need to refresh the terminal.'; // we print the message
-    $db = null; // we close db connection
-    die(); // we kill the rest of the code
-  }
-
-  if(!isset($_SESSION['nextPostTimer'])) { // if the time doesn't exist we create it
-    $_SESSION['nextPostTimer'] = new DateTime(); // we create a new Date object
-    $_SESSION['nextPostTimer']->modify('+'.$randomSeconds.' seconds'); // we add the timer
-  } else if ($_SESSION['nextPostTimer'] > $nowTimer) { // if timer exists, we test if he could already post
-    $_SESSION['nextPostTimer']->modify('+'.$randomSeconds.' seconds'); // we add the time
-    if ($userInstruction == 'timer') {
-      echo 'You will be able to post again on '.$_SESSION['nextPostTimer']->format('d/m/Y H:i:s'); // we send the information
-      $db = null; // we close db connection
-      die(); // we kill the rest of the code
-    }
-    echo 'Dear spammer, you must wait a little before typing the next instruction. So don\'t be a troll.<br><strong>Notice:</strong> Security timers can be cumulated.'; // we print the message
-    $db = null; // we close db connection
-    die(); // we kill the rest of the code
-  } else { //  // if exist and he can post again
-    $_SESSION['nextPostTimer'] = new DateTime();
-    $_SESSION['nextPostTimer']->modify('+'.$randomSeconds.' seconds'); // we add the time
-  }
-
-  if ($userInstruction == 'timer'){
-    echo 'You will be able to post again on '.$_SESSION['nextPostTimer']->format('d/m/Y H:i:s'); // we send the information
-    $db = null; // we close db connection
-    die(); // we kill the rest of the code
-  }
-
-  if ($userInstruction == '') { // we check if it's not empty
-    echo 'No empty command please'; // we print the message
-    $db = null; // we close db connection
-    die(); // we kill the rest of the code
-  } elseif ( strlen($userInstruction) == 1 ) { // we test if the command has a length > 1
-    echo 'No one-letter command please'; // we print the message
-    $db = null; // we close db connection
-    die(); // we kill the rest of the code
+  if ( !isset($_GET['type']) ) {
+    $type = 'updateProfile';
   } else {
-    $answer = 'Unknown command '.$userInstruction; // we give a default message
+    $type = $_GET['type'];
   }
 
-  $db = null; // we close database connexion
-  echo $answer; // we return the answer
+
+  if ($type == 'updateProfile') {
+
+    $err = 0;
+
+    $optionsList = (new System($db))->getOptionList('linkType'); // we recup list option for website
+    foreach($optionsList as $k => $v) {
+      $options[$v['id']]=$v['value'];
+    }
+
+    foreach($jsonData->user as $key => $value) {
+
+      if ($value != '' && $key == 'firstName') { // we update first name if not empty
+
+        if($u->updateUserFirstName($_SESSION['email'],$value) == false) {
+          $json['error']['firstName'] = 'Impossible to save your first name';
+          $err++;
+        }
+
+      } elseif ($value != '' && $key == 'lastName') { // we update last name if not empty
+
+        if($u->updateUserLastName($_SESSION['email'],$value) == false) {
+          $json['error']['lastName'] = 'Impossible to save your last name';
+          $err++;
+        }
+
+      } elseif ($value != '' && $key == 'mainLanguage') { // we update main language if not empty
+
+        if($u->updateUserMainLanguageCode($_SESSION['email'],$value) == false) {
+          $json['error']['mainLanguage'] = 'Impossible to save your language selection';
+          $err++;
+        }
+
+      } elseif (in_array($key,$options)) {
+
+        $idOption = array_search($key,$options);
+        $idUser = intval($u->getUserId($_SESSION['email']));
+
+        if ($u->getUserInformationOneMeta($_SESSION['email'], $key) == false && $value != '') { // elle n'existe pas encore dans la bdd, on la crée
+
+          if($u->addUserMeta($idUser, $idOption, $value) == false) {
+            $json['error'][$idOption] = 'Impossible to add your '.$value;
+            $err++;
+          }
+
+        } elseif ($u->getUserInformationOneMeta($_SESSION['email'], $key) != false && $value == '') { // elle existe dans la bdd mais la nouvelle valeur est vide, on delete
+
+          if($u->deleteUserMeta($idUser, $idOption) == false) {
+            $json['error'][$idOption] = 'Impossible to delete '.$value.' from the database';
+            $err++;
+          }
+
+        } elseif ($u->getUserInformationOneMeta($_SESSION['email'], $key) != false && $value != '') { // elle existe et la nouvelle valeur n'est pas vide, on update
+
+          if($u->updateUserMeta($idUser, $idOption, $value) == false) {
+            $json['error'][$idOption] = 'Impossible to save '.$value.' into the database';
+            $err++;
+          }
+
+        }
+
+      }
+
+  } // end foreach
+
+  if ($err == 0) {
+    $json['request']['status'] = 'success';
+    $json['request']['message'] = 'Congrats. You have all the requested information.';
+  } else {
+    $json['request']['status'] = 'error';
+    $json['request']['message'] = 'There are some errors in the request';
+  }
+
+} elseif ($type == 'getProfile') {
+  $josn = array();
+  $json['firstName'] = $u->getUserFirstName($_SESSION['email']);
+  $json['lastName'] = $u->getUserLastName($_SESSION['email']);
+  $json['mainLanguage'] = $u->getUserMainLanguageCode($_SESSION['email']);
+  $json['meta'] = $u->getUserInformationAllMeta($_SESSION['email']);
+
+}
+
+header('Access-Control-Allow-Origin: *');
+header('Content-type: application/json');
+echo json_encode($json);
+
 
  ?>

@@ -1,7 +1,7 @@
 <?php
-  require_once "../srv/_config_admin.php";
+  require_once 'srv/_config_admin.php';
 
-  if (isset($_SESSION['access_token'])) {
+  if (isset($_SESSION['access_token'])) { // security check
     header('Location: login.php');
     exit();
   }
@@ -45,7 +45,6 @@
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/login.css">
   </head>
 
   <body>
@@ -80,9 +79,6 @@
     <!-- JS Insertion -->
     <script src="js/vendor/modernizr-3.5.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script>
-      window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')
-    </script>
     <script src="../js/plugins.js"></script>
     <script src="../js/particles.min.js"></script>
     <script src="../js/anchorme.min.js"></script>
