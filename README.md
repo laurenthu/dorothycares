@@ -9,6 +9,7 @@ Develop companion with an emotional approach for learners:
 
 ## Technologies
 
+* Git
 * HTML/CSS
 * Materialize.css
 * JavaScript
@@ -25,6 +26,7 @@ Develop companion with an emotional approach for learners:
 
 ## Hosting
 
+* GitHub (Project Development)
 * OVH (PHP/MySQL)
 * Google Cloud Functions / Firebase (NodeJS)
 * Heroku (NodeJS)
