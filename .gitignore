@@ -8,3 +8,4 @@ node_modules
 .ovhconfig
 firebase/functions/node_modules/*
 NodeJS-API/nodemon.json
+.vscode/*
