@@ -7,6 +7,30 @@ Develop companion with an emotional approach for learners:
 * Guide them through their learning with ressources and advices
 * Connect “learners” together (via a matching system)
 
+## Technologies
+
+* HTML/CSS
+* Materialize.css
+* JavaScript
+* PHP
+* MySQL
+* JSON
+* AJAX
+* NodeJS
+* MongoDB
+* Google Cloud Functions / Firebase
+* DialogFlow
+* API (creation)
+* JWT
+
+## Hosting
+
+* OVH (PHP/MySQL)
+* Google Cloud Functions / Firebase (NodeJS)
+* Heroku (NodeJS)
+* mLab (MongoDB)
+* Trello (Project Management)
+
 ## Contributors
 
 * [Saadia Sahraoui Brahim](https://github.com/ireneaadler)
