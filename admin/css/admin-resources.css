@@ -1,4 +1,27 @@
+#pagination {
+    text-align: center;
+}
+
+#resourcesCardName {
+    font-size: 5vh;
+    text-align: center;
+    max-width: 22vw;
+    border-right: 1px solid lightgrey;
+}
+
 #resourcesIcons {
     margin: 2vh 0vh;
     text-align: center;
+}
+
+#resourcesIcons a {
+    margin: 0.5vh 0.5vw;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.card-content p {
+    padding-left: 5vw;
 }

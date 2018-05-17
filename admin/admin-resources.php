@@ -9,7 +9,7 @@
   //   exit();
   // }
 
-
+  
 ?>
 
 <!DOCTYPE html>
@@ -31,8 +31,18 @@
         </ul>
 
         <div id="resources" class="col s12">
-          <div id="resourcesIcons"></div>
+          <div id="pagination">
+            <ul class="pagination resourcePage" data-type="resource">
+              <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+              <li class="active" data-start="0"><a href="#!">1</a></li>
+              <span id="addPageNumber"></span>
+             
+              <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+          </div>
 
+          <div id="resourcesIcons"></div>
+          
           <div id="resourcesInfo">
             <div class="row">
               <div class="col s12">
@@ -40,39 +50,39 @@
                   <div id="resourcesCardName" class="card-content"></div>
                   <div id="resourcesCardInfos" class="card-stacked">
                     <div class="card-content">
-                      <span>Name : </span>
+                      <span class="bold">Name : </span>
                       <p id="cardName"></p>
                     </div>
                     <div class="card-content">
-                      <span>Name displayed : </span>
+                      <span class="bold">Name displayed : </span>
                       <p id="cardDisplayName"></p>
                     </div>
                     <div class="card-content">
-                      <span>Introduction</span>
+                      <span class="bold">Introduction</span>
                       <p id="cardIntro"></p>
                     </div>
                     <div class="card-content">
-                      <span>Installation</span>
+                      <span class="bold">Installation</span>
                       <p id="cardInstallation"></p>
                     </div>
                     <div class="card-content">
-                      <span>Documentation</span>
+                      <span class="bold">Documentation</span>
                       <p id="cardDocumentation"></p>
                     </div>
                     <div class="card-content">
-                      <span>Tutorials</span>
+                      <span class="bold">Tutorials</span>
                       <p id="cardTutorials"></p>
                     </div>
                     <div class="card-content">
-                      <span>Exercices</span>
+                      <span class="bold">Exercices</span>
                       <p id="cardExercices"></p>
                     </div>
                     <div class="card-content">
-                      <span>Examples</span>
+                      <span class="bold">Examples</span>
                       <p id="cardExamples"></p>
                     </div>
                     <div class="card-content">
-                      <span>News</span>
+                      <span class="bold">News</span>
                       <p id="cardNews"></p>
                     </div>
                   </div>
