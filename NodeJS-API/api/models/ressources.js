@@ -1,3 +1,5 @@
+// Defining the schema of our Ressources
+
 const mongoose = require('mongoose');
 
 const ressourcesSchema = mongoose.Schema({

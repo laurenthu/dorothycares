@@ -22,10 +22,6 @@ exports.get_all_ressources = (req, res, next) => {
             exercices: doc.exercices,
             examples: doc.examples,
             news: doc.news
-            // request: {
-            //   type: "GET",
-            //   url: "http://localhost:3000/ressources/" + doc._id
-            // }
           };
         })
       });
@@ -48,10 +44,6 @@ exports.get_ressource = (req, res, next) => {
       }
       res.status(200).json({
         ressources: ressources
-        // request: {
-        //   type: "GET",
-        //   url: "http://localhost:3000/ressources/"
-        // }
       });
     })
     .catch(err => {
@@ -73,10 +65,6 @@ exports.get_ressourceName = (req, res, next) => {
       }
       res.status(200).json({
         ressources: ressources
-        // request: {
-        //   type: "GET",
-        //   url: "https://dorothycares.herokuapp.com/ressources/"
-        // }
       });
     })
     .catch(err => {
@@ -118,10 +106,6 @@ exports.create_ressource = (req, res, next) => {
           exercices: result.exercices,
           examples: result.examples,
           news: result.news
-          // request: {
-          //   type: 'GET',
-          //   url: "http://localhost:3000/ressources/" + result._id
-          // }
         }
       });
     })
@@ -146,10 +130,6 @@ exports.update_ressource = (req, res, next) => {
     .then(result => {
       res.status(200).json({
         message: 'Ressources updated'
-        // request: {
-        //   type: 'GET',
-        //   url: 'http://localhost:3000/ressources/' + id
-        // }
       });
     })
     .catch(err => {
@@ -170,14 +150,6 @@ exports.delete_ressource = (req, res, next) => {
     .then(result => {
       res.status(200).json({
         message: 'Ressources deleted'
-        // request: {
-        //   type: 'POST',
-        //   url: 'http://localhost:3000/ressources/',
-        //   body: {
-        //     name: 'String',
-        //     price: 'Number'
-        //   }
-        // }
       });
     })
     .catch(err => {

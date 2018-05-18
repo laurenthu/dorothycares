@@ -30,17 +30,17 @@
     <meta property="fb:app_id" content="306159282727976">
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="DorothAI">
+    <meta property="og:title" content="DorothyCares">
     <meta property="og:description" content="Dorothy cares about you. It'll help you along your way at BeCode.">
     <meta property="og:url" content="https://dorothycares.io/">
-    <meta property="og:site_name" content="DorothAI">
+    <meta property="og:site_name" content="DorothyCares">
     <meta property="og:image" content="https://dorothycares.io/img/printscreen.jpg">
     <meta property="og:image:secure_url" content="https://dorothycares.io/img/printscreen.jpg">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:description" content="Dorothy cares about you. It'll help you along your way at BeCode.">
-    <meta name="twitter:title" content="DorothAI">
+    <meta name="twitter:title" content="DorothyCares">
     <meta name="twitter:site" content="@becodeorg">
     <meta name="twitter:image" content="https://dorothycares.io/img/printscreen.jpg">
 
