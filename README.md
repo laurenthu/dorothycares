@@ -52,3 +52,7 @@ Develop companion with an emotional approach for learners:
 
 * [Cédric Swaelens](https://becode.org/)
 * [Teddy Kishi](https://github.com/teddykishi)
+
+## License
+
+* [Apache License 2.0](LICENSE)
