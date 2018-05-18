@@ -28,8 +28,8 @@
     <meta charset="utf-8">
     <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-    <!-- <link rel="stylesheet" href="css/materialize.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"> -->
+    <link rel="stylesheet" href="css/materialize.min.css">
     <link rel="stylesheet" href="css/admin-management.css">
   </head>
   <body>
@@ -71,6 +71,7 @@
               <th>Postal Code</th>
               <th>City</th>
               <th>Country</th>
+              <th></th>
             </tr>
           </thead>
 
@@ -110,6 +111,7 @@
           <thead>
             <tr>
               <th>Name</th>
+              <th></th>
             </tr>
           </thead>
 
@@ -153,6 +155,7 @@
               <th>Mail</th>
               <th>Type</th>
               <th>Language</th>
+              <th></th>
             </tr>
           </thead>
 
@@ -296,10 +299,74 @@
   <div class="modal-footer">
     <a href="#!" id="addUser" class="modal-action modal-close waves-effect waves-green btn-flat" data-type="user">Add</a>
   </div>
-</div>
+ </div>
+
+ <div id="implantationDeleteModal" class="modal">
+  <div class="modal-content">
+    <h4>Delete Implantation</h4>
+    <div class="row">
+      <div class="col s4">
+        <h5>Name</h5>
+      </div>
+      <div class="col s8">
+        <h5  id="displayNameImplantation"></h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s4 offset-s8">
+        <a id="implantationDeleteButton" class="waves-effect waves-light btn red modal-close">Confirm</a>
+      </div>
+    </div>
+  </div>
+ </div>
+
+ <div id="startupDeleteModal" class="modal">
+  <div class="modal-content">
+    <h4>Delete Startup</h4>
+    <div class="row">
+      <div class="col s4">
+        <h5>Name</h5>
+      </div>
+      <div class="col s8">
+        <h5 id="displayNameStartup"  id="displayNameStartup"></h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s4 offset-s8">
+        <a id="startupDeleteButton" class="waves-effect waves-light btn red modal-close">Confirm</a>
+      </div>
+    </div>
+  </div>
+ </div>
+
+ <div id="userDeleteModal" class="modal">
+  <div class="modal-content">
+    <h4>Delete User</h4>
+    <div class="row">
+      <div class="col s4">
+        <h5>Name</h5>
+      </div>
+      <div class="col s8">
+        <h5  id="displayNameUser"></h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s4 offset-s8">
+        <a id="userDeleteButton" class="waves-effect waves-light btn red modal-close">Confirm</a>
+      </div>
+    </div>
+  </div>
+ </div>
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-   <!-- <script type="js/materialize.min.js"></script> -->
+   <script type="js/materialize.min.js"></script>
    <script src="js/admin-management.js"></script>
+
+  <?php
+
+    $delTest = new User($db);
+    var_dump($delTest->deleteUser(11));
+
+  ?>
   </body>
 </html>

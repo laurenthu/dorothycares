@@ -13,7 +13,7 @@ function userAdding($db, $json, $usersToAdd, $idStartup = false, $typeOfUser = '
     if (filter_var($value, FILTER_VALIDATE_EMAIL) != false) { // validation
       if ($typeOfUser != 'learner') { // if the user added is not a learner
         $newuser->addUser($value, $idStartup, $typeOfUser); // we guve the type of of user as parameter
-      } else if ($idStartup != false) { // if we provide a startup id
+      } elseif ($idStartup != false) { // if we provide a startup id
         $newuser->addUser($value, $idStartup); // give the id as parameter
       } else {
         $newuser->addUser($value); // basic user adding
@@ -105,7 +105,7 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
         }
       }
     }
-  } else if ($_POST['action'] == 'update') { // determine type of action
+  } elseif ($_POST['action'] == 'update') { // determine type of action
 
     if (
       isset($_POST['type'])
@@ -190,7 +190,7 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
           };
         };
 
-      } else if ($_POST['type'] == 'startup') { // determine type of data
+      } elseif ($_POST['type'] == 'startup') { // determine type of data
 
         if (is_string($_POST['newValue'])) { // security checks
 
@@ -208,7 +208,7 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
 
         };
 
-      } else if ($_POST['type'] == 'user') { // determine type of data
+      } elseif ($_POST['type'] == 'user') { // determine type of data
 
         if (is_string($_POST['newValue'])) { // security checks
 
@@ -263,6 +263,60 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
         };
       };
     };
+  } elseif ($_POST['action'] == 'delete') { // determine type of action
+
+      if (isset($_POST['type'])
+      && is_string($_POST['type'])
+      && isset($_POST['itemId'])
+      && is_int(intval($_POST['itemId']))) { // security checks
+
+        if ($_POST['type'] == 'implantation') { // determine data type
+
+          $delImp = new Implantation($db);
+          $resp = $delImp->deleteImplantation($_POST['itemId']);
+          if ($resp['status'] == 'error') { // if delete didn't work
+            $json['request']['status'] = 'error';
+            $json['request']['message'] = 'Impossible to delete';
+          } else {
+            $json['request']['status'] = 'success';
+            $json['request']['message'] = 'Implantation deleted.';
+          };
+
+          echo json_encode($json);
+          die(); // we kill the script
+
+        } elseif ($_POST['type'] == 'startup') { // determine data type
+
+          $delSta = new Startup($db);
+          $resp = $delSta->deleteStartup($_POST['itemId']);
+          if ($resp['status'] == 'error') { // if delete didn't work
+            $json['request']['status'] = 'error';
+            $json['request']['message'] = 'Impossible to delete';
+          } else {
+            $json['request']['status'] = 'success';
+            $json['request']['message'] = 'Startup deleted.';
+          };
+
+          echo json_encode($json);
+          die(); // we kill the script
+
+        } elseif ($_POST['type'] == 'user') { // determine data type
+
+          $delUse = new User($db);
+          $resp = $delUse->deleteUser($_POST['itemId']);
+          if ($resp['status'] == 'error') { // if delete didn't work
+            $json['request']['status'] = 'error';
+            $json['request']['message'] = 'Impossible to delete';
+          } else {
+            $json['request']['status'] = 'success';
+            $json['request']['message'] = 'User deleted.';
+          };
+
+          echo json_encode($json);
+          die(); // we kill the script
+
+        };
+      };
   };
 }
 

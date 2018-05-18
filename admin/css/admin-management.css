@@ -6,11 +6,15 @@
 .addButtonContainer {
   display: inline-block;
   position: fixed;
-  right: 7vw;
-  bottom: 10vh;
+  right: 4.5vw;
+  top: 7vh;
 }
 
 .tempSelect {
   display: table-cell;
   height: inherit;
+}
+
+i.red-text {
+  font-size: 30px;
 }

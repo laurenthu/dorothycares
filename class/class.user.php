@@ -1332,19 +1332,18 @@ class User {
         $statement = $this->db->prepare("DELETE FROM `userClasseRelation` WHERE `idUser` = :idUser");
         $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
         $statement->execute();
-
+        
         // we delete the user
         $statement = $this->db->prepare("DELETE FROM `user` WHERE `idUser` = :idUser");
         $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
         $statement->execute();
 
-        $this->db->commit(); // we confirm the transaction
 
         if( $this->db->commit() ) { // if everything is okay
-          $answer['status'] == 'success';
+          $answer['status'] = 'success';
           $answer['message'] = 'The user was well deleted.';
         } else {
-          $answer['status'] == 'error';
+          $answer['status'] = 'error';
           $answer['message'] = 'Sorry, an error occurred while deleting the user';
         }
 

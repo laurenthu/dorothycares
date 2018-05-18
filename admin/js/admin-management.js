@@ -1,6 +1,7 @@
 // Elements selection and variables creation
 let dataText = ''; // variable for the json response
 let optionsSelection; // variable for the options selection
+let deleteIcons; // variable for the delete icons
 
 let tableBodyImplantation = document.querySelector('#implantationTable'); // Implantations table
 let tableBodyStartup = document.querySelector('#startupTable'); // Startups table
@@ -21,20 +22,31 @@ let userTab = document.querySelector('#userTab');
 let tabLinks = document.querySelectorAll('.tabs li a');
 
 // select buttons that open content creation modals
-let implantationAddModalOpener = document.querySelector('#implantationModalButton');
-let startupAddModalOpener = document.querySelector('#startupModalButton');
-let userAddModalOpener = document.querySelector('#userModalButton');
+// let implantationAddModalOpener = document.querySelector('#implantationModalButton');
+// let startupAddModalOpener = document.querySelector('#startupModalButton');
+// let userAddModalOpener = document.querySelector('#userModalButton');
 
 // select buttons which add content
 let addImplantationButton = document.querySelector('#addImplantation');
 let addStartupButton = document.querySelector('#addStartup');
 let addUserButton = document.querySelector('#addUser');
 
+// select the divs where we display the content about to be deleted
+let displayNameImplantation = document.querySelector('#displayNameImplantation');
+let displayNameStartup = document.querySelector('#displayNameStartup');
+let displayNameUser = document.querySelector('#displayNameUser');
+
+// select the buttons to Confirm deletion of database
+let confirmDeleteImplantation = document.querySelector('#implantationDeleteButton');
+let confirmDeleteStartup = document.querySelector('#startupDeleteButton');
+let confirmDeleteUser = document.querySelector('#userDeleteButton');
+
 // AJAX requests
 let feed = 'ajax.php';
 let dataRequestDisplayContent = new XMLHttpRequest(); // open ajax request to display content
 let dataRequestCreateContent = new XMLHttpRequest(); // open ajax request to create content
 let dataRequestUpdateContent = new XMLHttpRequest(); // open ajax request to update content
+let dataRequestDeleteContent = new XMLHttpRequest(); // open ajax request to delete content
 let dataRequestGetCountryOptions = new XMLHttpRequest(); // open ajax request to get country options
 let dataRequestGetUserTypeOptions = new XMLHttpRequest(); // open ajax request to get user types
 let dataRequestGetLanguageOptions = new XMLHttpRequest(); // open ajax request to get langage options
@@ -107,6 +119,7 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
         tableContent += '<td data-name="postalCode" data-id="' + el['id'] + '">' + el['postalCode'] + '</td>';
         tableContent += '<td data-name="city" data-id="' + el['id'] + '">' + el['city'] + '</td>';
         tableContent += '<td class="input-field" data-name="country" data-codeCountry="' + el['codeCountry'] + '" data-id="' + el['id'] + '">' + el['country'] + '</td>';
+        tableContent += '<td data-name="delete"><a href="#implantationDeleteModal" data-item="' + el['name'] + '" data-id="' + el['id'] + '" class="modal-trigger delete"><i class="material-icons red-text">delete</i></a></td>';
         tableContent += '</tr>';
       });
       tableBodyImplantation.innerHTML = tableContent; // write the content where we want to display it
@@ -114,6 +127,7 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
       dataObject['response'].forEach(function(el) {
         tableContent += '<tr class="tooltipped" data-tooltip="Double click to edit">';
         tableContent += '<td data-name="name" data-id="' + el['id'] + '">' + el['name'] + '</td>';
+        tableContent += '<td data-name="delete"><a href="#startupDeleteModal" data-item="' + el['name'] + '" data-id="' + el['id'] + '" class="modal-trigger delete"><i class="material-icons red-text">delete</i></a></td>';
         tableContent += '</tr>';
       });
       tableBodyStartup.innerHTML = tableContent; // write the content where we want to display it
@@ -125,16 +139,30 @@ function whenDataLoadedDisplayContent() { // what happens when the AJAX request 
         tableContent += '<td data-name="email" data-id="' + el['id'] + '">' + el['email'] + '</td>';
         tableContent += '<td class="input-field" data-name="userType" data-id="' + el['id'] + '">' + el['type'] + '</td>';
         tableContent += '<td class="input-field" data-name="mainLanguage" data-mainLanguageCode="' + el['mainLanguageCode'] + '" data-id="' + el['id'] + '">' + el['mainLanguage'] + '</td>';
+        tableContent += '<td data-name="delete"><a href="#userDeleteModal" data-item="' + el['email'] + '" data-id="' + el['id'] + '" class="modal-trigger delete"><i class="material-icons red-text">delete</i></a></td>';
         tableContent += '</tr>';
       });
       tableBodyUser.innerHTML = tableContent; // write the content where we want to display it
 
-
     }
 
     let tableCells = document.querySelectorAll('table tbody tr td'); // select all table cells
+    deleteIcons = document.querySelectorAll('a.delete'); // select all icons used to delete content
+    for (i = 0; i < deleteIcons.length; i++) { // on all the delete icons
+      deleteIcons[i].addEventListener('click', function () { // add an event listener on click
+        if (type == 'implantation') { // check type
+          displayNameImplantation.innerText = this.getAttribute("data-item"); // populate the deletion confirmation modal
+          confirmDeleteImplantation.setAttribute("data-id", this.getAttribute("data-id")); // set the id of the data as a data-attribute on the deletion confirmation button
+        } else if (type == 'startup') { // check type
+          displayNameStartup.innerText = this.getAttribute("data-item"); // populate the deletion confirmation modal
+          confirmDeleteStartup.setAttribute("data-id", this.getAttribute("data-id")); // set the id of the data as a data-attribute on the deletion confirmation button
+        } else if (type == 'user') { // check type
+          displayNameUser.innerText = this.getAttribute("data-item"); // populate the deletion confirmation modal
+          confirmDeleteUser.setAttribute("data-id", this.getAttribute("data-id")); // set the id of the data as a data-attribute on the deletion confirmation button
+        };
+      });
+    };
     makeContentEditableOrNot(tableCells); // call the function that handles content edition on the fly
-    createTooltips();
   };
 };
 
@@ -210,6 +238,22 @@ function whenDataLoadedUpdateContent() { // what happens when the AJAX request i
   dataObject = JSON.parse(dataText); // we convert the text into an object
 };
 
+function ajaxRequestDeleteContent(entryId) { // ajax request
+  let activeTab = document.querySelector('li a.active'); // select the active tab
+  let dataType = activeTab.getAttribute('data-type'); // get the type of data
+
+  dataRequestDeleteContent.onload = whenDataLoadedDeleteContent; // we assign the function to excecute when the data are loaded
+  dataRequestDeleteContent.open("POST", feed, true); // the type, the url, asynchronous true/false
+  dataRequestDeleteContent.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // determine that the data we send is data coming from a form or something similar
+  dataRequestDeleteContent.send('action=delete&itemId=' + entryId + '&type=' + dataType); // the data we send through the POST ajax request
+};
+
+function whenDataLoadedDeleteContent() { // what happens when the AJAX request is done
+  dataText = dataRequestDeleteContent.responseText; // we store the text of the response
+  console.log(dataText);
+  dataObject = JSON.parse(dataText); // we convert the text into an object
+};
+
 // Materialize
 let tabs = document.querySelectorAll('.tabs'); // select tabs
 var instanceTabs = M.Tabs.init(tabs); // Materialize tabs
@@ -219,12 +263,6 @@ var instanceModals = M.Modal.init(modals); // Materialize modals
 
 let selects = document.querySelectorAll('select'); // select selects
 var instanceSelects = M.FormSelect.init(selects); // Materialize selects
-
-function createTooltips() {
-  let trs = document.querySelectorAll('tr.tooltipped');
-  var instanceTooltips = M.Tooltip.init(trs, {"position":"top", "inDuration":0,"outDuration":0,"exitDelay":0,"enterDelay":0});
-};
-
 
 // Pagination
 let paginationImplantation = document.querySelectorAll('.implantationPage li'); // select implantation pagination elements
@@ -364,6 +402,21 @@ addUserButton.addEventListener('click', function() { // Add an User
   ajaxRequestCreateContent(addUserButton);
 });
 
+confirmDeleteImplantation.addEventListener('click', function() {
+  ajaxRequestDeleteContent(this.getAttribute("data-id"));
+  ajaxRequestDisplayContent(paginationImplantation);
+})
+
+confirmDeleteStartup.addEventListener('click', function() {
+  ajaxRequestDeleteContent(this.getAttribute("data-id"));
+  ajaxRequestDisplayContent(paginationStartup);
+})
+
+confirmDeleteUser.addEventListener('click', function() {
+  ajaxRequestDeleteContent(this.getAttribute("data-id"));
+  ajaxRequestDisplayContent(paginationUser);
+})
+
 function makeContentEditableOrNot(content) { // handle the edition of values
 
   let editableCell; // define a variable which will contain the cell edited
@@ -484,6 +537,8 @@ function makeContentEditableOrNot(content) { // handle the edition of values
           };
         });
 
+      } else if (field == 'delete') {
+
       } else {
         this.setAttribute('contenteditable', true); // make the cell editable
         this.focus(); // focus it
@@ -513,6 +568,8 @@ function makeContentEditableOrNot(content) { // handle the edition of values
     if (e.target != editableCell && editableCell != null && editableCell.hasAttribute('contenteditable')) { // if we click somewhere else than the cell which we are working on / if it exists / if it has the contenteditable attribute
       editableCell.innerText = initialValue; // restore the initial value of the cell
       editableCell.removeAttribute('contenteditable'); // remove the editable status of the cell
+    } else if (field == 'delete') {
+
     } else if (e.target != editableCell && editableCell != null && selectElement != null) { // if we click somewhere else than the cell which we are working on / if it exists / if the select element exists
       editableCell.innerText = initialValue; // restore the initial value of the cell
     };
