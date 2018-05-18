@@ -133,6 +133,29 @@ class User {
 
   }
 
+  public function updateUserFirstNameById($idUser,$firstName) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `firstNameUser` = :firstName WHERE `idUser` = :idUser");
+      $statement->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $firstName;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
   public function getUserLastName($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
@@ -182,6 +205,29 @@ class User {
 
   }
 
+  public function updateUserLastNameById($idUser,$lastName) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `lastNameUser` = :lastName WHERE `idUser` = :idUser");
+      $statement->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $lastName;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
   public function getUserMainLanguageCode($emailUser) {
     /*
     (IN) $emailUser: email of the user for which we want to collect the data
@@ -219,6 +265,28 @@ class User {
       $statement = $this->db->prepare("UPDATE `user` SET `mainLanguageUser` = :languageCode WHERE `emailUser` = :emailUser");
       $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+      return $languageCode;
+
+    } catch (PDOException $e) {
+      //print "Error !: " . $e->getMessage() . "<br/>";
+      //die();
+      return false;
+    }
+
+  }
+
+  public function updateUserMainLanguageCodeById($idUser,$languageCode) {
+    /*
+    (IN) email of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `mainLanguageUser` = :languageCode WHERE `idUser` = :idUser");
+      $statement->bindParam(':languageCode', $languageCode, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
       $statement->execute();
       return $languageCode;
 
@@ -297,6 +365,59 @@ class User {
       $statement = $this->db->prepare("UPDATE `user` SET `typeUser` = :typeUser WHERE `emailUser` = :emailUser");
       $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
       $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $typeUser;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateUserTypeById($idUser,$typeUser) {
+    /*
+    (IN) id of the user to check and the value to update
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `typeUser` = :typeUser WHERE `idUser` = :idUser");
+      $statement->bindParam(':typeUser', $typeUser, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+      $statement->execute();
+
+      if( $statement->rowCount() ) {
+        return $typeUser;
+      } else {
+        return false;
+      }
+
+    } catch (PDOException $e) {
+      print "Error !: " . $e->getMessage() . "<br/>";
+      die();
+    }
+
+  }
+
+  public function updateUserEmailById($idUser,$emailUser) {
+    /*
+    (IN) id of the user to check and the value to update
+    (IN) new email of the user
+    (OUT) value if value was well stored / false if was not stored
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `user` SET `emailUser` = :emailUser WHERE `idUser` = :idUser");
+      $statement->bindParam(':emailUser', $emailUser, PDO::PARAM_STR);
+      $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
       $statement->execute();
 
       if( $statement->rowCount() ) {
@@ -1190,6 +1311,51 @@ class User {
       return true;
     } else {
       return $errors;
+    }
+
+  }
+
+  public function deleteUser($idUser) {
+    /*
+    (IN) id of the implantation to delete
+    (OUT) an array wuth the results.
+    */
+
+    $answer = array();
+    $idUser = intval($idUser); // to be sure that is a integer (if it's valid data)
+
+    try {
+
+        $this->db->beginTransaction(); // we start a transaction
+
+        // we can destroy the relation with the startup
+        $statement = $this->db->prepare("DELETE FROM `userClasseRelation` WHERE `idUser` = :idUser");
+        $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $statement->execute();
+        
+        // we delete the user
+        $statement = $this->db->prepare("DELETE FROM `user` WHERE `idUser` = :idUser");
+        $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $statement->execute();
+
+
+        if( $this->db->commit() ) { // if everything is okay
+          $answer['status'] = 'success';
+          $answer['message'] = 'The user was well deleted.';
+        } else {
+          $answer['status'] = 'error';
+          $answer['message'] = 'Sorry, an error occurred while deleting the user';
+        }
+
+      return $answer;
+
+    } catch (PDOException $e) {
+
+      $this->db->rollback(); // we cancel the transaction
+      $answer['status'] = 'error';
+      $answer['message'] = 'Error !: ' . $e->getMessage();
+      return $answer;
+
     }
 
   }

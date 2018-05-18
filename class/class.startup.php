@@ -75,6 +75,30 @@ class Startup {
 
   }
 
+  public function updateStartupName($id,$value) {
+    /*
+    (IN) [INTEGER] id of the implantation to update
+    (IN) [STRING] new value for the update
+    (OUT) value if value was well updated / false if not
+    */
+
+    try {
+
+      $statement = $this->db->prepare("UPDATE `classe` SET `nameClasse` = :value WHERE `idClasse` = :id");
+      $statement->bindParam(':value', $value, PDO::PARAM_STR);
+      $statement->bindParam(':id', $id, PDO::PARAM_INT);
+      $statement->execute();
+
+      return $name;
+
+    } catch (PDOException $e) {
+
+      return false;
+
+    }
+
+  }
+
   public function getStartupCount() {
     /*
     (OUT) int with number of startup / 0 if no startup was found
@@ -212,7 +236,7 @@ class Startup {
 
   }
 
-  public function addStartup($name, $implantationId = false) {
+  public function addStartup($name, $idImplantation = false) {
     /*
     (IN) [string] email of the user to check
     (IN) [integer/boolean]: $implantationId. An integer with the id of the implantation or false if no implantation
@@ -227,12 +251,13 @@ class Startup {
       $statement->bindParam(':name', $name, PDO::PARAM_STR);
       $statement->execute();
 
-      $idStartup = $this->db->lastInsertId();
+      $idStartup = intval($this->db->lastInsertId());
+      $idImplantation = intval($idImplantation);
 
-      if ($implantationId != false) {
+      if ($idImplantation != false) {
         $statement = $this->db->prepare("INSERT INTO `classeImplantationRelation` (`idClasseImplantationRelation`,`idClasse`,`idImplantation`) VALUES (NULL,:idStartup,:idImplantation)");
         $statement->bindParam(':idStartup', $idStartup, PDO::PARAM_INT);
-        $statement->bindParam(':idImplantation', $implantationId, PDO::PARAM_INT);
+        $statement->bindParam(':idImplantation', $idImplantation, PDO::PARAM_INT);
         $statement->execute();
       }
 
@@ -247,6 +272,64 @@ class Startup {
       $statement = null;
       print "Error !: " . $e->getMessage() . "<br/>";
       die();
+    }
+
+  }
+
+  public function deleteStartup($idStartup) {
+    /*
+    (IN) id of the implantation to delete
+    (OUT) an array wuth the results.
+    */
+
+    $answer = array();
+    $idStartup = intval($idStartup); // to be sure that is a integer (if it's valid data)
+
+    try {
+
+      // we check if there is still users attached to this startup
+      $statement = $this->db->prepare("SELECT `idUserClasseRelation` FROM `userClasseRelation` WHERE `idClasse` = :idStartup");
+      $statement->bindParam(':idStartup', $idStartup, PDO::PARAM_INT);
+      $statement->execute();
+
+      if( $statement->rowCount() > 0 ) {
+
+        $answer['status'] == 'error';
+        $answer['message'] = 'Sorry, there are still some users attached to this startup. So, you can\'t delete it.';
+
+      } else {
+
+        $this->db->beginTransaction(); // we start a transaction
+
+        // if we could delete it, we can destroy the relation with the implantation
+        $statement = $this->db->prepare("DELETE FROM `classeImplantationRelation` WHERE `idClasse` = :idStartup");
+        $statement->bindParam(':idStartup', $idStartup, PDO::PARAM_INT);
+        $statement->execute();
+
+        // we delete the startup
+        $statement = $this->db->prepare("DELETE FROM `classe` WHERE `idClasse` = :idStartup");
+        $statement->bindParam(':idStartup', $idStartup, PDO::PARAM_INT);
+        $statement->execute();
+
+        if( $statement->rowCount() == 0 ) {
+          $this->db->rollback(); // we cancel the transaction
+          $answer['status'] == 'error';
+          $answer['message'] = 'Sorry, an error occurred while deleting the startup';
+        } else {
+          $this->db->commit(); // we confirm the transaction
+          $answer['status'] == 'success';
+          $answer['message'] = 'The startup was well deleted.';
+        }
+      }
+
+      return $answer;
+
+    } catch (PDOException $e) {
+
+      $answer['status'] = 'error';
+      $answer['message'] = 'Error !: ' . $e->getMessage();
+      return $answer;
+
     }
 
   }
