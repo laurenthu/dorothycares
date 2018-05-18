@@ -362,11 +362,5 @@
    <script type="js/materialize.min.js"></script>
    <script src="js/admin-management.js"></script>
 
-  <?php
-
-    $delTest = new User($db);
-    var_dump($delTest->deleteUser(11));
-
-  ?>
   </body>
 </html>

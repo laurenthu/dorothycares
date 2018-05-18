@@ -272,7 +272,7 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
 
         if ($_POST['type'] == 'implantation') { // determine data type
 
-          $delImp = new Implantation($db);
+          $delImp = new Implantation($db); // new instance
           $resp = $delImp->deleteImplantation($_POST['itemId']);
           if ($resp['status'] == 'error') { // if delete didn't work
             $json['request']['status'] = 'error';
@@ -287,7 +287,7 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
 
         } elseif ($_POST['type'] == 'startup') { // determine data type
 
-          $delSta = new Startup($db);
+          $delSta = new Startup($db); // new instance
           $resp = $delSta->deleteStartup($_POST['itemId']);
           if ($resp['status'] == 'error') { // if delete didn't work
             $json['request']['status'] = 'error';
@@ -302,7 +302,7 @@ if (isset($_POST['action']) && is_string($_POST['action'])) { // security checks
 
         } elseif ($_POST['type'] == 'user') { // determine data type
 
-          $delUse = new User($db);
+          $delUse = new User($db); // new instance
           $resp = $delUse->deleteUser($_POST['itemId']);
           if ($resp['status'] == 'error') { // if delete didn't work
             $json['request']['status'] = 'error';
