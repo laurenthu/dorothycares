@@ -124,8 +124,11 @@ class Startup {
 
   public function getStartupList($start = 0, $number = 25, $orderBy = 'nameClasse', $orderDir = 'ASC') {
     /*
-    (IN) var for the SELECT
-    (OUT) array with information / false if no startup was found
+    (IN) [INT] $start: start number (for pagination)
+    (IN) [INT] $number; how many items (for pagination)
+    (IN) [STRING] $orderBy: name of the column for the order
+    (IN) [STRING] $orderDir: order ASC or DESC
+    (OUT) array with information / false if no implantation was found
     */
 
     try {
@@ -239,7 +242,7 @@ class Startup {
   public function addStartup($name, $idImplantation = false) {
     /*
     (IN) [string] email of the user to check
-    (IN) [integer/boolean]: $implantationId. An integer with the id of the implantation or false if no implantation
+    (IN) [integer/boolean]: $idImplantation. An integer with the id of the implantation or false if no implantation
     (OUT) return last id is insertion was well done / false if not
     */
 
@@ -278,7 +281,7 @@ class Startup {
 
   public function deleteStartup($idStartup) {
     /*
-    (IN) id of the implantation to delete
+    (IN) [INT] id of the implantation to delete
     (OUT) an array wuth the results.
     */
 
