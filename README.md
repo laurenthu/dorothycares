@@ -8,6 +8,7 @@ Develop companion with an emotional approach for learners:
 * Connect “learners” together (via a matching system)
 
 ## Technologies
+
 * Git
 * HTML5/CSS3
 * materialize.css
@@ -24,10 +25,11 @@ Develop companion with an emotional approach for learners:
 * JWT
 
 ## Hosting
+
 * GitHub (Project Development)
 * OVH (PHP/MySQL)
 * Google Cloud Functions / Firebase (NodeJS)
-* Heroky (NodeJS)
+* Heroku (NodeJS)
 * mLab (MongoDB)
 * Trello (Project Management)
 
