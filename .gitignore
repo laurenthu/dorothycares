@@ -5,8 +5,6 @@ admin/srv/_google-signin-client-admin.php
 .htaccess
 googlee7d9bc3d5475312b.html
 node_modules
-.htaccess
-googlee7d9bc3d5475312b.html
 .ovhconfig
 firebase/functions/node_modules/*
 NodeJS-API/nodemon.json

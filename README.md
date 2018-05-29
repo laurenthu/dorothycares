@@ -4,8 +4,34 @@
 Develop companion with an emotional approach for learners:
 * Answer to basic question
 * Help learners with administrative stuffs
-* Guide them through their learning with ressources and advices
+* Guide them through their learning with resources and advices
 * Connect “learners” together (via a matching system)
+
+## Technologies
+
+* Git
+* HTML5/CSS3
+* materialize.css
+* JavaScript
+* PHP
+* MySQL
+* JSON
+* AJAX
+* NodeJS
+* MongoDB
+* Google Cloud Functions / Firebase
+* Dialogflow
+* API (creation / usage)
+* JWT
+
+## Hosting
+
+* GitHub (Project Development)
+* OVH (PHP/MySQL)
+* Google Cloud Functions / Firebase (NodeJS)
+* Heroku (NodeJS)
+* mLab (MongoDB)
+* Trello (Project Management)
 
 ## Contributors
 
@@ -28,3 +54,7 @@ Develop companion with an emotional approach for learners:
 
 * [Cédric Swaelens](https://becode.org/)
 * [Teddy Kishi](https://github.com/teddykishi)
+
+## License
+
+* [Apache License 2.0](LICENSE)
